@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:kaze/screens/home.dart';
 import 'package:kaze/services/user.dart';
 import 'package:kaze/utils/colours.dart';
 import 'package:kaze/utils/sizes.dart';
+
+import 'add.dart';
 
 class Onboarding extends StatefulWidget {
   const Onboarding({Key key}) : super(key: key);
@@ -270,7 +271,7 @@ class _OnboardingState extends State<Onboarding> {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) {
-                                return Home();
+                                return Add();
                               },
                             ),
                           );
