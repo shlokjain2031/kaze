@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:kaze/screens/home.dart';
+import 'package:kaze/screens/onboarding.dart';
+import 'package:kaze/services/user.dart';
 
 void main() {
   runApp(Kaze());
@@ -10,20 +13,30 @@ class Kaze extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Kaze',
-      home: HelloThere(),
+      theme: ThemeData(
+        primaryColor: Color(0xFF1B1A17),
+        accentColor: Color(0xFFF2F4F4),
+      ),
+      home: doesUserExist(),
     );
   }
 }
 
-class HelloThere extends StatelessWidget {
-  const HelloThere({Key key}) : super(key: key);
+class doesUserExist extends StatelessWidget {
+  const doesUserExist({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text(
-        'Hello There'
-      ),
+    return FutureBuilder(
+      future: User().getUser(),
+      builder: (context, snapshot) {
+        if(snapshot.hasData) {
+          return Home();
+        }
+        else {
+          return Onboarding();
+        }
+      }
     );
   }
 }
