@@ -28,7 +28,7 @@ class _OnboardingState extends State<Onboarding> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: colours.primaryColor(),
+      backgroundColor: colours.black(),
       body: getOnboarding(),
     );
   }
@@ -50,10 +50,10 @@ class _OnboardingState extends State<Onboarding> {
             Text(
                 "focus mode",
                 style: TextStyle(
-                    fontFamily: 'PorductSans',
+                    fontFamily: 'ProductSans',
                     fontSize: 36,
                     fontWeight: FontWeight.bold,
-                    color: colours.secondaryColor()
+                    color: colours.white()
                 )
             ),
             Container(
@@ -62,9 +62,9 @@ class _OnboardingState extends State<Onboarding> {
                   "to help you maintain your daily\nscreentime on certain apps",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      fontFamily: 'PorductSans',
+                      fontFamily: 'ProductSans',
                       fontSize: 18,
-                      color: colours.secondaryColor().withOpacity(.8)
+                      color: colours.white().withOpacity(.8)
                   )
               ),
             ),
@@ -80,7 +80,7 @@ class _OnboardingState extends State<Onboarding> {
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: Colors.transparent,
-                          border: Border.all(color: colours.secondaryColor().withOpacity(.5), width: 3.5)
+                          border: Border.all(color: colours.white().withOpacity(.5), width: 3.5)
                       ),
                     ),
                   ),
@@ -104,12 +104,12 @@ class _OnboardingState extends State<Onboarding> {
                           height: sizes.height(context, 100),
                           decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: colours.secondaryColor()
+                              color: colours.white()
                           ),
                           child: Center(
                               child: Icon(
                                 Icons.arrow_forward_rounded,
-                                color: colours.primaryColor(),
+                                color: colours.black(),
                                 size: sizes.height(context, 48),
                               )
                           ),
@@ -137,10 +137,10 @@ class _OnboardingState extends State<Onboarding> {
             Text(
                 "use apps on time",
                 style: TextStyle(
-                    fontFamily: 'PorductSans',
+                    fontFamily: 'ProductSans',
                     fontSize: 36,
                     fontWeight: FontWeight.bold,
-                    color: colours.secondaryColor()
+                    color: colours.white()
                 )
             ),
             Container(
@@ -149,9 +149,9 @@ class _OnboardingState extends State<Onboarding> {
                   "using apps only during\nthe allotted time slot for it",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      fontFamily: 'PorductSans',
+                      fontFamily: 'ProductSans',
                       fontSize: 18,
-                      color: colours.secondaryColor().withOpacity(.8)
+                      color: colours.white().withOpacity(.8)
                   )
               ),
             ),
@@ -167,7 +167,7 @@ class _OnboardingState extends State<Onboarding> {
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: Colors.transparent,
-                          border: Border.all(color: colours.secondaryColor().withOpacity(.5), width: 3.5)
+                          border: Border.all(color: colours.white().withOpacity(.5), width: 3.5)
                       ),
                     ),
                   ),
@@ -190,12 +190,12 @@ class _OnboardingState extends State<Onboarding> {
                           height: sizes.height(context, 100),
                           decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: colours.secondaryColor()
+                              color: colours.white()
                           ),
                           child: Center(
                               child: Icon(
                                 Icons.arrow_forward_rounded,
-                                color: colours.primaryColor(),
+                                color: colours.black(),
                                 size: sizes.height(context, 48),
                               )
                           ),
@@ -223,10 +223,10 @@ class _OnboardingState extends State<Onboarding> {
             Text(
                 "total shutdown",
                 style: TextStyle(
-                    fontFamily: 'PorductSans',
+                    fontFamily: 'ProductSans',
                     fontSize: 36,
                     fontWeight: FontWeight.bold,
-                    color: colours.secondaryColor()
+                    color: colours.white()
                 )
             ),
             Container(
@@ -235,9 +235,9 @@ class _OnboardingState extends State<Onboarding> {
                   "a mode where you can forget your\nphone even exists, used to concentrate",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      fontFamily: 'PorductSans',
+                      fontFamily: 'ProductSans',
                       fontSize: 18,
-                      color: colours.secondaryColor().withOpacity(.8)
+                      color: colours.white().withOpacity(.8)
                   )
               ),
             ),
@@ -253,7 +253,7 @@ class _OnboardingState extends State<Onboarding> {
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: Colors.transparent,
-                          border: Border.all(color: colours.secondaryColor().withOpacity(.5), width: 3.5)
+                          border: Border.all(color: colours.white().withOpacity(.5), width: 3.5)
                       ),
                     ),
                   ),
@@ -281,12 +281,12 @@ class _OnboardingState extends State<Onboarding> {
                           height: sizes.height(context, 100),
                           decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: colours.secondaryColor()
+                              color: colours.white()
                           ),
                           child: Center(
                               child: Icon(
                                 Icons.arrow_forward_rounded,
-                                color: colours.primaryColor(),
+                                color: colours.black(),
                                 size: sizes.height(context, 48),
                               )
                           ),

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class Colours {
-  Color primaryColor() {
+  Color black() {
     return Color(0xFF1B1A17);
   }
 
-  Color secondaryColor() {
+  Color white() {
     return Color(0xFFF2F4F4);
   }
 }
