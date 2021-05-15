@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:kaze/models/mode.dart';
 import 'package:launcher_assist/launcher_assist.dart';
 
 class ModeService {
-  getAllModes() {}
 
   Future getAllApps() async {
     List rawApp;
@@ -12,11 +12,33 @@ class ModeService {
     return rawApp;
   }
 
-  getSingleMode(String id) {}
+  getSingleMode(int id) {}
 
-  setMode(String title, String startTime, String endTime, List apps, String wallpaperPath) {
+  getAllModes() {}
 
+  insertMode(String title, String startTime, String endTime, List apps, String wallpaperPath) {
+    String rawApps = apps.toString();
+    ModeModel mode = ModeModel(title: title, startTime: startTime, endTime: endTime, apps: rawApps, wallpaperPath: wallpaperPath);
+
+    ModeModelProvider().insertMode(mode).then((value) => print("mode inserted; id of mode: " + value.toString()));
   }
+
+  updateMode(String title, String startTime, String endTime, List apps, String wallpaperPath) {
+    String rawApps = apps.toString();
+    ModeModel mode = ModeModel(title: title, startTime: startTime, endTime: endTime, apps: rawApps, wallpaperPath: wallpaperPath);
+
+    ModeModelProvider().updateMode(mode).then((value) => print("mode updated; id of mode: " + value.toString()));
+  }
+
+  deleteMode(int id) {
+    ModeModelProvider().deleteMode(id).then((value) => print("mode deleted; id of mode: " + value.toString()));
+  }
+
+  initShutdown() {}
+
+  initTimer() {}
+
+  checkTimer() {}
 }
 
 

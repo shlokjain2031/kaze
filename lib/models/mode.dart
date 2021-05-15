@@ -9,7 +9,7 @@ class ModeModel {
   final String startTime;
   final String endTime;
   final String wallpaperPath;
-  final List<String> apps;
+  final String apps;
 
   ModeModel({this.id, this.title, this.startTime, this.endTime, this.wallpaperPath, this.apps});
 
@@ -46,16 +46,16 @@ class ModeModelProvider {
     database = await openDatabase(dbPath, version: 1);
   }
 
-  insertMode(ModeModel mode) async {
-    database.insert("kaze", mode.toMap());
+  Future<int> insertMode(ModeModel mode) async {
+    return database.insert("kaze", mode.toMap());
   }
 
-  updateMode(ModeModel mode) async {
-    database.update("kaze", mode.toMap(), where: 'id = ?', whereArgs: [mode.id]);
+  Future<int> updateMode(ModeModel mode) async {
+    return database.update("kaze", mode.toMap(), where: 'id = ?', whereArgs: [mode.id]);
   }
 
-  deleteMode(int id) {
-    database.delete("kaze", where: 'id = ?', whereArgs: [id]);
+  Future<int> deleteMode(int id) async {
+    await database.delete("kaze", where: 'id = ?', whereArgs: [id]);
   }
 
   Future<Map> getSingleMode(int id) async {
