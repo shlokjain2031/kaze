@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:kaze/models/mode.dart';
 import 'package:kaze/services/user.dart';
 import 'package:kaze/utils/colours.dart';
 import 'package:kaze/utils/sizes.dart';
@@ -268,6 +269,7 @@ class _OnboardingState extends State<Onboarding> {
                       child: GestureDetector(
                         onTap: () {
                           User().setUser();
+                          ModeModelProvider().initDatabase();
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) {

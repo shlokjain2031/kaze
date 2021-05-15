@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:launcher_assist/launcher_assist.dart';
 
 class ModeService {
@@ -13,7 +14,9 @@ class ModeService {
 
   getSingleMode(String id) {}
 
-  setMode() {} // more param
+  setMode(String title, String startTime, String endTime, List apps, String wallpaperPath) {
+
+  }
 }
 
 

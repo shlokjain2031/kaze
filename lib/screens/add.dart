@@ -7,7 +7,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:kaze/services/modes.dart';
 import 'package:kaze/utils/colours.dart';
 import 'package:kaze/utils/sizes.dart';
-import 'package:numberpicker/numberpicker.dart';
 import 'package:palette_generator/palette_generator.dart';
 
 class Add extends StatefulWidget {
@@ -24,7 +23,7 @@ class _AddState extends State<Add> {
 
   int addScreenTracker = 0;
 
-  String title = "";
+  String title = "Work";
   List selectedApps = [];
   TimeOfDay startTime = TimeOfDay(hour: 6, minute: 30);
   TimeOfDay endTime = TimeOfDay(hour: 22, minute: 00);
@@ -44,74 +43,94 @@ class _AddState extends State<Add> {
                 image: DecorationImage(
                   image: FileImage(File(wallpaperPath)),
                   fit: BoxFit.fitHeight,
-                  colorFilter: ColorFilter.mode(colours.black().withOpacity(0.8),
+                  colorFilter: ColorFilter.mode(colours.black().withOpacity(0.75),
                       BlendMode.dstATop),
                 ),
               ) : BoxDecoration(color: colours.black()),
               child: FutureBuilder(
                 future: getDominantColor(),
                 builder: (context, colorSnapshot) {
+                  Color dominantColour;
                   if(colorSnapshot.hasData) {
-                    Color dominantColour = colorSnapshot.data;
-                    dominantColour = dominantColour.computeLuminance() > 0.5 ? darken(dominantColour, .1) : dominantColour;
-                    return Stack(
-                      children: [
-                        wallpaperPath != null ? getAddScreen(apps, colour: dominantColour) : getAddScreen(apps),
-                        Padding(
-                          padding: EdgeInsets.only(top: sizes.height(context, 840)),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    if(addScreenTracker != 0) {
-                                      addScreenTracker--;
-                                    }
-                                    setState(() {});
-                                  },
-                                  child: Text(
-                                    'back',
-                                    style: TextStyle(
-                                        fontFamily: 'ProductSans',
-                                        fontSize: 28,
-                                        fontWeight: FontWeight.bold,
-                                        color: wallpaperPath != null ? dominantColour.withOpacity(.7) : colours.white().withOpacity(.7)
-                                    ),
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    if(addScreenTracker == 3) {
-                                      // to home or some shit
-                                    }
-                                    else {
-                                      addScreenTracker++;
-                                    }
-                                    setState(() {});
-                                  },
-                                  child: Text(
-                                    addScreenTracker == 3 ? 'confirm' : 'continue',
-                                    style: TextStyle(
-                                        fontFamily: 'ProductSans',
-                                        fontSize: 28,
-                                        fontWeight: FontWeight.bold,
-                                        color: wallpaperPath != null ? dominantColour : colours.white().withOpacity(1)
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        )
-                      ],
-                    );
+                    dominantColour = colorSnapshot.data;
+                    print("lumi: " + dominantColour.computeLuminance().toString());
+                    dominantColour = dominantColour.computeLuminance() > 0.4 ? darken(dominantColour, .1) : darken(dominantColour, .2);
                   }
                   else {
-                    return SizedBox();
+                    print("bk");
+                    dominantColour = colours.white();
                   }
+                  return Stack(
+                    children: [
+                      wallpaperPath != null ? getAddScreen(apps, colour: dominantColour) : getAddScreen(apps),
+                      Padding(
+                        padding: EdgeInsets.only(top: sizes.height(context, 840)),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  if(addScreenTracker != 0) {
+                                    addScreenTracker--;
+                                  }
+                                  else {
+                                    // back
+                                  }
+                                  setState(() {});
+                                },
+                                child: Text(
+                                  'back',
+                                  style: TextStyle(
+                                      fontFamily: 'ProductSans',
+                                      fontSize: 28,
+                                      fontWeight: FontWeight.bold,
+                                      color: wallpaperPath != null ? dominantColour.withOpacity(.7) : colours.white().withOpacity(.7),
+                                      shadows: [
+                                        Shadow(
+                                            offset: Offset(8, 8),
+                                            color: colours.black().withOpacity(.6),
+                                            blurRadius: 32
+                                        )
+                                      ]
+                                  ),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  if(addScreenTracker == 3) {
+                                    // to home or some shit
+                                  }
+                                  else {
+                                    addScreenTracker++;
+                                  }
+                                  setState(() {});
+                                },
+                                child: Text(
+                                  addScreenTracker == 3 ? 'confirm' : 'continue',
+                                  style: TextStyle(
+                                      fontFamily: 'ProductSans',
+                                      fontSize: 28,
+                                      fontWeight: FontWeight.bold,
+                                      color: wallpaperPath != null ? dominantColour : colours.white().withOpacity(1),
+                                      shadows: [
+                                        Shadow(
+                                            offset: Offset(8, 8),
+                                            color: colours.black().withOpacity(.8),
+                                            blurRadius: 32
+                                        )
+                                      ]
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  );
                 }
               ),
             );
@@ -135,6 +154,7 @@ class _AddState extends State<Add> {
                 SizedBox(height: 16,),
                 Center(
                   child: TextField(
+                    enabled: false,
                     textAlign: TextAlign.center,
                     onChanged: (newTitle) {
                       title = newTitle;
@@ -203,6 +223,7 @@ class _AddState extends State<Add> {
                 SizedBox(height: 16,),
                 Center(
                   child: TextField(
+                    enabled: false,
                     textAlign: TextAlign.center,
                     onChanged: (newTitle) {
                       title = newTitle;
@@ -310,7 +331,7 @@ class _AddState extends State<Add> {
                               padding: const EdgeInsets.symmetric(horizontal: 8),
                               child: GestureDetector(
                                 onTap: () {
-                                  bool duplicate = true;
+                                  bool duplicate = false;
                                   selectedApps.forEach((element) {
                                     if(element["package"] == apps[index]["package"]) {
                                       duplicate = true;
@@ -356,6 +377,7 @@ class _AddState extends State<Add> {
                 SizedBox(height: 16,),
                 Center(
                   child: TextField(
+                    enabled: false,
                     textAlign: TextAlign.center,
                     onChanged: (newTitle) {
                       title = newTitle;
@@ -574,6 +596,7 @@ class _AddState extends State<Add> {
               SizedBox(height: 20,),
               Center(
                 child: TextField(
+                  enabled: false,
                   textAlign: TextAlign.center,
                   onChanged: (newTitle) {
                     title = newTitle;
@@ -582,6 +605,13 @@ class _AddState extends State<Add> {
                     color: colour,
                     fontSize: 64,
                     fontWeight: FontWeight.bold,
+                    shadows: [
+                      Shadow(
+                        offset: Offset(8, 8),
+                        color: colours.black().withOpacity(.6),
+                        blurRadius: 32
+                      )
+                    ]
                   ),
                   decoration: InputDecoration(
                     hintText: "Work",
@@ -662,6 +692,7 @@ class _AddState extends State<Add> {
                 child: Container(
                   width: sizes.width(context, 200),
                   height: sizes.height(context, 60),
+                  margin: EdgeInsets.only(top: 24),
                   decoration: BoxDecoration(
                     color: colour,
                     borderRadius: BorderRadius.circular(20),
@@ -746,6 +777,7 @@ class _AddState extends State<Add> {
               SizedBox(height: 20,),
               Center(
                 child: TextField(
+                  enabled: false,
                   textAlign: TextAlign.center,
                   onChanged: (newTitle) {
                     title = newTitle;
@@ -917,7 +949,6 @@ class _AddState extends State<Add> {
     return addScreen;
   }
 
-
   void _startTimePicker() async {
     final TimeOfDay newTime = await showTimePicker(
       context: context,
@@ -958,7 +989,8 @@ class _AddState extends State<Add> {
     PaletteGenerator paletteGenerator = await PaletteGenerator.fromImageProvider(
         FileImage(File(wallpaperPath))
     );
-    return paletteGenerator.lightVibrantColor.color;
+    print("paletteGenerator.lightVibrantColor.color: " + paletteGenerator.lightVibrantColor.color.toString());
+    return wallpaperPath != null ? paletteGenerator.lightVibrantColor.color : colours.white();
   }
 
   Color darken(Color color, [double amount = .1]) {
