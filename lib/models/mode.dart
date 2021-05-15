@@ -13,22 +13,19 @@ class ModeModel {
 
   ModeModel({this.id, this.title, this.startTime, this.endTime, this.wallpaperPath, this.apps});
 
-  Map toMap() {
-    Map map = {
-      "id" : id,
+  Map<String, Object> toMap() {
+    Map<String, Object> mode = {
       "title" : title,
       "startTime" : startTime,
       "endTime" : endTime,
       "wallpaperPath" : wallpaperPath,
       "apps" : apps
     };
-    return map;
+    return mode;
   }
 }
 
 class ModeModelProvider {
-
-  Database database;
 
   initDatabase() async {
     var databasesPath = await getDatabasesPath();
@@ -40,25 +37,35 @@ class ModeModelProvider {
     });
   }
 
-  openSqlDatabase() async {
+  Future<int> insertMode(ModeModel mode) async {
     var databasesPath = await getDatabasesPath();
     String dbPath = join(databasesPath, "kaze.db");
-    database = await openDatabase(dbPath, version: 1);
-  }
+    Database database = await openDatabase(dbPath, version: 1);
 
-  Future<int> insertMode(ModeModel mode) async {
     return database.insert("kaze", mode.toMap());
   }
 
   Future<int> updateMode(ModeModel mode) async {
+    var databasesPath = await getDatabasesPath();
+    String dbPath = join(databasesPath, "kaze.db");
+    Database database = await openDatabase(dbPath, version: 1);
+
     return database.update("kaze", mode.toMap(), where: 'id = ?', whereArgs: [mode.id]);
   }
 
   Future<int> deleteMode(int id) async {
-    await database.delete("kaze", where: 'id = ?', whereArgs: [id]);
+    var databasesPath = await getDatabasesPath();
+    String dbPath = join(databasesPath, "kaze.db");
+    Database database = await openDatabase(dbPath, version: 1);
+
+    return await database.delete("kaze", where: 'id = ?', whereArgs: [id]);
   }
 
   Future<Map> getSingleMode(int id) async {
+    var databasesPath = await getDatabasesPath();
+    String dbPath = join(databasesPath, "kaze.db");
+    Database database = await openDatabase(dbPath, version: 1);
+
     List<Map> mode = await database.query("kaze",
         columns: ["title", "startTime", "endTime", "wallpaperPath", "apps"],
         where: 'id = ?',
@@ -70,6 +77,10 @@ class ModeModelProvider {
   }
 
   Future<List<Map>> getAllModes() async {
+    var databasesPath = await getDatabasesPath();
+    String dbPath = join(databasesPath, "kaze.db");
+    Database database = await openDatabase(dbPath, version: 1);
+
     List<Map> allModes = await database.query("kaze",
         columns: ["title", "startTime", "endTime", "wallpaperPath", "apps"]);
     if(allModes.length > 0) {

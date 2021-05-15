@@ -17,8 +17,13 @@ class ModeService {
   getAllModes() {}
 
   insertMode(String title, String startTime, String endTime, List apps, String wallpaperPath) {
-    String rawApps = apps.toString();
+    List<String> packages = [];
+    apps.forEach((element) {
+      packages.add(element["package"]);
+    });
+    String rawApps = packages.toString();
     ModeModel mode = ModeModel(title: title, startTime: startTime, endTime: endTime, apps: rawApps, wallpaperPath: wallpaperPath);
+    print("mode: " + mode.toMap().toString());
 
     ModeModelProvider().insertMode(mode).then((value) => print("mode inserted; id of mode: " + value.toString()));
   }

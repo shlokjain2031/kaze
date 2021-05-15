@@ -4,10 +4,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:kaze/models/mode.dart';
 import 'package:kaze/services/modes.dart';
 import 'package:kaze/utils/colours.dart';
 import 'package:kaze/utils/sizes.dart';
 import 'package:palette_generator/palette_generator.dart';
+
+import 'home.dart';
 
 class Add extends StatefulWidget {
   const Add({Key key}) : super(key: key);
@@ -77,7 +80,7 @@ class _AddState extends State<Add> {
                                     addScreenTracker--;
                                   }
                                   else {
-                                    // back
+                                    Navigator.of(context).pop();
                                   }
                                   setState(() {});
                                 },
@@ -101,8 +104,16 @@ class _AddState extends State<Add> {
                               GestureDetector(
                                 onTap: () {
                                   if(addScreenTracker == 3) {
-                                    // to home or some shit
-                                  }
+                                    String formattedStartTime = getStringFromTimeOfDay(startTime);
+                                    String formattedEndTime = getStringFromTimeOfDay(endTime);
+                                    ModeService().insertMode(title, formattedStartTime, formattedEndTime, selectedApps, wallpaperPath);
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return Home();
+                                        },
+                                      ),
+                                    );                                  }
                                   else {
                                     addScreenTracker++;
                                   }
@@ -154,7 +165,7 @@ class _AddState extends State<Add> {
                 SizedBox(height: 16,),
                 Center(
                   child: TextField(
-                    enabled: false,
+                    // enabled: false,
                     textAlign: TextAlign.center,
                     onChanged: (newTitle) {
                       title = newTitle;
@@ -1000,5 +1011,11 @@ class _AddState extends State<Add> {
     final hslDark = hsl.withLightness((hsl.lightness + amount).clamp(0.0, 1.0));
 
     return hslDark.toColor();
+  }
+
+  String getStringFromTimeOfDay(TimeOfDay tod) {
+    final now = DateTime.now();
+    final newDt = DateTime(now.year, now.month, now.day, tod.hour, tod.minute);
+    return newDt.toString();
   }
 }
