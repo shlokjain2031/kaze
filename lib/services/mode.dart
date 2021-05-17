@@ -12,9 +12,13 @@ class ModeService {
     return rawApp;
   }
 
-  getSingleMode(int id) {}
+  Future<ModeModel> getSingleMode(int id) async {
+    return await ModeModelProvider().getSingleMode(id);
+  }
 
-  getAllModes() {}
+  Future<List<ModeModel>> getAllModes() async {
+    return await ModeModelProvider().getAllModes();
+  }
 
   insertMode(String title, String startTime, String endTime, List apps, String wallpaperPath) {
     List<String> packages = [];

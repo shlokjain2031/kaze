@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kaze/models/mode.dart';
-import 'package:kaze/services/modes.dart';
+import 'package:kaze/services/mode.dart';
 import 'package:kaze/utils/colours.dart';
 import 'package:kaze/utils/sizes.dart';
 import 'package:palette_generator/palette_generator.dart';

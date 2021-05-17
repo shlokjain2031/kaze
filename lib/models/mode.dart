@@ -15,6 +15,7 @@ class ModeModel {
 
   Map<String, Object> toMap() {
     Map<String, Object> mode = {
+      "id" : id,
       "title" : title,
       "startTime" : startTime,
       "endTime" : endTime,
@@ -61,31 +62,50 @@ class ModeModelProvider {
     return await database.delete("kaze", where: 'id = ?', whereArgs: [id]);
   }
 
-  Future<Map> getSingleMode(int id) async {
-    var databasesPath = await getDatabasesPath();
-    String dbPath = join(databasesPath, "kaze.db");
-    Database database = await openDatabase(dbPath, version: 1);
-
-    List<Map> mode = await database.query("kaze",
-        columns: ["title", "startTime", "endTime", "wallpaperPath", "apps"],
-        where: 'id = ?',
-        whereArgs: [id]);
-    if(mode.length > 0) {
-      return mode.first;
-    }
-    return null;
-  }
-
-  Future<List<Map>> getAllModes() async {
+  Future<ModeModel> getSingleMode(int id) async {
     var databasesPath = await getDatabasesPath();
     String dbPath = join(databasesPath, "kaze.db");
     Database database = await openDatabase(dbPath, version: 1);
 
     List<Map> allModes = await database.query("kaze",
-        columns: ["title", "startTime", "endTime", "wallpaperPath", "apps"]);
-    if(allModes.length > 0) {
-      return allModes;
+        columns: ["title", "startTime", "endTime", "wallpaperPath", "apps"],
+        where: 'id = ?',
+        whereArgs: [id]);
+    Map modeMap = allModes.first;
+    if(modeMap.length > 0) {
+      ModeModel mode = ModeModel(
+          id: modeMap["id"],
+          title: modeMap["title"],
+          startTime: modeMap["startTime"],
+          endTime: modeMap["endTime"],
+          wallpaperPath: modeMap["wallpaperPath"],
+          apps: modeMap["apps"]
+      );
+      return mode;
     }
     return null;
+  }
+
+  Future<List<ModeModel>> getAllModes() async {
+    var databasesPath = await getDatabasesPath();
+    String dbPath = join(databasesPath, "kaze.db");
+    Database database = await openDatabase(dbPath, version: 1);
+
+    List<Map> allModesMap = await database.query("kaze",
+        columns: ["title", "startTime", "endTime", "wallpaperPath", "apps"]);
+    List<ModeModel> allModes = [];
+    allModesMap.forEach((element) {
+      allModes.add(
+          ModeModel(
+            id: element["id"],
+            title: element["title"],
+            startTime: element["startTime"],
+            endTime: element["endTime"],
+            wallpaperPath: element["wallpaperPath"],
+            apps: element["apps"]
+          ));
+    });
+
+    return allModes.length > 0 ? allModes : null;
   }
 }
