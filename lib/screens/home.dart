@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -20,7 +21,7 @@ class _HomeState extends State<Home> {
 
   Sizes sizes = Sizes();
   Colours colours = Colours();
-  PageController _pageController = PageController(initialPage: 1, viewportFraction: 0.25);
+  PageController _pageController = PageController(initialPage: 1, viewportFraction: 0.8);
 
   File topImage;
   File mainImage;
@@ -37,110 +38,149 @@ class _HomeState extends State<Home> {
         builder: (context, snapshot) {
           if(snapshot.hasData) {
             List<ModeModel> allModes = snapshot.data;
-            // topImage = allModes.length == 1 ? null : File(allModes[0].wallpaperPath);
-            // mainImage = allModes.length<2 ? File(allModes[0].wallpaperPath) : File(allModes[1].wallpaperPath);
-            // bottomImage = allModes.length<3 ? null : File(allModes[2].wallpaperPath);
-            return Column(
-              children: [
-                Container(
-                  width: sizes.width(context, 414),
-                  height: sizes.height(context, 100),
-                  decoration: topImage == null ? BoxDecoration(color: Colors.blue) : BoxDecoration(
-                    image: DecorationImage(
-                      image: FileImage(topImage),
-                      fit: BoxFit.fitWidth
-                    )
-                  ),
-                ), // first image
 
-                Container(
-                  width: sizes.width(context, 414),
-                  height: sizes.height(context, 696),
-                  decoration: mainImage == null ? BoxDecoration(color: colours.black()) : BoxDecoration(
-                      image: DecorationImage(
-                          image: FileImage(mainImage),
-                          fit: BoxFit.fitHeight
+            return PageView.builder(
+              itemCount: (allModes.length + 1),
+              controller: _pageController,
+              scrollDirection: Axis.vertical,
+              onPageChanged: (val) {
+                setState(() {});
+              },
+              itemBuilder: (context, index) {
+                if (index == allModes.length) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      color: colours.black(),
+                      border: Border(
+                        bottom: BorderSide(color: colours.white(), width: 5)
                       )
-                  ),
-                  child: Stack(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              'settings',
-                              style: TextStyle(
-                                  fontFamily: 'ProductSans',
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: colours.white(opacity: .9)
+                    ),
+                    child: Column(
+                      children: [
+                        _pageController.page.toInt() == (index) ? Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                'settings',
+                                style: TextStyle(
+                                    fontFamily: 'ProductSans',
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: colours.white(opacity: .9)
+                                ),
                               ),
-                            ),
-                            Icon(
-                              Icons.info_rounded,
-                              color: colours.white(opacity: .9),
-                              size: 32,
-                            )
-                          ],
+                              Icon(
+                                Icons.info_sharp,
+                                color: colours.white(opacity: .9),
+                                size: 32,
+                              )
+                            ],
+                          ),
+                        ) : SizedBox(),
+                      ],
+                    ),
+                  );
+                }
+                else {
+                  ModeModel mode = allModes[index];
+                  DateTime startTime = DateTime.parse(mode.startTime);
+                  DateTime endTime = DateTime.parse(mode.endTime);
+
+                  return Container(
+                    decoration: mode.wallpaperPath != null ? BoxDecoration(
+                        image: DecorationImage(
+                          image: FileImage(File(mode.wallpaperPath)),
+                          fit: BoxFit.fitHeight,
+                          colorFilter: ColorFilter.mode(colours.black().withOpacity(0.7),
+                              BlendMode.dstATop),
                         ),
-                      ),
-                      PageView.builder(
-                        itemCount: (allModes.length + 1),
-                        onPageChanged: (index) {
-                          setState(() {
-                            topImage = index == 0 ? null : File(allModes[index-1].wallpaperPath);
-                            mainImage = index == allModes.length ? null : File(allModes[index].wallpaperPath);
-                            bottomImage = index >= (allModes.length-1) ? null : File(allModes[index+1].wallpaperPath);
-                          });
-                        },
-                        itemBuilder: (context, index) {
-
-                          if(index == allModes.length) {
-                            return Text(
-                              "add + " + " :: " + index.toString(),
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: colours.white(),
-                                  fontFamily: 'ProductSans',
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: _pageController.page.toInt() == index ? 36 : 24
+                        border: Border(
+                            bottom: BorderSide(color: colours.white(), width: 5)
+                        )
+                    ) : BoxDecoration(color: colours.black()),
+                    child: Column(
+                      children: [
+                        _pageController.page.toInt() != (index) ? SizedBox() : Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                'settings',
+                                style: TextStyle(
+                                    fontFamily: 'ProductSans',
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: colours.white(opacity: .9)
+                                ),
                               ),
-                            );
-                          }
-                          else {
-                            return Text(
-                              allModes[index].title + " :: " + index.toString(),
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: colours.white(),
-                                  fontFamily: 'ProductSans',
-                                  fontWeight: FontWeight.bold,
-                                fontSize: _pageController.page.toInt() == index ? 36 : 24
-                              ),
-                            );
-                          }
-                        },
-                        scrollDirection: Axis.vertical,
-                        controller: _pageController,
-                      ),
-                    ],
-                  ),
-                ), // main image
+                              Icon(
+                                Icons.info_sharp,
+                                color: colours.white(opacity: .9),
+                                size: 32,
+                              )
+                            ],
+                          ),
+                        ),
 
-                Container(
-                  width: sizes.width(context, 414),
-                  height: sizes.height(context, 100),
-                  decoration: bottomImage == null ? BoxDecoration(color: Colors.greenAccent) : BoxDecoration(
-                      image: DecorationImage(
-                          image: FileImage(bottomImage),
-                          fit: BoxFit.fitWidth
-                      )
-                  ),
-                ), // last image
-              ],
+                        SizedBox(height: sizes.height(context, 200)),
+                        Text(
+                          mode.title,
+                          style: TextStyle(
+                            fontSize: 54,
+                            fontFamily: 'ProductSans',
+                            fontWeight: FontWeight.bold,
+                            color: colours.white(opacity: .9),
+                            shadows: [
+                              Shadow(
+                                offset: Offset(8, 8),
+                                blurRadius: 32,
+                                color: colours.black(opacity: .6)
+                              )
+                            ]
+                          ),
+                        ),
+                        SizedBox(height: 18),
+                        Text(
+                          startTime.hour.toString() + ":" + (startTime.minute == 0 ? startTime.minute.toString() + "0" : startTime.minute.toString())
+                              + " - " + endTime.hour.toString() + ":" + (endTime.minute == 0 ? endTime.minute.toString() + "0" : endTime.minute.toString()),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontFamily: 'ProductSans',
+                            color: colours.white(opacity: .8),
+                          ),
+                        ),
+                        SizedBox(height: sizes.height(context, 48)),
+
+                        // ListView.builder(
+                        //   itemCount: 4,
+                        //   scrollDirection: Axis.horizontal,
+                        //   itemBuilder: (context, index) {
+                        //     return Container(
+                        //       width: sizes.width(context, 50),
+                        //       height: sizes.height(context, 64),
+                        //       margin: EdgeInsets.only(right: 12),
+                        //       decoration: BoxDecoration(
+                        //           shape: BoxShape.circle,
+                        //           color: colours.white() // change with colours.black()
+                        //       ),
+                        //       child: Image(
+                        //         image: MemoryImage(apps[index]["icon"]),
+                        //         fit: BoxFit.fill,
+                        //       ),
+                        //     );
+                        //   },
+                        // )
+                      ],
+                    ),
+                  );
+                }
+              },
             );
           }
           else {
