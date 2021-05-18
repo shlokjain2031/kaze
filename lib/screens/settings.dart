@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -457,10 +459,7 @@ class _FocusModeState extends State<FocusMode> {
                     child: ListView.builder(
                       itemCount: allApps.length,
                       itemBuilder: (context, index) {
-                        print("bello");
                         Map app = allApps[index];
-                        bool isSelected = false;
-                        print("hello");
                         return Column(
                           children: [
                             Row(
@@ -494,24 +493,35 @@ class _FocusModeState extends State<FocusMode> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    selectedApps.forEach((element) {
-                                      if(app["package"] == element["package"]) {
-                                        selectedApps.remove(element["package"]);
+                                    bool addAppBool = true;
+                                    selectedApps.length == 0 ? selectedApps.add(app["package"]) : selectedApps.forEach((element) {
+                                      log("app pack: " + app["package"].toString());
+                                      log("elem pack: " + element.toString());
+                                      if(app["package"] == element) {
+                                        addAppBool = false;
                                       }
-                                      else {
+                                    });
+                                    if(addAppBool) {
+                                      if(selectedApps.length<2) {
                                         selectedApps.add(app["package"]);
                                       }
-                                    });
+                                      else {
+                                        // todo: toaast
+                                      }
+                                    }
+                                    else {
+                                      selectedApps.remove(app["package"]);
+                                    }
                                     setState(() {
-                                      isSelected = !isSelected;
+
                                     });
-                                    print("isSelected: " + isSelected.toString());
+                                    log("apps: " + selectedApps.toString());
                                   },
                                   child: Container(
                                     width: sizes.width(context, 48),
                                     height: sizes.height(context, 54),
                                     decoration: BoxDecoration(
-                                      color: isSelected ? colours.white() : colours.white(opacity: 0.1),
+                                      color: selectedApps.contains(app["package"]) ? colours.white() : colours.white(opacity: 0.1),
                                       border: Border.all(color: colours.white(), width: 3)
                                     ),
                                   ),
