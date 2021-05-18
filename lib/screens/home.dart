@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:kaze/models/mode.dart';
 import 'package:kaze/services/mode.dart';
 import 'package:kaze/utils/colours.dart';
+import 'package:kaze/utils/dialogs.dart';
 import 'package:kaze/utils/sizes.dart';
 
 import 'add.dart';
@@ -28,6 +29,12 @@ class _HomeState extends State<Home> {
   File bottomImage;
 
   bool pageChanged;
+
+  @override
+  void initState() {
+    _pageController = PageController(initialPage: 1, viewportFraction: 0.8);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -159,11 +166,16 @@ class _HomeState extends State<Home> {
                                   ),
                                 ),
                               ),
-                              Image(
-                                image: AssetImage('assets/category.png'),
-                                width: 32,
-                                color: colours.white(),
-                                fit: BoxFit.fill,
+                              GestureDetector(
+                                onTap: () {
+                                  CustomDialogs().category(context, sizes, colours);
+                                },
+                                child: Image(
+                                  image: AssetImage('assets/category.png'),
+                                  width: 32,
+                                  color: colours.white(),
+                                  fit: BoxFit.fill,
+                                ),
                               )
                             ],
                           ),
