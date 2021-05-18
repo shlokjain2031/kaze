@@ -64,7 +64,7 @@ class _HomeState extends State<Home> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
-                                'settings',
+                                'edit mode',
                                 style: TextStyle(
                                     fontFamily: 'ProductSans',
                                     fontSize: 20,
@@ -72,14 +72,44 @@ class _HomeState extends State<Home> {
                                     color: colours.white(opacity: .9)
                                 ),
                               ),
-                              Icon(
-                                Icons.info_sharp,
-                                color: colours.white(opacity: .9),
-                                size: 32,
+                              Image(
+                                image: AssetImage('assets/category.png'),
+                                width: 32,
+                                color: colours.white(),
+                                fit: BoxFit.fill,
                               )
                             ],
                           ),
                         ) : SizedBox(),
+
+                        SizedBox(height: sizes.height(context, 200)),
+                        Text(
+                          "Add +",
+                          style: TextStyle(
+                              fontSize: 54,
+                              fontFamily: 'ProductSans',
+                              fontWeight: FontWeight.bold,
+                              color: colours.white(opacity: .9),
+                              shadows: [
+                                Shadow(
+                                    offset: Offset(8, 8),
+                                    blurRadius: 32,
+                                    color: colours.black(opacity: .6)
+                                )
+                              ]
+                          ),
+                        ),
+                        SizedBox(height: 18),
+                        Text(
+                          'click to add a mode',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontFamily: 'ProductSans',
+                            color: colours.white(opacity: .8),
+                          ),
+                        ),
+                        SizedBox(height: sizes.height(context, 48)),
                       ],
                     ),
                   );
@@ -110,7 +140,7 @@ class _HomeState extends State<Home> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
-                                'settings',
+                                'edit mode',
                                 style: TextStyle(
                                     fontFamily: 'ProductSans',
                                     fontSize: 20,
@@ -118,10 +148,11 @@ class _HomeState extends State<Home> {
                                     color: colours.white(opacity: .9)
                                 ),
                               ),
-                              Icon(
-                                Icons.info_sharp,
-                                color: colours.white(opacity: .9),
-                                size: 32,
+                              Image(
+                                image: AssetImage('assets/category.png'),
+                                width: 32,
+                                color: colours.white(),
+                                fit: BoxFit.fill,
                               )
                             ],
                           ),
