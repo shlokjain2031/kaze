@@ -64,7 +64,7 @@ class _HomeState extends State<Home> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
-                                'edit mode',
+                                'mode',
                                 style: TextStyle(
                                     fontFamily: 'ProductSans',
                                     fontSize: 20,
@@ -139,13 +139,24 @@ class _HomeState extends State<Home> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Text(
-                                'edit mode',
-                                style: TextStyle(
-                                    fontFamily: 'ProductSans',
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: colours.white(opacity: .9)
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return Edit(mode: mode,);
+                                      },
+                                    ),
+                                  );
+                                },
+                                child: Text(
+                                  'edit mode',
+                                  style: TextStyle(
+                                      fontFamily: 'ProductSans',
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: colours.white(opacity: .9)
+                                  ),
                                 ),
                               ),
                               Image(

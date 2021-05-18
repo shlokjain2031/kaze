@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:kaze/models/mode.dart';
 import 'package:launcher_assist/launcher_assist.dart';
@@ -21,15 +23,14 @@ class ModeService {
   }
 
   insertMode(String title, String startTime, String endTime, List apps, String wallpaperPath) {
-    String rawApps = apps.toString();
+    String rawApps = jsonEncode(apps);
     ModeModel mode = ModeModel(title: title, startTime: startTime, endTime: endTime, apps: rawApps, wallpaperPath: wallpaperPath);
-    print("mode: " + mode.toMap().toString());
 
     ModeModelProvider().insertMode(mode).then((value) => print("mode inserted; id of mode: " + value.toString()));
   }
 
   updateMode(String title, String startTime, String endTime, List apps, String wallpaperPath) {
-    String rawApps = apps.toString();
+    String rawApps = jsonEncode(apps);
     ModeModel mode = ModeModel(title: title, startTime: startTime, endTime: endTime, apps: rawApps, wallpaperPath: wallpaperPath);
 
     ModeModelProvider().updateMode(mode).then((value) => print("mode updated; id of mode: " + value.toString()));
