@@ -24,11 +24,11 @@ class SettingsService {
   
   setFocusModeApps(List<String> apps) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.setStringList("apps", apps);
+    preferences.setStringList("focusModeApps", apps);
   }
   
   Future<List<String>> getFocusModeApps() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    return preferences.getStringList("apps") ?? null;
+    return preferences.getStringList("focusModeApps") ?? null;
   }
 }

@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kaze/models/mode.dart';
 import 'package:kaze/services/mode.dart';
+import 'package:kaze/services/util.dart';
 import 'package:kaze/utils/colours.dart';
 import 'package:kaze/utils/sizes.dart';
 import 'package:palette_generator/palette_generator.dart';
@@ -40,7 +41,7 @@ class _AddState extends State<Add> {
     return Scaffold(
       backgroundColor: colours.black(),
       body: FutureBuilder(
-        future: ModeService().getAllApps(),
+        future: Util().getAllApps(),
         builder: (context, snapshot) {
           if(snapshot.hasData) {
             List apps = snapshot.data;
@@ -852,7 +853,7 @@ class _EditState extends State<Edit> {
     return Scaffold(
       backgroundColor: colours.white(),
       body: FutureBuilder(
-          future: ModeService().getAllApps(),
+          future: Util().getAllApps(),
           builder: (context, snapshot) {
             if(snapshot.hasData) {
               List apps = snapshot.data;

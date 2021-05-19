@@ -6,14 +6,6 @@ import 'package:launcher_assist/launcher_assist.dart';
 
 class ModeService {
 
-  Future getAllApps() async {
-    List rawApp;
-    await LauncherAssist.getAllApps().then((apps) {
-      rawApp = apps;
-    });
-    return rawApp;
-  }
-
   Future<ModeModel> getSingleMode(int id) async {
     return await ModeModelProvider().getSingleMode(id);
   }
@@ -40,11 +32,7 @@ class ModeService {
     ModeModelProvider().deleteMode(id).then((value) => print("mode deleted; id of mode: " + value.toString()));
   }
 
-  initShutdown() {}
-
-  initTimer() {}
-
-  checkTimer() {}
+  checkTime() {}
 }
 
 

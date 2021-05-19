@@ -279,7 +279,7 @@ class _SettingsState extends State<Settings> {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (context) {
-                                      return FocusMode();
+                                      return FocusModeSettings();
                                     },
                                   ),
                                 );
@@ -646,7 +646,7 @@ class _SettingsState extends State<Settings> {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (context) {
-                                      return FocusMode();
+                                      return FocusModeSettings();
                                     },
                                   ),
                                 );
@@ -793,18 +793,18 @@ class _SettingsState extends State<Settings> {
   }
 }
 
-class FocusMode extends StatefulWidget {
-  FocusMode({Key key}) : super(key: key);
+class FocusModeSettings extends StatefulWidget {
+  FocusModeSettings({Key key}) : super(key: key);
 
   @override
-  _FocusModeState createState() => _FocusModeState();
+  _FocusModeSettingsState createState() => _FocusModeSettingsState();
 }
 
-class _FocusModeState extends State<FocusMode> {
+class _FocusModeSettingsState extends State<FocusModeSettings> {
   Sizes sizes = Sizes();
   Colours colours = Colours();
 
-  List selectedApps = [];
+  List<String> selectedApps = [];
 
   @override
   Widget build(BuildContext context) {
@@ -836,6 +836,8 @@ class _FocusModeState extends State<FocusMode> {
                       GestureDetector(
                         onTap: () {
                           SettingsService().setFocusModeApps(selectedApps);
+                          // todo toast
+                          log("done");
                         },
                         child: Image(
                           image: AssetImage('assets/done.png'),
@@ -913,24 +915,31 @@ class _FocusModeState extends State<FocusMode> {
                                         ),
                                         GestureDetector(
                                           onTap: () {
+                                            /** todo: performance **/
+
                                             bool addAppBool = true;
-                                            selectedApps.length == 0 ? selectedApps.add(app["package"]) : selectedApps.forEach((element) {
-                                              log("app pack: " + app["package"].toString());
-                                              log("elem pack: " + element.toString());
-                                              if(app["package"] == element) {
-                                                addAppBool = false;
-                                              }
-                                            });
-                                            if(addAppBool) {
-                                              if(selectedApps.length<2) {
-                                                selectedApps.add(app["package"]);
-                                              }
-                                              else {
-                                                // todo: toaast
-                                              }
+                                            if(selectedApps.length == 0) {
+                                              selectedApps.add(app["package"]);
                                             }
                                             else {
-                                              selectedApps.remove(app["package"]);
+                                              selectedApps.forEach((element) {
+                                                log("app pack: " + app["package"].toString());
+                                                log("elem pack: " + element.toString());
+                                                if(app["package"] == element) {
+                                                  addAppBool = false;
+                                                }
+                                              });
+                                              if(addAppBool) {
+                                                if(selectedApps.length<2) {
+                                                  selectedApps.add(app["package"]);
+                                                }
+                                                else {
+                                                  // todo: toaast
+                                                }
+                                              }
+                                              else {
+                                                selectedApps.remove(app["package"]);
+                                              }
                                             }
                                             setState(() {
                                               SettingsService().setFocusModeApps(selectedApps);
@@ -1068,26 +1077,30 @@ class _FocusModeState extends State<FocusMode> {
                                         GestureDetector(
                                           onTap: () {
                                             bool addAppBool = true;
-                                            selectedApps.length == 0 ? selectedApps.add(app["package"]) : selectedApps.forEach((element) {
-                                              log("app pack: " + app["package"].toString());
-                                              log("elem pack: " + element.toString());
-                                              if(app["package"] == element) {
-                                                addAppBool = false;
-                                              }
-                                            });
-                                            if(addAppBool) {
-                                              if(selectedApps.length<2) {
-                                                selectedApps.add(app["package"]);
-                                              }
-                                              else {
-                                                // todo: toaast
-                                              }
+                                            if(selectedApps.length == 0) {
+                                              selectedApps.add(app["package"]);
                                             }
                                             else {
-                                              selectedApps.remove(app["package"]);
+                                              selectedApps.forEach((element) {
+                                                log("app pack: " + app["package"].toString());
+                                                log("elem pack: " + element.toString());
+                                                if(app["package"] == element) {
+                                                  addAppBool = false;
+                                                }
+                                              });
+                                              if(addAppBool) {
+                                                if(selectedApps.length<2) {
+                                                  selectedApps.add(app["package"]);
+                                                }
+                                                else {
+                                                  // todo: toaast
+                                                }
+                                              }
+                                              else {
+                                                selectedApps.remove(app["package"]);
+                                              }
                                             }
                                             setState(() {
-
                                             });
                                             log("apps: " + selectedApps.toString());
                                           },
