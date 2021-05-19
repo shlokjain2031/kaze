@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:kaze/models/mode.dart';
 import 'package:kaze/services/mode.dart';
 import 'package:kaze/services/util.dart';
@@ -7,7 +9,7 @@ class FocusModeService {
   Future<List<Map>> getApps() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     List<String> rawFocusModeApps = preferences.getStringList("focusModeApps");
-    List<Map> allApps = await Util().getAllApps();
+    List allApps = await Util().getAllApps();
     List<Map> formattedFocusModeApps = [];
 
     // time complexity = 2n
