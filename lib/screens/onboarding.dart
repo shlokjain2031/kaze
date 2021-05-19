@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:kaze/models/mode.dart';
+import 'package:kaze/services/settings.dart';
 import 'package:kaze/services/user.dart';
 import 'package:kaze/utils/colours.dart';
 import 'package:kaze/utils/sizes.dart';
@@ -268,8 +269,7 @@ class _OnboardingState extends State<Onboarding> {
                       padding: EdgeInsets.only(top: 16),
                       child: GestureDetector(
                         onTap: () {
-                          User().setUser();
-                          ModeModelProvider().initDatabase();
+                          initUser();
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) {
@@ -305,5 +305,11 @@ class _OnboardingState extends State<Onboarding> {
     }
 
     return onboarding;
+  }
+
+  void initUser() {
+    User().setUser();
+    ModeModelProvider().initDatabase();
+    SettingsService().setSettings(true, false, false); // notif, phone, backup
   }
 }
