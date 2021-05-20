@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:kaze/screens/home.dart';
 import 'package:kaze/services/settings.dart';
 import 'package:kaze/utils/colours.dart';
 import 'package:kaze/utils/sizes.dart';
@@ -837,6 +838,13 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
                         onTap: () {
                           SettingsService().setFocusModeApps(selectedApps);
                           // todo toast
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return Home();
+                              },
+                            ),
+                          );
                           log("done");
                         },
                         child: Image(
@@ -999,6 +1007,13 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
                       GestureDetector(
                         onTap: () {
                           SettingsService().setFocusModeApps(selectedApps);
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return Home();
+                              },
+                            ),
+                          );
                         },
                         child: Image(
                           image: AssetImage('assets/done.png'),

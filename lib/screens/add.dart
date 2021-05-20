@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,755 +17,754 @@ import 'package:palette_generator/palette_generator.dart';
 import 'home.dart';
 
 // todo: performance issues because fof getAddScreens
+// todo: bugs in edit class
 
-class Add extends StatefulWidget {
-  const Add({Key key}) : super(key: key);
+class TitleAdd extends StatefulWidget {
+  const TitleAdd({Key key}) : super(key: key);
 
   @override
-  _AddState createState() => _AddState();
+  _TitleAddState createState() => _TitleAddState();
 }
-
-class _AddState extends State<Add> {
+class _TitleAddState extends State<TitleAdd> {
   Colours colours = Colours();
   Sizes sizes = Sizes();
-  final picker = ImagePicker();
 
-  int addScreenTracker = 0;
-
-  String title = "Work";
-  List selectedApps = [];
-  TimeOfDay startTime = TimeOfDay(hour: 6, minute: 30);
-  TimeOfDay endTime = TimeOfDay(hour: 22, minute: 00);
-  String wallpaperPath;
+  String title = "";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: colours.black(),
-      body: FutureBuilder(
-        future: Util().getAllApps(),
-        builder: (context, snapshot) {
-          if(snapshot.hasData) {
-            List apps = snapshot.data;
-            return Container(
-              decoration: wallpaperPath != null ? BoxDecoration(
-                image: DecorationImage(
-                  image: FileImage(File(wallpaperPath)),
-                  fit: BoxFit.fitHeight,
-                  colorFilter: ColorFilter.mode(colours.black().withOpacity(0.75),
-                      BlendMode.dstATop),
-                ),
-              ) : BoxDecoration(color: colours.black()),
-              child: Stack(
+      body: ListView(
+        children: [
+          Stack(
+            children: [
+              Column(
                 children: [
-                  wallpaperPath != null ? getAddScreen(apps) : getAddScreen(apps),
+                  Center(
+                    child: TextField(
+                      textAlign: TextAlign.center,
+                      onChanged: (newTitle) {
+                        title = newTitle;
+                      },
+                      style: TextStyle(
+                        color: colours.white(),
+                        fontSize: 64,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      decoration: InputDecoration(
+                        hintText: "Work",
+                        hintMaxLines: 1,
+                        hintStyle: TextStyle(
+                          color: colours.white().withOpacity(.7),
+                          fontSize: 64,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        errorBorder: InputBorder.none,
+                        disabledBorder: InputBorder.none,
+                      ),
+                    ),
+                  ),
                   Padding(
-                    padding: EdgeInsets.only(top: sizes.height(context, 840)),
+                    padding: EdgeInsets.symmetric(horizontal: sizes.width(context, 48)),
+                    child: Divider(
+                      height: sizes.height(context, 6),
+                      thickness: 6,
+                      color: colours.white().withOpacity(.7),
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 16),
+                    child: Text(
+                      'give a name to your mode',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontFamily: 'ProductSans',
+                          fontSize: 20,
+                          color: colours.white()
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(
+                    height: sizes.height(context, 440),
+                  ),
+
+                  SizedBox(
+                    height: sizes.height(context, 60),
+                  ),
+
+                  SizedBox(height: sizes.height(context, 110)),
+                ],
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: sizes.height(context, 800)),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          'back',
+                          style: TextStyle(
+                              fontFamily: 'ProductSans',
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
+                              color: colours.white().withOpacity(.7)
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return AppsAdd(title);
+                              },
+                            ),
+                          );
+                        },
+                        child: Text(
+                          'continue',
+                          style: TextStyle(
+                              fontFamily: 'ProductSans',
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
+                              color: colours.white()
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            ],
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class AppsAdd extends StatefulWidget {
+  String title;
+  AppsAdd(this.title, {Key key}) : super(key: key);
+
+  @override
+  _AppsAddState createState() => _AppsAddState(title);
+}
+class _AppsAddState extends State<AppsAdd> {
+  String title;
+  _AppsAddState(this.title);
+
+  Colours colours = Colours();
+  Sizes sizes = Sizes();
+
+  List selectedApps = [];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: colours.black(),
+      body: ListView(
+        children: [
+          Stack(
+            children: [
+              Column(
+                children: [
+                  SizedBox(height: 12),
+                  Center(
+                    child: Text(
+                      title,
+                      style: TextStyle(
+                        color: colours.white(),
+                        fontSize: 64,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: sizes.width(context, 48)),
+                    child: Divider(
+                      height: sizes.height(context, 6),
+                      thickness: 6,
+                      color: colours.white(),
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 16),
+                    child: Text(
+                      'choose max 8 apps you will use in this mode',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontFamily: 'ProductSans',
+                          fontSize: 20,
+                          color: colours.white()
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: sizes.height(context, 175),),
+
+                  Container(
+                    margin: EdgeInsets.only(left: sizes.width(context, 72)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: sizes.width(context, 414),
+                          height: sizes.height(context, 64),
+                          child: ListView.builder(
+                            itemCount: selectedApps.length > 4 ? 4 : selectedApps.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, listIndex) {
+                              return GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    selectedApps.removeAt(listIndex);
+                                  });
+                                },
+                                child: Container( 
+                                  width: sizes.width(context, 50),
+                                  height: sizes.height(context, 64),
+                                  margin: EdgeInsets.only(right: 20),
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: colours.white(), // change with colours.black(),
+                                      border: Border.all(color: colours.white(), width: 3)
+                                  ),
+                                  child: Image(
+                                    image: MemoryImage(selectedApps[listIndex]["icon"]),
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        SizedBox(height: sizes.height(context, 32)),
+                        SizedBox(
+                          width: sizes.width(context, 414),
+                          height: sizes.height(context, 64),
+                          child: ListView.builder(
+                            itemCount: selectedApps.length > 4 ? (selectedApps.length - 4) : 0,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, listIndex) {
+                              return GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    selectedApps.removeAt(listIndex);
+                                  });
+                                },
+                                child: Container(
+                                  width: sizes.width(context, 50),
+                                  height: sizes.height(context, 64),
+                                  margin: EdgeInsets.only(right: 12),
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: colours.white() // change with colours.black()
+                                  ),
+                                  child: Image(
+                                    image: MemoryImage(Util().getAppIcon(selectedApps[(listIndex + 4)]["icon"])),
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  SizedBox(
+                    height: sizes.height(context, 200),
+                  ),
+
+                  Container(
+                    width: sizes.width(context, 400),
+                    height: sizes.height(context, 100),
+                    child: FutureBuilder(
+                      future: Util().getAllApps(),
+                      builder: (context, snapshot) {
+                        if(snapshot.hasData) {
+                          List apps = snapshot.data;
+                          return ListView.builder(
+                            itemCount: apps.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (BuildContext context, int index) {
+                              // Map dataObject = appList[index];
+                              return Center(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          bool duplicate = false;
+                                          selectedApps.forEach((element) {
+                                            if(element["package"] == apps[index]["package"]) {
+                                              duplicate = true;
+                                            }
+                                            else {
+                                              duplicate = false;
+                                            }
+                                          });
+                                          setState(() {
+                                            if(!duplicate) {
+                                              selectedApps.add(apps[index]);
+                                            }
+                                          });
+                                        },
+                                        child: Container(
+                                          width: sizes.width(context, 50),
+                                          height: sizes.height(context, 64),
+                                          margin: EdgeInsets.only(right: 8),
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: colours.white() // change with colours.black()
+                                          ),
+                                          child: Image(
+                                            image: MemoryImage(apps[index]["icon"]),
+                                            fit: BoxFit.fill,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              );
+                            },
+                          );
+                        }
+                        else {
+                          return SizedBox();
+                        }
+                      }
+                    ),
+                  ),
+                ],
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: sizes.height(context, 800)),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          'back',
+                          style: TextStyle(
+                              fontFamily: 'ProductSans',
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
+                              color: colours.white().withOpacity(.7)
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return TimeAdd(title, selectedApps);
+                              },
+                            ),
+                          );
+                        },
+                        child: Text(
+                          'continue',
+                          style: TextStyle(
+                              fontFamily: 'ProductSans',
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
+                              color: colours.white()
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            ],
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class TimeAdd extends StatefulWidget {
+  String title;
+  List selectedApps;
+  TimeAdd(this.title, this.selectedApps, {Key key}) : super(key: key);
+
+  @override
+  _TimeAddState createState() => _TimeAddState(title, selectedApps);
+}
+class _TimeAddState extends State<TimeAdd> {
+  String title;
+  List selectedApps;
+
+  _TimeAddState(this.title, this.selectedApps);
+
+  Colours colours = Colours();
+  Sizes sizes = Sizes();
+
+  TimeOfDay startTime = TimeOfDay(hour: 6, minute: 30);
+  TimeOfDay endTime = TimeOfDay(hour: 22, minute: 0);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: colours.black(),
+      body: ListView(
+        children: [
+          Stack(
+            children: [
+              Column(
+                children: [
+                  SizedBox(height: 12),
+                  Center(
+                    child: Text(
+                      title,
+                      style: TextStyle(
+                        color: colours.white(),
+                        fontSize: 64,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: sizes.width(context, 48)),
+                    child: Divider(
+                      height: sizes.height(context, 6),
+                      thickness: 6,
+                      color: colours.white(),
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 16),
+                    child: Text(
+                      'add times when you will use these apps',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontFamily: 'ProductSans',
+                          fontSize: 20,
+                          color: colours.white()
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: sizes.height(context, 175),),
+
+                  Container(
+                    margin: EdgeInsets.only(left: sizes.width(context, 72)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: sizes.width(context, 414),
+                          height: sizes.height(context, 64),
+                          child: ListView.builder(
+                            itemCount: selectedApps.length > 4 ? 4 : selectedApps.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, listIndex) {
+                              return GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    selectedApps.removeAt(listIndex);
+                                  });
+                                },
+                                child: Container(
+                                  width: sizes.width(context, 50),
+                                  height: sizes.height(context, 64),
+                                  margin: EdgeInsets.only(right: 20),
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: colours.white(), // change with colours.black(),
+                                      border: Border.all(color: colours.white(), width: 3)
+                                  ),
+                                  child: Image(
+                                    image: MemoryImage(selectedApps[listIndex]["icon"]),
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        SizedBox(height: sizes.height(context, 32)),
+                        SizedBox(
+                          width: sizes.width(context, 414),
+                          height: sizes.height(context, 64),
+                          child: ListView.builder(
+                            itemCount: selectedApps.length > 4 ? (selectedApps.length - 4) : 0,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, listIndex) {
+                              return GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    selectedApps.removeAt(listIndex);
+                                  });
+                                },
+                                child: Container(
+                                  width: sizes.width(context, 50),
+                                  height: sizes.height(context, 64),
+                                  margin: EdgeInsets.only(right: 12),
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: colours.white() // change with colours.black()
+                                  ),
+                                  child: Image(
+                                    image: MemoryImage(Util().getAppIcon(selectedApps[(listIndex + 4)]["icon"])),
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  SizedBox(height: sizes.height(context, 54)),
+
+                  SizedBox(
+                    width: sizes.width(context, 390),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           GestureDetector(
                             onTap: () {
-                              if(addScreenTracker != 0) {
-                                addScreenTracker--;
-                              }
-                              else {
-                                Navigator.of(context).pop();
-                              }
-                              setState(() {});
+                              _startTimePicker();
                             },
-                            child: Text(
-                              'back',
-                              style: TextStyle(
-                                  fontFamily: 'ProductSans',
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.bold,
-                                  color: colours.white().withOpacity(.7),
-                                  shadows: [
-                                    Shadow(
-                                        offset: Offset(8, 8),
-                                        color: colours.black().withOpacity(.6),
-                                        blurRadius: 32
-                                    )
-                                  ]
-                              ),
+                            child: Stack(
+                              children: [
+                                Text(
+                                  (startTime.hour < 10 ? "0" + startTime.hour.toString() : startTime.hour.toString()) + ":" + (startTime.minute == 0 ? startTime.minute.toString() + "0" : startTime.minute.toString()),
+                                  style: TextStyle(
+                                    color: colours.white(opacity: .1),
+                                    fontFamily: 'ProductSans',
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 64
+                                  ),
+                                ),
+                                Container(
+                                  width: sizes.width(context, 150),
+                                  height: sizes.height(context, 54),
+                                  margin: EdgeInsets.only(top: 48, left: 8),
+                                  decoration: BoxDecoration(
+                                    color: colours.white(),
+                                    borderRadius: BorderRadius.circular(15)
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      SizedBox(width: 8,),
+                                      Image(
+                                        image: AssetImage('assets/watch.png'),
+                                        width: 24,
+                                        color: colours.black(),
+                                      ),
+                                      SizedBox(width: 10,),
+                                      Text(
+                                        'start time',
+                                        style: TextStyle(
+                                            color: colours.black(),
+                                            fontFamily: 'ProductSans',
+                                            fontSize: 20,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ],
                             ),
                           ),
                           GestureDetector(
                             onTap: () {
-                              if(addScreenTracker == 3) {
-                                String formattedStartTime = getStringFromTimeOfDay(startTime);
-                                String formattedEndTime = getStringFromTimeOfDay(endTime);
-                                ModeService().insertMode(title, formattedStartTime, formattedEndTime, selectedApps, wallpaperPath);
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) {
-                                      return Home();
-                                    },
-                                  ),
-                                );                                  }
-                              else {
-                                addScreenTracker++;
-                              }
-                              setState(() {});
+                              _endTimePicker();
                             },
-                            child: Text(
-                              addScreenTracker == 3 ? 'confirm' : 'continue',
-                              style: TextStyle(
-                                  fontFamily: 'ProductSans',
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.bold,
-                                  color: colours.white(),
-                                  shadows: [
-                                    Shadow(
-                                        offset: Offset(8, 8),
-                                        color: colours.black().withOpacity(.8),
-                                        blurRadius: 32
-                                    )
-                                  ]
-                              ),
+                            child: Stack(
+                              children: [
+                                Text(
+                                  (endTime.hour < 10 ? "0" + endTime.hour.toString() : endTime.hour.toString()) + ":" + (endTime.minute == 0 ? endTime.minute.toString() + "0" : endTime.minute.toString()),
+                                  style: TextStyle(
+                                      color: colours.white(opacity: .1),
+                                      fontFamily: 'ProductSans',
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 64
+                                  ),
+                                ),
+                                Container(
+                                  width: sizes.width(context, 150),
+                                  height: sizes.height(context, 54),
+                                  margin: EdgeInsets.only(top: 48, left: 8),
+                                  decoration: BoxDecoration(
+                                      color: colours.white(),
+                                      borderRadius: BorderRadius.circular(15)
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      SizedBox(width: 8,),
+                                      Image(
+                                        image: AssetImage('assets/watch.png'),
+                                        width: 24,
+                                        color: colours.black(),
+                                      ),
+                                      SizedBox(width: 10,),
+                                      Text(
+                                        'end time',
+                                        style: TextStyle(
+                                          color: colours.black(),
+                                          fontFamily: 'ProductSans',
+                                          fontSize: 20,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ],
                             ),
                           ),
                         ],
                       ),
                     ),
-                  )
+                  ),
+
+                  SizedBox(height: sizes.height(context, 24)),
+
+                  Container(
+                    width: sizes.width(context, 400),
+                    height: sizes.height(context, 100),
+                    child: FutureBuilder(
+                        future: Util().getAllApps(),
+                        builder: (context, snapshot) {
+                          if(snapshot.hasData) {
+                            List apps = snapshot.data;
+                            return ListView.builder(
+                              itemCount: apps.length,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (BuildContext context, int index) {
+                                // Map dataObject = appList[index];
+                                return Center(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            bool duplicate = false;
+                                            selectedApps.forEach((element) {
+                                              if(element["package"] == apps[index]["package"]) {
+                                                duplicate = true;
+                                              }
+                                              else {
+                                                duplicate = false;
+                                              }
+                                            });
+                                            setState(() {
+                                              if(!duplicate) {
+                                                selectedApps.add(apps[index]);
+                                              }
+                                            });
+                                          },
+                                          child: Container(
+                                            width: sizes.width(context, 50),
+                                            height: sizes.height(context, 64),
+                                            margin: EdgeInsets.only(right: 8),
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: colours.white() // change with colours.black()
+                                            ),
+                                            child: Image(
+                                              image: MemoryImage(apps[index]["icon"]),
+                                              fit: BoxFit.fill,
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                          }
+                          else {
+                            return SizedBox();
+                          }
+                        }
+                    ),
+                  ),
                 ],
               ),
-            );
-          }
-          else {
-            return SizedBox();
-          }
-        }
+              Padding(
+                padding: EdgeInsets.only(top: sizes.height(context, 800)),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          'back',
+                          style: TextStyle(
+                              fontFamily: 'ProductSans',
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
+                              color: colours.white().withOpacity(.7)
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return FinalAdd(title: title, selectedApps: selectedApps, startTime: startTime, endTime: endTime,);
+                              },
+                            ),
+                          );
+                        },
+                        child: Text(
+                          'continue',
+                          style: TextStyle(
+                              fontFamily: 'ProductSans',
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
+                              color: colours.white()
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            ],
+          )
+        ],
       ),
     );
-  }
-
-  Widget getAddScreen(List apps) {
-    Widget addScreen;
-    switch(addScreenTracker) {
-      case 0:
-        addScreen = ListView(
-          children: [
-            Column(
-              children: [
-                SizedBox(height: 16,),
-                Center(
-                  child: TextField(
-                    // enabled: false,
-                    textAlign: TextAlign.center,
-                    onChanged: (newTitle) {
-                      title = newTitle;
-                    },
-                    style: TextStyle(
-                      color: colours.white(),
-                      fontSize: 64,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    decoration: InputDecoration(
-                      hintText: "Work",
-                      hintMaxLines: 1,
-                      hintStyle: TextStyle(
-                        color: colours.white().withOpacity(.7),
-                        fontSize: 64,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      border: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      errorBorder: InputBorder.none,
-                      disabledBorder: InputBorder.none,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: sizes.width(context, 48)),
-                  child: Divider(
-                    height: sizes.height(context, 6),
-                    thickness: 6,
-                    color: colours.white().withOpacity(.7),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(top: 16),
-                  child: Text(
-                    'give a name to your mode',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontFamily: 'ProductSans',
-                        fontSize: 20,
-                        color: colours.white()
-                    ),
-                  ),
-                ),
-
-                SizedBox(
-                  height: sizes.height(context, 440),
-                ),
-
-                SizedBox(
-                  height: sizes.height(context, 60),
-                ),
-
-                SizedBox(height: sizes.height(context, 110)),
-              ],
-            ),
-          ],
-        );
-        break;
-      case 1:
-        addScreen = ListView(
-          children: [
-            Column(
-              children: [
-                SizedBox(height: 16,),
-                Center(
-                  child: TextField(
-                    enabled: false,
-                    textAlign: TextAlign.center,
-                    onChanged: (newTitle) {
-                      title = newTitle;
-                    },
-                    style: TextStyle(
-                      color: colours.white(),
-                      fontSize: 64,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    decoration: InputDecoration(
-                      hintText: "Work",
-                      hintMaxLines: 1,
-                      hintStyle: TextStyle(
-                        color: colours.white(),
-                        fontSize: 64,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      border: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      errorBorder: InputBorder.none,
-                      disabledBorder: InputBorder.none,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: sizes.width(context, 48)),
-                  child: Divider(
-                    height: sizes.height(context, 6),
-                    thickness: 6,
-                    color: colours.white().withOpacity(1),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(top: 16),
-                  child: Text(
-                    'click apps that you will use in this mode',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontFamily: 'ProductSans',
-                        fontSize: 20,
-                        color: colours.white()
-                    ),
-                  ),
-                ),
-
-                SizedBox(
-                  width: sizes.width(context, 350),
-                  height: sizes.height(context, 440),
-                  child: ListView.builder(
-                    itemCount: selectedApps.length,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (BuildContext context, int index) {
-                      // Map dataObject = appList[index];
-                      return Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 8),
-                              child: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    selectedApps.removeAt(index);
-                                  });
-                                },
-                                child: Container(
-                                  width: sizes.width(context, 64),
-                                  height: sizes.height(context, 72),
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(color: colours.white(), width: 3),
-                                      color: colours.white()
-                                  ),
-                                  child: Image(
-                                    image: MemoryImage(selectedApps[index]["icon"]),
-                                    fit: BoxFit.fitHeight,
-                                  ),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                ),
-
-                SizedBox(height: sizes.height(context, 60)),
-
-                SizedBox(height: 6),
-                SizedBox(
-                  width: sizes.width(context, 400),
-                  height: sizes.height(context, 100),
-                  child: ListView.builder(
-                    itemCount: apps.length,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (BuildContext context, int index) {
-                      // Map dataObject = appList[index];
-                      return Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 8),
-                              child: GestureDetector(
-                                onTap: () {
-                                  bool duplicate = false;
-                                  selectedApps.forEach((element) {
-                                    if(element["package"] == apps[index]["package"]) {
-                                      duplicate = true;
-                                    }
-                                    else {
-                                      duplicate = false;
-                                    }
-                                  });
-                                  setState(() {
-                                    !duplicate ? selectedApps.add(apps[index]) : print("dupli");
-                                  });
-                                },
-                                child: Container(
-                                  width: sizes.width(context, 50),
-                                  height: sizes.height(context, 64),
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: colours.white() // change with colours.black()
-                                  ),
-                                  child: Image(
-                                    image: MemoryImage(apps[index]["icon"]),
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ],
-        );
-        break;
-      case 2:
-        addScreen = ListView(
-          children: [
-            Column(
-              children: [
-                SizedBox(height: 16,),
-                Center(
-                  child: TextField(
-                    enabled: false,
-                    textAlign: TextAlign.center,
-                    onChanged: (newTitle) {
-                      title = newTitle;
-                    },
-                    style: TextStyle(
-                      color: colours.white(),
-                      fontSize: 64,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    decoration: InputDecoration(
-                      hintText: "Work",
-                      hintMaxLines: 1,
-                      hintStyle: TextStyle(
-                        color: colours.white(),
-                        fontSize: 64,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      border: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      errorBorder: InputBorder.none,
-                      disabledBorder: InputBorder.none,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: sizes.width(context, 48)),
-                  child: Divider(
-                    height: sizes.height(context, 6),
-                    thickness: 6,
-                    color: colours.white(),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(top: 16),
-                  child: Text(
-                    'add the time you will use these apps',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontFamily: 'ProductSans',
-                        fontSize: 20,
-                        color: colours.white()
-                    ),
-                  ),
-                ),
-
-                SizedBox(
-                  width: sizes.width(context, 350),
-                  height: sizes.height(context, 440),
-                  child: ListView.builder(
-                    itemCount: selectedApps.length,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (BuildContext context, int index) {
-                      // Map dataObject = appList[index];
-                      return Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 8),
-                              child: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    selectedApps.removeAt(index);
-                                  });
-                                },
-                                child: Container(
-                                  width: sizes.width(context, 64),
-                                  height: sizes.height(context, 72),
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(color: colours.white(), width: 3),
-                                      color: colours.white()
-                                  ),
-                                  child: Image(
-                                    image: MemoryImage(selectedApps[index]["icon"]),
-                                    fit: BoxFit.fitHeight,
-                                  ),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                ),
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        _startTimePicker();
-                      },
-                      child: Container(
-                        width: sizes.width(context, 170),
-                        height: sizes.height(context, 60),
-                        decoration: BoxDecoration(
-                          color: colours.white(),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Icon(
-                              Icons.watch_later,
-                              color: colours.black(),
-                              size: sizes.width(context, 28),
-                            ),
-                            Text(
-                              'add start time',
-                              style: TextStyle(
-                                  color: colours.black(),
-                                  fontSize: 20,
-                                  fontFamily: 'ProductSans'
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        _endTimePicker();
-                      },
-                      child: Container(
-                        width: sizes.width(context, 170),
-                        height: sizes.height(context, 60),
-                        decoration: BoxDecoration(
-                          color: colours.white(),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Icon(
-                              Icons.watch_later,
-                              color: colours.black(),
-                              size: sizes.width(context, 28),
-                            ),
-                            Text(
-                              'add end time',
-                              style: TextStyle(
-                                  color: colours.black(),
-                                  fontSize: 20,
-                                  fontFamily: 'ProductSans'
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-
-                SizedBox(height: 6),
-                SizedBox(
-                  width: sizes.width(context, 400),
-                  height: sizes.height(context, 100),
-                  child: ListView.builder(
-                    itemCount: apps.length,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (BuildContext context, int index) {
-                      // Map dataObject = appList[index];
-                      return Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 8),
-                              child: GestureDetector(
-                                onTap: () {
-                                  bool duplicate = true;
-                                  selectedApps.forEach((element) {
-                                    if(element["package"] == apps[index]["package"]) {
-                                      duplicate = true;
-                                    }
-                                    else {
-                                      duplicate = false;
-                                    }
-                                  });
-                                  setState(() {
-                                    !duplicate ? selectedApps.add(apps[index]) : print("dupli");
-                                  });
-                                },
-                                child: Container(
-                                  width: sizes.width(context, 50),
-                                  height: sizes.height(context, 64),
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: colours.white() // change with colours.black()
-                                  ),
-                                  child: Image(
-                                    image: MemoryImage(apps[index]["icon"]),
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ],
-        );
-        break;
-      case 3:
-        addScreen = Column(
-          children: [
-            SizedBox(height: 20,),
-            Center(
-              child: TextField(
-                enabled: false,
-                textAlign: TextAlign.center,
-                onChanged: (newTitle) {
-                  title = newTitle;
-                },
-                style: TextStyle(
-                  color: colours.white(),
-                  fontSize: 64,
-                  fontWeight: FontWeight.bold,
-                ),
-                decoration: InputDecoration(
-                  hintText: "Work",
-                  hintMaxLines: 1,
-                  hintStyle: TextStyle(
-                    color: colours.white(),
-                    fontSize: 64,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  border: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  errorBorder: InputBorder.none,
-                  disabledBorder: InputBorder.none,
-                ),
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(top: 0),
-              child: Text(
-                startTime.hour.toString() + ":" + (startTime.minute == 0 ? startTime.minute.toString() + "0" : startTime.minute.toString())
-                    + " - " + endTime.hour.toString() + ":" + (endTime.minute == 0 ? endTime.minute.toString() + "0" : endTime.minute.toString()),
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontFamily: 'ProductSans',
-                    fontSize: 20,
-                    color: colours.white()
-                ),
-              ),
-            ),
-
-            SizedBox(
-              width: sizes.width(context, 350),
-              height: sizes.height(context, 440),
-              child: ListView.builder(
-                itemCount: selectedApps.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (BuildContext context, int index) {
-                  // Map dataObject = appList[index];
-                  return Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                selectedApps.removeAt(index);
-                              });
-                            },
-                            child: Container(
-                              width: sizes.width(context, 64),
-                              height: sizes.height(context, 72),
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(color: colours.white(), width: 3),
-                                  color: colours.white()
-                              ),
-                              child: Image(
-                                image: MemoryImage(selectedApps[index]["icon"]),
-                                fit: BoxFit.fitHeight,
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
-
-            GestureDetector(
-              onTap: () {
-                _pickWallpaper();
-              },
-              child: Container(
-                width: sizes.width(context, 200),
-                height: sizes.height(context, 60),
-                decoration: BoxDecoration(
-                  color: colours.white(),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Icon(
-                      Icons.image_rounded,
-                      color: colours.black(),
-                      size: sizes.width(context, 28),
-                    ),
-                    Text(
-                      'add wallpapaer',
-                      style: TextStyle(
-                          color: colours.black(),
-                          fontSize: 20,
-                          fontFamily: 'ProductSans'
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-
-            SizedBox(height: 20),
-            SizedBox(
-              width: sizes.width(context, 400),
-              height: sizes.height(context, 100),
-              child: ListView.builder(
-                itemCount: apps.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (BuildContext context, int index) {
-                  // Map dataObject = appList[index];
-                  return Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: GestureDetector(
-                            onTap: () {
-                              bool duplicate = true;
-                              selectedApps.forEach((element) {
-                                if(element["package"] == apps[index]["package"]) {
-                                  duplicate = true;
-                                }
-                                else {
-                                  duplicate = false;
-                                }
-                              });
-                              setState(() {
-                                !duplicate ? selectedApps.add(apps[index]) : print("dupli");
-                              });
-                            },
-                            child: Container(
-                              width: sizes.width(context, 50),
-                              height: sizes.height(context, 64),
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: colours.white() // change with colours.black()
-                              ),
-                              child: Image(
-                                image: MemoryImage(apps[index]["icon"]),
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
-          ],
-        );
-        break;
-    }
-    return addScreen;
   }
 
   void _startTimePicker() async {
@@ -790,349 +791,637 @@ class _AddState extends State<Add> {
     }
   }
 
-  _pickWallpaper() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
-
-    setState(() {
-      if (pickedFile != null) {
-        wallpaperPath = pickedFile.path;
-      } else {
-        print('No image selected.');
-      }
-    });
-  }
-
-  Future<Color> getDominantColor() async {
-    PaletteGenerator paletteGenerator = await PaletteGenerator.fromImageProvider(
-        FileImage(File(wallpaperPath))
-    );
-    print("paletteGenerator.lightVibrantColor.color: " + paletteGenerator.lightVibrantColor.color.toString());
-    return wallpaperPath != null ? paletteGenerator.lightVibrantColor.color : colours.white();
-  }
-
-  Color darken(Color color, [double amount = .1]) {
-    assert(amount >= 0 && amount <= 1);
-
-    final hsl = HSLColor.fromColor(color);
-    final hslDark = hsl.withLightness((hsl.lightness + amount).clamp(0.0, 1.0));
-
-    return hslDark.toColor();
-  }
-
-  String getStringFromTimeOfDay(TimeOfDay tod) {
-    final now = DateTime.now();
-    final newDt = DateTime(now.year, now.month, now.day, tod.hour, tod.minute);
-    return newDt.toString();
-  }
 }
 
-class Edit extends StatefulWidget {
+class FinalAdd extends StatefulWidget {
   ModeModel mode;
+  String title;
+  List selectedApps;
+  TimeOfDay startTime;
+  TimeOfDay endTime;
 
-  Edit({Key key, this.mode}) : super(key: key);
+  FinalAdd({Key key, this.mode, this.title, this.selectedApps, this.startTime, this.endTime}) : super(key: key);
 
   @override
-  _EditState createState() => _EditState(mode);
+  _FinalAddState createState() => _FinalAddState(mode: mode, title: title, selectedApps: selectedApps, startTime: startTime, endTime: endTime);
 }
-
-class _EditState extends State<Edit> {
-
-  Sizes sizes = Sizes();
-  Colours colours = Colours();
-  final picker = ImagePicker();
-
+class _FinalAddState extends State<FinalAdd> {
   ModeModel mode;
-
-  _EditState(this.mode);
-
   String title;
-  String wallpaper;
+  List selectedApps;
+  TimeOfDay startTime;
+  TimeOfDay endTime;
+
+  _FinalAddState({this.mode, this.title, this.selectedApps, this.startTime, this.endTime});
+
+  Colours colours = Colours();
+  Sizes sizes = Sizes();
+
+  String wallpaperPath;
+
+  @override
+  void initState() {
+    if(mode != null) { selectedApps = Util().listParser(mode.apps); }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: colours.white(),
-      body: FutureBuilder(
-          future: Util().getAllApps(),
-          builder: (context, snapshot) {
-            if(snapshot.hasData) {
-              List apps = snapshot.data;
-              return Container(
-                decoration: BoxDecoration(
+    if(mode == null) {
+      return Scaffold(
+        backgroundColor: colours.black(),
+        body: ListView(
+          children: [
+            Container(
+              height: sizes.height(context, 896),
+              decoration: wallpaperPath != null ? BoxDecoration(
                   image: DecorationImage(
-                    image: wallpaper != null ? FileImage(File(wallpaper)) : FileImage(File(mode.wallpaperPath)),
+                    image: FileImage(File(wallpaperPath)),
                     fit: BoxFit.fitHeight,
-                    colorFilter: ColorFilter.mode(colours.black().withOpacity(0.75),
+                    colorFilter: ColorFilter.mode(
+                        colours.black().withOpacity(0.75),
                         BlendMode.dstATop),
-                  ),
-                ),
-                child: Stack(
-                  children: [
-                    Column(
-                      children: [
-                        SizedBox(height: 20,),
-                        Center(
-                          child: TextField(
-                            enabled: false,
-                            textAlign: TextAlign.center,
-                            onChanged: (newTitle) {
-                              title = newTitle;
-                            },
-                            style: TextStyle(
-                              color: colours.white(),
-                              fontSize: 64,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            decoration: InputDecoration(
-                              hintText: mode.title,
-                              hintMaxLines: 1,
-                              hintStyle: TextStyle(
-                                color: colours.white(),
-                                fontSize: 64,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              border: InputBorder.none,
-                              focusedBorder: InputBorder.none,
-                              enabledBorder: InputBorder.none,
-                              errorBorder: InputBorder.none,
-                              disabledBorder: InputBorder.none,
-                            ),
+                  )
+              ) : BoxDecoration(color: colours.black()),
+              child: Stack(
+                children: [
+                  Column(
+                    children: [
+                      SizedBox(height: 12),
+                      Center(
+                        child: Text(
+                          title,
+                          style: TextStyle(
+                            color: colours.white(),
+                            fontSize: 64,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Container(
-                          margin: const EdgeInsets.only(top: 0),
-                          child: Text(
-                            parseDateTime(mode.startTime).hour.toString() + ":" + (parseDateTime(mode.startTime).minute == 0 ? parseDateTime(mode.startTime).minute.toString() + "0" : parseDateTime(mode.startTime).minute.toString())
-                                + " - " + parseDateTime(mode.endTime).hour.toString() + ":" + (parseDateTime(mode.endTime).minute == 0 ? parseDateTime(mode.endTime).minute.toString() + "0" : parseDateTime(mode.endTime).minute.toString()),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontFamily: 'ProductSans',
-                                fontSize: 20,
-                                color: colours.white()
-                            ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: sizes.width(context, 48)),
+                        child: Divider(
+                          height: sizes.height(context, 6),
+                          thickness: 6,
+                          color: colours.white(),
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(top: 16),
+                        child: Text(
+                          startTime.hour.toString() + ":" + (startTime.minute ==
+                              0 ? startTime.minute.toString() + "0" : startTime
+                              .minute.toString())
+                              + " - " + endTime.hour.toString() + ":" +
+                              (endTime.minute == 0 ? endTime.minute.toString() +
+                                  "0" : endTime.minute.toString()),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontFamily: 'ProductSans',
+                              fontSize: 20,
+                              color: colours.white()
                           ),
                         ),
+                      ),
+                      SizedBox(height: sizes.height(context, 175),),
 
-                        SizedBox(
-                          width: sizes.width(context, 350),
-                          height: sizes.height(context, 440),
-                          child: ListView.builder(
-                            itemCount: listParser(mode.apps).length,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (BuildContext context, int index) {
-                              // Map dataObject = appList[index];
-                              return Center(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            listParser(mode.apps).removeAt(index);
-                                          });
-                                        },
-                                        child: Container(
-                                          width: sizes.width(context, 64),
-                                          height: sizes.height(context, 72),
-                                          decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              border: Border.all(color: colours.white(), width: 3),
-                                              color: colours.white()
-                                          ),
-                                          child: Image(
-                                            image: MemoryImage(listParser(mode.apps)[index]["icon"]),
-                                            fit: BoxFit.fitHeight,
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-
-                        GestureDetector(
-                          onTap: () {
-                            _pickWallpaper();
-                          },
-                          child: Container(
-                            width: sizes.width(context, 200),
-                            height: sizes.height(context, 60),
-                            decoration: BoxDecoration(
-                              color: colours.white(),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Icon(
-                                  Icons.image_rounded,
-                                  color: colours.black(),
-                                  size: sizes.width(context, 28),
-                                ),
-                                Text(
-                                  'add wallpapaer',
-                                  style: TextStyle(
-                                      color: colours.black(),
-                                      fontSize: 20,
-                                      fontFamily: 'ProductSans'
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-
-                        SizedBox(height: 20),
-                        SizedBox(
-                          width: sizes.width(context, 400),
-                          height: sizes.height(context, 100),
-                          child: ListView.builder(
-                            itemCount: apps.length,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (BuildContext context, int index) {
-                              // Map dataObject = appList[index];
-                              return Center(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          bool duplicate = true;
-                                          listParser(mode.apps).forEach((element) {
-                                            if(element["package"] == apps[index]["package"]) {
-                                              duplicate = true;
-                                            }
-                                            else {
-                                              duplicate = false;
-                                            }
-                                          });
-                                          setState(() {
-                                            !duplicate ? listParser(mode.apps).add(apps[index]) : print("dupli");
-                                          });
-                                        },
-                                        child: Container(
-                                          width: sizes.width(context, 50),
-                                          height: sizes.height(context, 64),
-                                          decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: colours.white() // change with colours.black()
-                                          ),
-                                          child: Image(
-                                            image: MemoryImage(apps[index]["icon"]),
-                                            fit: BoxFit.fill,
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: sizes.height(context, 840)),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      Container(
+                        margin: EdgeInsets.only(left: sizes.width(context, 72)),
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text(
-                                'back',
-                                style: TextStyle(
-                                    fontFamily: 'ProductSans',
-                                    fontSize: 28,
-                                    fontWeight: FontWeight.bold,
-                                    color: colours.white().withOpacity(.7),
-                                    shadows: [
-                                      Shadow(
-                                          offset: Offset(8, 8),
-                                          color: colours.black().withOpacity(.6),
-                                          blurRadius: 32
-                                      )
-                                    ]
-                                ),
+                            SizedBox(
+                              width: sizes.width(context, 414),
+                              height: sizes.height(context, 64),
+                              child: ListView.builder(
+                                itemCount: selectedApps.length > 4
+                                    ? 4
+                                    : selectedApps.length,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, listIndex) {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        selectedApps.removeAt(listIndex);
+                                      });
+                                    },
+                                    child: Container(
+                                      width: sizes.width(context, 50),
+                                      height: sizes.height(context, 64),
+                                      margin: EdgeInsets.only(right: 20),
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: colours.white(),
+                                          // change with colours.black(),
+                                          border: Border.all(
+                                              color: colours.white(), width: 3)
+                                      ),
+                                      child: Image(
+                                        image: MemoryImage(
+                                            selectedApps[listIndex]["icon"]),
+                                        fit: BoxFit.fill,
+                                      ),
+                                    ),
+                                  );
+                                },
                               ),
                             ),
-                            GestureDetector(
-                              onTap: () {
-                                title = title != null ? title : mode.title;
-                                wallpaper = wallpaper != null ? wallpaper : mode.wallpaperPath;
-
-                                ModeService().updateMode(title, mode.startTime, mode.endTime, listParser(mode.apps), wallpaper);
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) {
-                                      return Home();
+                            SizedBox(height: sizes.height(context, 32)),
+                            SizedBox(
+                              width: sizes.width(context, 414),
+                              height: sizes.height(context, 64),
+                              child: ListView.builder(
+                                itemCount: selectedApps.length > 4
+                                    ? (selectedApps.length - 4)
+                                    : 0,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, listIndex) {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        selectedApps.removeAt(listIndex);
+                                      });
                                     },
-                                  ),
-                                );
-                              },
-                              child: Text(
-                                'confirm',
-                                style: TextStyle(
-                                    fontFamily: 'ProductSans',
-                                    fontSize: 28,
-                                    fontWeight: FontWeight.bold,
-                                    color: colours.white(),
-                                    shadows: [
-                                      Shadow(
-                                          offset: Offset(8, 8),
-                                          color: colours.black().withOpacity(.8),
-                                          blurRadius: 32
-                                      )
-                                    ]
-                                ),
+                                    child: Container(
+                                      width: sizes.width(context, 50),
+                                      height: sizes.height(context, 64),
+                                      margin: EdgeInsets.only(right: 12),
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: colours
+                                              .white() // change with colours.black()
+                                      ),
+                                      child: Image(
+                                        image: MemoryImage(Util().getAppIcon(
+                                            selectedApps[(listIndex +
+                                                4)]["icon"])),
+                                        fit: BoxFit.fill,
+                                      ),
+                                    ),
+                                  );
+                                },
                               ),
                             ),
                           ],
                         ),
                       ),
-                    )
-                  ],
-                ),
-              );
-            }
-            else {
-              return SizedBox();
-            }
-          }
-      )
-    );
-  }
 
-  DateTime parseDateTime(String time) {
-    return DateTime.parse(time);
-  }
+                      SizedBox(height: sizes.height(context, 80)),
 
-  List listParser(String list) {
-    return json.decode(list);
-  }
+                      GestureDetector(
+                        onTap: () async {
+                          // _pickWallpaper();
+                          wallpaperPath = await Util().pickImage();
+                          setState(() {});
+                        },
+                        child: Container(
+                          width: sizes.width(context, 200),
+                          height: sizes.height(context, 60),
+                          margin: EdgeInsets.only(top: 24),
+                          decoration: BoxDecoration(
+                            color: colours.white(),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Icon(
+                                Icons.image_rounded,
+                                color: colours.black(),
+                                size: sizes.width(context, 28),
+                              ),
+                              Text(
+                                'add wallpaper',
+                                style: TextStyle(
+                                    color: colours.black(),
+                                    fontSize: 20,
+                                    fontFamily: 'ProductSans'
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: sizes.height(context, 24)),
 
-  _pickWallpaper() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+                      Container(
+                        width: sizes.width(context, 400),
+                        height: sizes.height(context, 100),
+                        child: FutureBuilder(
+                            future: Util().getAllApps(),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                List apps = snapshot.data;
+                                return ListView.builder(
+                                  itemCount: apps.length,
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (BuildContext context,
+                                      int index) {
+                                    // Map dataObject = appList[index];
+                                    return Center(
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment
+                                            .spaceAround,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 8),
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                bool duplicate = false;
+                                                for (int i = 0; i <
+                                                    selectedApps.length; i++) {
+                                                  if (selectedApps[i]["package"] ==
+                                                      apps[index]["package"]) {
+                                                    duplicate = true;
+                                                    break;
+                                                  }
+                                                  else {
+                                                    duplicate = false;
+                                                  }
+                                                }
+                                                setState(() {
+                                                  if (!duplicate) {
+                                                    selectedApps.add(
+                                                        apps[index]);
+                                                  }
+                                                });
+                                              },
+                                              child: Container(
+                                                width: sizes.width(context, 50),
+                                                height: sizes.height(
+                                                    context, 64),
+                                                margin: EdgeInsets.only(
+                                                    right: 8),
+                                                decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color: colours
+                                                        .white() // change with colours.black()
+                                                ),
+                                                child: Image(
+                                                  image: MemoryImage(
+                                                      apps[index]["icon"]),
+                                                  fit: BoxFit.fill,
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                );
+                              }
+                              else {
+                                return SizedBox();
+                              }
+                            }
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: sizes.height(context, 800)),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text(
+                              'back',
+                              style: TextStyle(
+                                  fontFamily: 'ProductSans',
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.bold,
+                                  color: colours.white().withOpacity(.7)
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return FinalAdd(title: title,
+                                      selectedApps: selectedApps,
+                                      startTime: startTime,
+                                      endTime: endTime,);
+                                  },
+                                ),
+                              );
+                            },
+                            child: Text(
+                              'continue',
+                              style: TextStyle(
+                                  fontFamily: 'ProductSans',
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.bold,
+                                  color: colours.white()
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
+      );
+    }
+    else {
+      return Scaffold(
+        backgroundColor: colours.black(),
+        body: ListView(
+          children: [
+            Container(
+              height: sizes.height(context, 896),
+              decoration: mode.wallpaperPath != null ? BoxDecoration(
+                  image: DecorationImage(
+                    image: FileImage(File(mode.wallpaperPath)),
+                    fit: BoxFit.fitHeight,
+                    colorFilter: ColorFilter.mode(colours.black().withOpacity(0.75),
+                        BlendMode.dstATop),
+                  )
+              ) : BoxDecoration(color: colours.black()),
+              child: Stack(
+                children: [
+                  Column(
+                    children: [
+                      SizedBox(height: 12),
+                      Center(
+                        child: Text(
+                          mode.title,
+                          style: TextStyle(
+                            color: colours.white(),
+                            fontSize: 64,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: sizes.width(context, 48)),
+                        child: Divider(
+                          height: sizes.height(context, 6),
+                          thickness: 6,
+                          color: colours.white(),
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(top: 16),
+                        child: Text(
+                          DateTime.parse(mode.startTime).hour.toString() + ":" + (DateTime.parse(mode.startTime).minute == 0 ? DateTime.parse(mode.startTime).minute.toString() + "0" : DateTime.parse(mode.startTime).minute.toString())
+                              + " - " + DateTime.parse(mode.endTime).hour.toString() + ":" + (DateTime.parse(mode.endTime).minute == 0 ? DateTime.parse(mode.endTime).minute.toString() + "0" : DateTime.parse(mode.endTime).minute.toString()),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontFamily: 'ProductSans',
+                              fontSize: 20,
+                              color: colours.white()
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: sizes.height(context, 175),),
 
-    setState(() {
-      if (pickedFile != null) {
-        wallpaper = pickedFile.path;
-      } else {
-        print('No image selected.');
-      }
-    });
+                      Container(
+                        margin: EdgeInsets.only(left: sizes.width(context, 72)),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: sizes.width(context, 414),
+                              height: sizes.height(context, 64),
+                              child: ListView.builder(
+                                itemCount: selectedApps.length > 4 ? 4 : selectedApps.length,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, listIndex) {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        selectedApps.removeAt(listIndex);
+                                      });
+                                    },
+                                    child: Container(
+                                      width: sizes.width(context, 50),
+                                      height: sizes.height(context, 64),
+                                      margin: EdgeInsets.only(right: 20),
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: colours.white(), // change with colours.black(),
+                                          border: Border.all(color: colours.white(), width: 3)
+                                      ),
+                                      child: Image(
+                                        image: MemoryImage(Util().getAppIcon(selectedApps[listIndex]["icon"])),
+                                        fit: BoxFit.fill,
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                            SizedBox(height: sizes.height(context, 32)),
+                            SizedBox(
+                              width: sizes.width(context, 414),
+                              height: sizes.height(context, 64),
+                              child: ListView.builder(
+                                itemCount: selectedApps.length > 4 ? (selectedApps.length - 4) : 0,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, listIndex) {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        selectedApps.removeAt(listIndex);
+                                      });
+                                    },
+                                    child: Container(
+                                      width: sizes.width(context, 50),
+                                      height: sizes.height(context, 64),
+                                      margin: EdgeInsets.only(right: 12),
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: colours.white() // change with colours.black()
+                                      ),
+                                      child: Image(
+                                        image: MemoryImage(Util().getAppIcon(selectedApps[(listIndex + 4)]["icon"])),
+                                        fit: BoxFit.fill,
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      SizedBox(height: sizes.height(context, 80)),
+
+                      GestureDetector(
+                        onTap: () async {
+                          // _pickWallpaper();
+                          wallpaperPath = await Util().pickImage();
+                          setState(() {});
+                        },
+                        child: Container(
+                          width: sizes.width(context, 200),
+                          height: sizes.height(context, 60),
+                          margin: EdgeInsets.only(top: 24),
+                          decoration: BoxDecoration(
+                            color: colours.white(),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Icon(
+                                Icons.image_rounded,
+                                color: colours.black(),
+                                size: sizes.width(context, 28),
+                              ),
+                              Text(
+                                'add wallpaper',
+                                style: TextStyle(
+                                    color: colours.black(),
+                                    fontSize: 20,
+                                    fontFamily: 'ProductSans'
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: sizes.height(context, 24)),
+
+                      Container(
+                        width: sizes.width(context, 400),
+                        height: sizes.height(context, 100),
+                        child: FutureBuilder(
+                            future: Util().getAllApps(),
+                            builder: (context, snapshot) {
+                              if(snapshot.hasData) {
+                                List apps = snapshot.data;
+                                return ListView.builder(
+                                  itemCount: apps.length,
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    // Map dataObject = appList[index];
+                                    return Center(
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                bool duplicate = false;
+                                                for(int i=0;i<selectedApps.length;i++) {
+                                                  if(selectedApps[i]["package"] == apps[index]["package"]) {
+                                                    duplicate = true;
+                                                    break;
+                                                  }
+                                                  else {
+                                                    duplicate = false;
+                                                  }
+                                                }
+                                                setState(() {
+                                                  if(!duplicate) {
+                                                    selectedApps.add(apps[index]);
+                                                  }
+                                                });
+                                              },
+                                              child: Container(
+                                                width: sizes.width(context, 50),
+                                                height: sizes.height(context, 64),
+                                                margin: EdgeInsets.only(right: 8),
+                                                decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color: colours.white() // change with colours.black()
+                                                ),
+                                                child: Image(
+                                                  image: MemoryImage(apps[index]["icon"]),
+                                                  fit: BoxFit.fill,
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                );
+                              }
+                              else {
+                                return SizedBox();
+                              }
+                            }
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: sizes.height(context, 800)),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text(
+                              'back',
+                              style: TextStyle(
+                                  fontFamily: 'ProductSans',
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.bold,
+                                  color: colours.white().withOpacity(.7)
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return FinalAdd(title: title, selectedApps: selectedApps, startTime: startTime, endTime: endTime,);
+                                  },
+                                ),
+                              );
+                            },
+                            child: Text(
+                              'continue',
+                              style: TextStyle(
+                                  fontFamily: 'ProductSans',
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.bold,
+                                  color: colours.white()
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
+      );
+    }
   }
 }
+
+
+
+
 

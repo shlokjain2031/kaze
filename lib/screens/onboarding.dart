@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:kaze/models/mode.dart';
 import 'package:kaze/services/settings.dart';
 import 'package:kaze/services/user.dart';
+import 'package:kaze/services/util.dart';
 import 'package:kaze/utils/colours.dart';
 import 'package:kaze/utils/sizes.dart';
 
@@ -273,7 +274,7 @@ class _OnboardingState extends State<Onboarding> {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) {
-                                return Add();
+                                return TitleAdd();
                               },
                             ),
                           );
@@ -311,5 +312,7 @@ class _OnboardingState extends State<Onboarding> {
     User().setUser();
     ModeModelProvider().initDatabase();
     SettingsService().setSettings(true, false, false); // notif, phone, backup
+
+    Util().checkNotificationPermission();
   }
 }

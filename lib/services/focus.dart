@@ -36,8 +36,9 @@ class FocusModeService {
     DateTime now = DateTime.now();
     List<ModeModel> allModes = await ModeService().getAllModes();
     String wallpaperPath = "";
+
     allModes.forEach((mode) {
-      if(now.isAfter(DateTime.parse(mode.startTime)) && now.isAfter(DateTime.parse(mode.endTime))) {
+      if(now.isAfter(DateTime.parse(mode.startTime)) && now.isBefore(DateTime.parse(mode.endTime))) {
         wallpaperPath = mode.wallpaperPath;
       }
       else {

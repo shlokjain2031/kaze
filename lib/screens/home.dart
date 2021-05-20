@@ -1,10 +1,12 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kaze/models/mode.dart';
 import 'package:kaze/services/mode.dart';
+import 'package:kaze/services/util.dart';
 import 'package:kaze/utils/colours.dart';
 import 'package:kaze/utils/dialogs.dart';
 import 'package:kaze/utils/sizes.dart';
@@ -57,69 +59,80 @@ class _HomeState extends State<Home> {
                 },
                 itemBuilder: (context, index) {
                   if (index == allModes.length) {
-                    return Container(
-                      decoration: BoxDecoration(
-                        color: colours.black(),
-                        border: Border(
-                          bottom: BorderSide(color: colours.white(), width: 5)
-                        )
-                      ),
-                      child: Column(
-                        children: [
-                          _pageController.page.toInt() == (index) ? Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'mode',
-                                  style: TextStyle(
-                                      fontFamily: 'ProductSans',
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      color: colours.white(opacity: .9)
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return TitleAdd();
+                            },
+                          ),
+                        );
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: colours.black(),
+                          border: Border(
+                            bottom: BorderSide(color: colours.white(), width: 5)
+                          )
+                        ),
+                        child: Column(
+                          children: [
+                            _pageController.page.toInt() == (index) ? Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'mode',
+                                    style: TextStyle(
+                                        fontFamily: 'ProductSans',
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.bold,
+                                        color: colours.white(opacity: .9)
+                                    ),
                                   ),
-                                ),
-                                Image(
-                                  image: AssetImage('assets/category.png'),
-                                  width: 32,
-                                  color: colours.white(),
-                                  fit: BoxFit.fill,
-                                )
-                              ],
-                            ),
-                          ) : SizedBox(),
-
-                          SizedBox(height: sizes.height(context, 200)),
-                          Text(
-                            "Add +",
-                            style: TextStyle(
-                                fontSize: 54,
-                                fontFamily: 'ProductSans',
-                                fontWeight: FontWeight.bold,
-                                color: colours.white(opacity: .9),
-                                shadows: [
-                                  Shadow(
-                                      offset: Offset(8, 8),
-                                      blurRadius: 32,
-                                      color: colours.black(opacity: .6)
+                                  Image(
+                                    image: AssetImage('assets/category.png'),
+                                    width: 36,
+                                    color: colours.white(),
+                                    fit: BoxFit.fill,
                                   )
-                                ]
+                                ],
+                              ),
+                            ) : SizedBox(),
+
+                            SizedBox(height: sizes.height(context, 200)),
+                            Text(
+                              "Add +",
+                              style: TextStyle(
+                                  fontSize: 54,
+                                  fontFamily: 'ProductSans',
+                                  fontWeight: FontWeight.bold,
+                                  color: colours.white(opacity: .9),
+                                  shadows: [
+                                    Shadow(
+                                        offset: Offset(8, 8),
+                                        blurRadius: 32,
+                                        color: colours.black(opacity: .6)
+                                    )
+                                  ]
+                              ),
                             ),
-                          ),
-                          SizedBox(height: 18),
-                          Text(
-                            'click to add a mode',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontFamily: 'ProductSans',
-                              color: colours.white(opacity: .8),
+                            SizedBox(height: 18),
+                            Text(
+                              'click to add a mode',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontFamily: 'ProductSans',
+                                color: colours.white(opacity: .8),
+                              ),
                             ),
-                          ),
-                          SizedBox(height: sizes.height(context, 48)),
-                        ],
+                            SizedBox(height: sizes.height(context, 48)),
+                          ],
+                        ),
                       ),
                     );
                   }
@@ -127,6 +140,8 @@ class _HomeState extends State<Home> {
                     ModeModel mode = allModes[index];
                     DateTime startTime = DateTime.parse(mode.startTime);
                     DateTime endTime = DateTime.parse(mode.endTime);
+
+                    List apps = Util().listParser(mode.apps);
 
                     return Container(
                       decoration: mode.wallpaperPath != null ? BoxDecoration(
@@ -153,7 +168,7 @@ class _HomeState extends State<Home> {
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (context) {
-                                          return Edit(mode: mode,);
+                                          return FinalAdd(mode: mode,);
                                         },
                                       ),
                                     );
@@ -162,7 +177,7 @@ class _HomeState extends State<Home> {
                                     'edit mode',
                                     style: TextStyle(
                                         fontFamily: 'ProductSans',
-                                        fontSize: 20,
+                                        fontSize: 22,
                                         fontWeight: FontWeight.bold,
                                         color: colours.white(opacity: .9)
                                     ),
@@ -174,7 +189,7 @@ class _HomeState extends State<Home> {
                                   },
                                   child: Image(
                                     image: AssetImage('assets/category.png'),
-                                    width: 32,
+                                    width: 36,
                                     color: colours.white(),
                                     fit: BoxFit.fill,
                                   ),
@@ -211,27 +226,55 @@ class _HomeState extends State<Home> {
                               color: colours.white(opacity: .8),
                             ),
                           ),
-                          SizedBox(height: sizes.height(context, 48)),
+                          SizedBox(height: sizes.height(context, 64)),
 
-                          // ListView.builder(
-                          //   itemCount: 4,
-                          //   scrollDirection: Axis.horizontal,
-                          //   itemBuilder: (context, index) {
-                          //     return Container(
-                          //       width: sizes.width(context, 50),
-                          //       height: sizes.height(context, 64),
-                          //       margin: EdgeInsets.only(right: 12),
-                          //       decoration: BoxDecoration(
-                          //           shape: BoxShape.circle,
-                          //           color: colours.white() // change with colours.black()
-                          //       ),
-                          //       child: Image(
-                          //         image: MemoryImage(apps[index]["icon"]),
-                          //         fit: BoxFit.fill,
-                          //       ),
-                          //     );
-                          //   },
-                          // )
+                          SizedBox(
+                            width: sizes.width(context, 414),
+                            height: sizes.height(context, 64),
+                            child: ListView.builder(
+                              itemCount: apps.length > 4 ? 4 : apps.length,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, listIndex) {
+                                return Container(
+                                  width: sizes.width(context, 50),
+                                  height: sizes.height(context, 64),
+                                  margin: EdgeInsets.only(right: 12),
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: colours.white() // change with colours.black()
+                                  ),
+                                  child: Image(
+                                    image: MemoryImage(Util().getAppIcon(apps[listIndex]["icon"])),
+                                    fit: BoxFit.fill,
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                          SizedBox(height: sizes.height(context, 32)),
+                          SizedBox(
+                            width: sizes.width(context, 414),
+                            height: sizes.height(context, 64),
+                            child: ListView.builder(
+                              itemCount: apps.length > 4 ? (apps.length - 4) : 0,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, listIndex) {
+                                return Container(
+                                  width: sizes.width(context, 50),
+                                  height: sizes.height(context, 64),
+                                  margin: EdgeInsets.only(right: 12),
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: colours.white() // change with colours.black()
+                                  ),
+                                  child: Image(
+                                    image: MemoryImage(Util().getAppIcon(apps[(listIndex + 4)]["icon"])),
+                                    fit: BoxFit.fill,
+                                  ),
+                                );
+                              },
+                            ),
+                          )
                         ],
                       ),
                     );
