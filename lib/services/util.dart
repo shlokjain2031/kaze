@@ -3,12 +3,16 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intent/action.dart';
 import 'package:kaze/utils/colours.dart';
 import 'package:launcher_assist/launcher_assist.dart';
 import 'package:notification_permissions/notification_permissions.dart';
 import 'package:palette_generator/palette_generator.dart';
+import 'package:intent/intent.dart' as intentFlutter;
 
 class Util {
   Future getAllApps() async {
@@ -109,5 +113,60 @@ class Util {
     final now = DateTime.now();
     final newDt = DateTime(now.year, now.month, now.day, tod.hour, tod.minute);
     return newDt.toString();
+  }
+
+  bool checkTimeBeforeAfter(DateTime startTime, DateTime endTime) {
+    bool startTimeAppCanBeUsed = false;
+    bool endTimeAppCanBeUsed = false;
+    DateTime now = DateTime.now();
+
+    if(now.hour == startTime.hour) {
+      if(now.minute > startTime.minute) {
+        startTimeAppCanBeUsed = true;
+      }
+    }
+    else if (now.hour > startTime.hour) {
+      startTimeAppCanBeUsed = true;
+    }
+
+    if(now.hour == endTime.hour) {
+      if(now.minute < endTime.minute) {
+        endTimeAppCanBeUsed = true;
+      }
+    }
+    else if (now.hour < endTime.hour) {
+      endTimeAppCanBeUsed = true;
+    }
+
+    return (startTimeAppCanBeUsed && endTimeAppCanBeUsed);
+  }
+
+  void isMyAppLauncherDefault() {
+    print("yello");
+    intentFlutter
+        .Intent()
+          ..setAction("android.intent.action.MAIN")
+          ..addCategory("android.intent.category.HOME")
+          ..addCategory("android.intent.category.DEFAULT")
+          ..addCategory("android.intent.category.LAUNCHER")
+          ..startActivity().catchError((e) => print("intent error: " + e.toString()));
+    print("bello");
+  }
+
+  Future<UserCredential> signInWithGoogle() async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    // Once signed in, return the UserCredential
+    return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 }

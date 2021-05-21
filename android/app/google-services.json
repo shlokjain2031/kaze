@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1012018545736-vmiubqltaeh68qmoghf3sc5r2qu18fp5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kaze.kaze",
+            "certificate_hash": "9dabd81900d3b1ec415219235c49e1feb0708eb7"
+          }
+        },
+        {
           "client_id": "1012018545736-7n241m4ac549lteb5gp2gb9usg121paf.apps.googleusercontent.com",
           "client_type": 3
         }

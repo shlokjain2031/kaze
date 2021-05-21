@@ -1087,6 +1087,11 @@ class _FinalAddState extends State<FinalAdd> {
                             onTap: () {
                               String formattedStartTime = Util().getStringFromTimeOfDay(startTime);
                               String formattedEndTime = Util().getStringFromTimeOfDay(endTime);
+                              if(DateTime.parse(formattedEndTime).hour < DateTime.parse(formattedStartTime).hour) {
+                                String temp = formattedStartTime;
+                                formattedStartTime = formattedEndTime;
+                                formattedEndTime = temp;
+                              }
                               ModeService().insertMode(title, formattedStartTime, formattedEndTime, selectedApps, wallpaperPath);
                               Navigator.of(context).push(
                                 MaterialPageRoute(

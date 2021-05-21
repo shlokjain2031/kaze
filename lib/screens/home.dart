@@ -34,8 +34,10 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    _pageController = PageController(initialPage: 1, viewportFraction: 0.8);
     super.initState();
+    _pageController = PageController(initialPage: 1, viewportFraction: 0.8);
+
+    Util().isMyAppLauncherDefault();
   }
 
   @override
@@ -51,8 +53,8 @@ class _HomeState extends State<Home> {
               List<ModeModel> allModes = snapshot.data;
 
               return PageView.builder(
-                itemCount: (allModes.length + 1),
                 controller: _pageController,
+                itemCount: (allModes.length + 1),
                 scrollDirection: Axis.vertical,
                 onPageChanged: (val) {
                   setState(() {});
@@ -72,9 +74,6 @@ class _HomeState extends State<Home> {
                       child: Container(
                         decoration: BoxDecoration(
                           color: colours.black(),
-                          border: Border(
-                            bottom: BorderSide(color: colours.white(), width: 5)
-                          )
                         ),
                         child: Column(
                           children: [
@@ -235,17 +234,28 @@ class _HomeState extends State<Home> {
                               itemCount: apps.length > 4 ? 4 : apps.length,
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, listIndex) {
-                                return Container(
-                                  width: sizes.width(context, 50),
-                                  height: sizes.height(context, 64),
-                                  margin: EdgeInsets.only(right: 12),
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: colours.white() // change with colours.black()
-                                  ),
-                                  child: Image(
-                                    image: MemoryImage(Util().getAppIcon(apps[listIndex]["icon"])),
-                                    fit: BoxFit.fill,
+                                return GestureDetector(
+                                  onTap: () {
+                                    bool appCanBeUsed = ModeService().checkIfAppCanBeUsed(mode);
+                                    if(appCanBeUsed) {
+                                      Util().launchApp(apps[listIndex]["package"]);
+                                    }
+                                    else {
+                                      CustomDialogs().openApp(context, sizes, colours, apps[listIndex]);
+                                    }
+                                  },
+                                  child: Container(
+                                    width: sizes.width(context, 50),
+                                    height: sizes.height(context, 64),
+                                    margin: EdgeInsets.only(right: 12),
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: colours.white() // change with colours.black()
+                                    ),
+                                    child: Image(
+                                      image: MemoryImage(Util().getAppIcon(apps[listIndex]["icon"])),
+                                      fit: BoxFit.fill,
+                                    ),
                                   ),
                                 );
                               },

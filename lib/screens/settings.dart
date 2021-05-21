@@ -1,10 +1,12 @@
 import 'dart:developer';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:kaze/screens/home.dart';
+import 'package:kaze/services/mode.dart';
 import 'package:kaze/services/settings.dart';
 import 'package:kaze/services/util.dart';
 import 'package:kaze/utils/colours.dart';
@@ -618,6 +620,7 @@ class _SettingsState extends State<Settings> {
                                           setState(() {
                                             backup = val;
                                           });
+                                          initGoogleSigning(backup);
                                         }
                                     )
                                   ],
@@ -793,6 +796,13 @@ class _SettingsState extends State<Settings> {
   void saveSettings() async {
     await SettingsService().setSettings(notifications, phone, backup);
   }
+
+  void initGoogleSigning(bool backup) async {
+    if(backup) {
+      UserCredential userCred = await Util().signInWithGoogle();
+      await ModeService().backup(userCred.user);
+    }
+  }
 }
 
 class FocusModeSettings extends StatefulWidget {
@@ -924,7 +934,6 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
                                         ),
                                         GestureDetector(
                                           onTap: () async {
-                                            /** todo: performance **/
                                             await addAppInFocusMode(app);
                                           },
                                           child: Container(
