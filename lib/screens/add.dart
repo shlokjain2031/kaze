@@ -169,6 +169,7 @@ class _AppsAddState extends State<AppsAdd> {
   Sizes sizes = Sizes();
 
   List selectedApps = [];
+  List allApps = [];
 
   @override
   Widget build(BuildContext context) {
@@ -296,6 +297,7 @@ class _AppsAddState extends State<AppsAdd> {
                       builder: (context, snapshot) {
                         if(snapshot.hasData) {
                           List apps = snapshot.data;
+                          allApps = apps;
                           return ListView.builder(
                             itemCount: apps.length,
                             scrollDirection: Axis.horizontal,
@@ -380,7 +382,7 @@ class _AppsAddState extends State<AppsAdd> {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) {
-                                return TimeAdd(title, selectedApps);
+                                return TimeAdd(title, selectedApps, allApps);
                               },
                             ),
                           );
@@ -410,16 +412,18 @@ class _AppsAddState extends State<AppsAdd> {
 class TimeAdd extends StatefulWidget {
   String title;
   List selectedApps;
-  TimeAdd(this.title, this.selectedApps, {Key key}) : super(key: key);
+  List allApps;
+  TimeAdd(this.title, this.selectedApps, this.allApps, {Key key}) : super(key: key);
 
   @override
-  _TimeAddState createState() => _TimeAddState(title, selectedApps);
+  _TimeAddState createState() => _TimeAddState(title, selectedApps, allApps);
 }
 class _TimeAddState extends State<TimeAdd> {
   String title;
   List selectedApps;
+  List allApps;
 
-  _TimeAddState(this.title, this.selectedApps);
+  _TimeAddState(this.title, this.selectedApps, this.allApps);
 
   Colours colours = Colours();
   Sizes sizes = Sizes();
@@ -652,64 +656,53 @@ class _TimeAddState extends State<TimeAdd> {
                   Container(
                     width: sizes.width(context, 400),
                     height: sizes.height(context, 100),
-                    child: FutureBuilder(
-                        future: Util().getAllApps(),
-                        builder: (context, snapshot) {
-                          if(snapshot.hasData) {
-                            List apps = snapshot.data;
-                            return ListView.builder(
-                              itemCount: apps.length,
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (BuildContext context, int index) {
-                                // Map dataObject = appList[index];
-                                return Center(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            bool duplicate = false;
-                                            selectedApps.forEach((element) {
-                                              if(element["package"] == apps[index]["package"]) {
-                                                duplicate = true;
-                                              }
-                                              else {
-                                                duplicate = false;
-                                              }
-                                            });
-                                            setState(() {
-                                              if(!duplicate) {
-                                                selectedApps.add(apps[index]);
-                                              }
-                                            });
-                                          },
-                                          child: Container(
-                                            width: sizes.width(context, 50),
-                                            height: sizes.height(context, 64),
-                                            margin: EdgeInsets.only(right: 8),
-                                            decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: colours.white() // change with colours.black()
-                                            ),
-                                            child: Image(
-                                              image: MemoryImage(apps[index]["icon"]),
-                                              fit: BoxFit.fill,
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                    ],
+                    child: ListView.builder(
+                      itemCount: allApps.length,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (BuildContext context, int index) {
+                        // Map dataObject = appList[index];
+                        return Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 8),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    bool duplicate = false;
+                                    selectedApps.forEach((element) {
+                                      if(element["package"] == allApps[index]["package"]) {
+                                        duplicate = true;
+                                      }
+                                      else {
+                                        duplicate = false;
+                                      }
+                                    });
+                                    setState(() {
+                                      if(!duplicate) {
+                                        selectedApps.add(allApps[index]);
+                                      }
+                                    });
+                                  },
+                                  child: Container(
+                                    width: sizes.width(context, 50),
+                                    height: sizes.height(context, 64),
+                                    margin: EdgeInsets.only(right: 8),
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: colours.white() // change with colours.black()
+                                    ),
+                                    child: Image(
+                                      image: MemoryImage(allApps[index]["icon"]),
+                                      fit: BoxFit.fill,
+                                    ),
                                   ),
-                                );
-                              },
-                            );
-                          }
-                          else {
-                            return SizedBox();
-                          }
-                        }
+                                ),
+                              )
+                            ],
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ],
@@ -741,7 +734,7 @@ class _TimeAddState extends State<TimeAdd> {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) {
-                                return FinalAdd(title: title, selectedApps: selectedApps, startTime: startTime, endTime: endTime,);
+                                return FinalAdd(title: title, selectedApps: selectedApps, startTime: startTime, endTime: endTime, allApps: allApps);
                               },
                             ),
                           );
@@ -799,11 +792,12 @@ class FinalAdd extends StatefulWidget {
   List selectedApps;
   TimeOfDay startTime;
   TimeOfDay endTime;
+  List allApps;
 
-  FinalAdd({Key key, this.mode, this.title, this.selectedApps, this.startTime, this.endTime}) : super(key: key);
+  FinalAdd({Key key, this.mode, this.title, this.selectedApps, this.startTime, this.endTime, this.allApps}) : super(key: key);
 
   @override
-  _FinalAddState createState() => _FinalAddState(mode: mode, title: title, selectedApps: selectedApps, startTime: startTime, endTime: endTime);
+  _FinalAddState createState() => _FinalAddState(mode: mode, title: title, selectedApps: selectedApps, startTime: startTime, endTime: endTime, allApps: allApps);
 }
 class _FinalAddState extends State<FinalAdd> {
   ModeModel mode;
@@ -811,8 +805,9 @@ class _FinalAddState extends State<FinalAdd> {
   List selectedApps;
   TimeOfDay startTime;
   TimeOfDay endTime;
+  List allApps;
 
-  _FinalAddState({this.mode, this.title, this.selectedApps, this.startTime, this.endTime});
+  _FinalAddState({this.mode, this.title, this.selectedApps, this.startTime, this.endTime, this.allApps});
 
   Colours colours = Colours();
   Sizes sizes = Sizes();
@@ -895,9 +890,7 @@ class _FinalAddState extends State<FinalAdd> {
                               width: sizes.width(context, 414),
                               height: sizes.height(context, 64),
                               child: ListView.builder(
-                                itemCount: selectedApps.length > 4
-                                    ? 4
-                                    : selectedApps.length,
+                                itemCount: selectedApps.length > 4 ? 4 : selectedApps.length,
                                 scrollDirection: Axis.horizontal,
                                 itemBuilder: (context, listIndex) {
                                   return GestureDetector(
@@ -1005,78 +998,65 @@ class _FinalAddState extends State<FinalAdd> {
                       ),
                       SizedBox(height: sizes.height(context, 24)),
 
-                      Container(
+                      SizedBox(
                         width: sizes.width(context, 400),
                         height: sizes.height(context, 100),
-                        child: FutureBuilder(
-                            future: Util().getAllApps(),
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                List apps = snapshot.data;
-                                return ListView.builder(
-                                  itemCount: apps.length,
-                                  scrollDirection: Axis.horizontal,
-                                  itemBuilder: (BuildContext context,
-                                      int index) {
-                                    // Map dataObject = appList[index];
-                                    return Center(
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment
-                                            .spaceAround,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 8),
-                                            child: GestureDetector(
-                                              onTap: () {
-                                                bool duplicate = false;
-                                                for (int i = 0; i <
-                                                    selectedApps.length; i++) {
-                                                  if (selectedApps[i]["package"] ==
-                                                      apps[index]["package"]) {
-                                                    duplicate = true;
-                                                    break;
-                                                  }
-                                                  else {
-                                                    duplicate = false;
-                                                  }
-                                                }
-                                                setState(() {
-                                                  if (!duplicate) {
-                                                    selectedApps.add(
-                                                        apps[index]);
-                                                  }
-                                                });
-                                              },
-                                              child: Container(
-                                                width: sizes.width(context, 50),
-                                                height: sizes.height(
-                                                    context, 64),
-                                                margin: EdgeInsets.only(
-                                                    right: 8),
-                                                decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    color: colours
-                                                        .white() // change with colours.black()
-                                                ),
-                                                child: Image(
-                                                  image: MemoryImage(
-                                                      apps[index]["icon"]),
-                                                  fit: BoxFit.fill,
-                                                ),
-                                              ),
-                                            ),
-                                          )
-                                        ],
+                        child: ListView.builder(
+                          itemCount: allApps.length,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (BuildContext context,
+                              int index) {
+                            // Map dataObject = appList[index];
+                            return Center(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment
+                                    .spaceAround,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        bool duplicate = false;
+                                        for (int i = 0; i < selectedApps.length; i++) {
+                                          if (selectedApps[i]["package"] ==
+                                              allApps[index]["package"]) {
+                                            duplicate = true;
+                                            break;
+                                          }
+                                          else {
+                                            duplicate = false;
+                                          }
+                                        }
+                                        if(!duplicate) {
+                                          setState(() {
+                                            selectedApps.add(allApps[index]);
+                                          });
+                                        }
+                                      },
+                                      child: Container(
+                                        width: sizes.width(context, 50),
+                                        height: sizes.height(
+                                            context, 64),
+                                        margin: EdgeInsets.only(
+                                            right: 8),
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: colours
+                                                .white() // change with colours.black()
+                                        ),
+                                        child: Image(
+                                          image: MemoryImage(
+                                              allApps[index]["icon"]),
+                                          fit: BoxFit.fill,
+                                        ),
                                       ),
-                                    );
-                                  },
-                                );
-                              }
-                              else {
-                                return SizedBox();
-                              }
-                            }
+                                    ),
+                                  )
+                                ],
+                              ),
+                            );
+                          },
                         ),
                       ),
                     ],
@@ -1105,13 +1085,13 @@ class _FinalAddState extends State<FinalAdd> {
                           ),
                           GestureDetector(
                             onTap: () {
+                              String formattedStartTime = Util().getStringFromTimeOfDay(startTime);
+                              String formattedEndTime = Util().getStringFromTimeOfDay(endTime);
+                              ModeService().insertMode(title, formattedStartTime, formattedEndTime, selectedApps, wallpaperPath);
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) {
-                                    return FinalAdd(title: title,
-                                      selectedApps: selectedApps,
-                                      startTime: startTime,
-                                      endTime: endTime,);
+                                    return Home();
                                   },
                                 ),
                               );

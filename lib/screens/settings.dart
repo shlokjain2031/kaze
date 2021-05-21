@@ -6,6 +6,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:kaze/screens/home.dart';
 import 'package:kaze/services/settings.dart';
+import 'package:kaze/services/util.dart';
 import 'package:kaze/utils/colours.dart';
 import 'package:kaze/utils/sizes.dart';
 import 'package:launcher_assist/launcher_assist.dart';
@@ -879,7 +880,7 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
                   SizedBox(height: sizes.height(context, 32)),
 
                   FutureBuilder(
-                      future: LauncherAssist.getAllApps(),
+                      future: Util().getAllApps(),
                       builder: (context, snapshot) {
                         if(snapshot.hasData) {
                           List allApps = snapshot.data;
@@ -922,43 +923,15 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
                                           ],
                                         ),
                                         GestureDetector(
-                                          onTap: () {
+                                          onTap: () async {
                                             /** todo: performance **/
-
-                                            bool addAppBool = true;
-                                            if(selectedApps.length == 0) {
-                                              selectedApps.add(app["package"]);
-                                            }
-                                            else {
-                                              selectedApps.forEach((element) {
-                                                log("app pack: " + app["package"].toString());
-                                                log("elem pack: " + element.toString());
-                                                if(app["package"] == element) {
-                                                  addAppBool = false;
-                                                }
-                                              });
-                                              if(addAppBool) {
-                                                if(selectedApps.length<2) {
-                                                  selectedApps.add(app["package"]);
-                                                }
-                                                else {
-                                                  // todo: toaast
-                                                }
-                                              }
-                                              else {
-                                                selectedApps.remove(app["package"]);
-                                              }
-                                            }
-                                            setState(() {
-                                              SettingsService().setFocusModeApps(selectedApps);
-                                            });
-                                            log("apps: " + selectedApps.toString());
+                                            await addAppInFocusMode(app);
                                           },
                                           child: Container(
                                             width: sizes.width(context, 48),
                                             height: sizes.height(context, 54),
                                             decoration: BoxDecoration(
-                                                color: selectedApps.contains(app["package"]) ? colours.white() : colours.white(opacity: 0.1),
+                                                color: selectedApps.contains(app["package"]) ? colours.white() : Colors.transparent,
                                                 border: Border.all(color: colours.white(), width: 3)
                                             ),
                                           ),
@@ -1149,6 +1122,39 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
         }
       }
     );
+  }
+
+  Future<bool> addAppInFocusMode(Map<dynamic, dynamic> app) async {
+    bool addAppBool = true;
+    if(selectedApps.length == 0) {
+      selectedApps.add(app["package"]);
+    }
+    else {
+      selectedApps.forEach((element) {
+        log("app pack: " + app["package"].toString());
+        log("elem pack: " + element.toString());
+        if(app["package"] == element) {
+          addAppBool = false;
+        }
+      });
+      if(addAppBool) {
+        if(selectedApps.length<2) {
+          selectedApps.add(app["package"]);
+        }
+        else {
+          // todo: toaast
+        }
+      }
+      else {
+        selectedApps.remove(app["package"]);
+      }
+    }
+    setState(() {
+      SettingsService().setFocusModeApps(selectedApps);
+    });
+    log("apps: " + selectedApps.toString());
+
+    return true;
   }
 }
 

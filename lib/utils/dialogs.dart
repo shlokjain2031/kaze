@@ -173,7 +173,7 @@ class CustomDialogs {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) {
-                                  return FocusMode();
+                                  return FocusModeSplashScreen();
                                 },
                               ),
                             );

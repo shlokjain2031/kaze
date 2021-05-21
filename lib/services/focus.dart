@@ -24,7 +24,7 @@ class FocusModeService {
     return formattedFocusModeApps;
   }
 
-  Future<String> getWallpaper() async {
+  Future<String> getFocusWallpaper() async {
     /**
      * current time
      * get all modes
