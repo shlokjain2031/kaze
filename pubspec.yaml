@@ -33,7 +33,7 @@ dependencies:
   firebase_analytics: ^8.1.0
   firebase_auth: ^1.2.0
   firebase_storage: ^8.1.0
-  google_sign_in: ^4.5.1
+  google_sign_in: ^5.0.3
   palette_generator: ^0.3.0
   path: ^1.8.0
   path_provider: ^2.0.1

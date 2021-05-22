@@ -238,8 +238,8 @@ class _AppsAddState extends State<AppsAdd> {
                                   margin: EdgeInsets.only(right: 20),
                                   decoration: BoxDecoration(
                                       shape: BoxShape.circle,
+                                      border: Border.all(color: colours.white(), width: 3),
                                       color: colours.white(), // change with colours.black(),
-                                      border: Border.all(color: colours.white(), width: 3)
                                   ),
                                   child: Image(
                                     image: MemoryImage(selectedApps[listIndex]["icon"]),
@@ -267,9 +267,10 @@ class _AppsAddState extends State<AppsAdd> {
                                 child: Container(
                                   width: sizes.width(context, 50),
                                   height: sizes.height(context, 64),
-                                  margin: EdgeInsets.only(right: 12),
+                                  margin: EdgeInsets.only(right: 20),
                                   decoration: BoxDecoration(
                                       shape: BoxShape.circle,
+                                      border: Border.all(color: colours.white(), width: 3),
                                       color: colours.white() // change with colours.black()
                                   ),
                                   child: Image(
@@ -332,6 +333,7 @@ class _AppsAddState extends State<AppsAdd> {
                                           margin: EdgeInsets.only(right: 8),
                                           decoration: BoxDecoration(
                                               shape: BoxShape.circle,
+                                      border: Border.all(color: colours.white(), width: 3),
                                               color: colours.white() // change with colours.black()
                                           ),
                                           child: Image(
@@ -498,8 +500,8 @@ class _TimeAddState extends State<TimeAdd> {
                                   margin: EdgeInsets.only(right: 20),
                                   decoration: BoxDecoration(
                                       shape: BoxShape.circle,
+                                      border: Border.all(color: colours.white(), width: 3),
                                       color: colours.white(), // change with colours.black(),
-                                      border: Border.all(color: colours.white(), width: 3)
                                   ),
                                   child: Image(
                                     image: MemoryImage(selectedApps[listIndex]["icon"]),
@@ -527,9 +529,10 @@ class _TimeAddState extends State<TimeAdd> {
                                 child: Container(
                                   width: sizes.width(context, 50),
                                   height: sizes.height(context, 64),
-                                  margin: EdgeInsets.only(right: 12),
+                                  margin: EdgeInsets.only(right: 20),
                                   decoration: BoxDecoration(
                                       shape: BoxShape.circle,
+                                      border: Border.all(color: colours.white(), width: 3),
                                       color: colours.white() // change with colours.black()
                                   ),
                                   child: Image(
@@ -690,6 +693,7 @@ class _TimeAddState extends State<TimeAdd> {
                                     margin: EdgeInsets.only(right: 8),
                                     decoration: BoxDecoration(
                                         shape: BoxShape.circle,
+                                      border: Border.all(color: colours.white(), width: 3),
                                         color: colours.white() // change with colours.black()
                                     ),
                                     child: Image(
@@ -731,6 +735,7 @@ class _TimeAddState extends State<TimeAdd> {
                       ),
                       GestureDetector(
                         onTap: () {
+
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) {
@@ -740,7 +745,7 @@ class _TimeAddState extends State<TimeAdd> {
                           );
                         },
                         child: Text(
-                          'continue',
+                          'confirm',
                           style: TextStyle(
                               fontFamily: 'ProductSans',
                               fontSize: 28,
@@ -905,10 +910,8 @@ class _FinalAddState extends State<FinalAdd> {
                                       margin: EdgeInsets.only(right: 20),
                                       decoration: BoxDecoration(
                                           shape: BoxShape.circle,
+                                          border: Border.all(color: colours.white(), width: 3),
                                           color: colours.white(),
-                                          // change with colours.black(),
-                                          border: Border.all(
-                                              color: colours.white(), width: 3)
                                       ),
                                       child: Image(
                                         image: MemoryImage(
@@ -939,9 +942,10 @@ class _FinalAddState extends State<FinalAdd> {
                                     child: Container(
                                       width: sizes.width(context, 50),
                                       height: sizes.height(context, 64),
-                                      margin: EdgeInsets.only(right: 12),
+                                      margin: EdgeInsets.only(right: 20),
                                       decoration: BoxDecoration(
                                           shape: BoxShape.circle,
+                                      border: Border.all(color: colours.white(), width: 3),
                                           color: colours
                                               .white() // change with colours.black()
                                       ),
@@ -1042,6 +1046,7 @@ class _FinalAddState extends State<FinalAdd> {
                                             right: 8),
                                         decoration: BoxDecoration(
                                             shape: BoxShape.circle,
+                                      border: Border.all(color: colours.white(), width: 3),
                                             color: colours
                                                 .white() // change with colours.black()
                                         ),
@@ -1102,7 +1107,7 @@ class _FinalAddState extends State<FinalAdd> {
                               );
                             },
                             child: Text(
-                              'continue',
+                              'confirm',
                               style: TextStyle(
                                   fontFamily: 'ProductSans',
                                   fontSize: 28,
@@ -1228,9 +1233,10 @@ class _FinalAddState extends State<FinalAdd> {
                                     child: Container(
                                       width: sizes.width(context, 50),
                                       height: sizes.height(context, 64),
-                                      margin: EdgeInsets.only(right: 12),
+                                      margin: EdgeInsets.only(right: 20),
                                       decoration: BoxDecoration(
                                           shape: BoxShape.circle,
+                                      border: Border.all(color: colours.white(), width: 3),
                                           color: colours.white() // change with colours.black()
                                       ),
                                       child: Image(
@@ -1327,6 +1333,7 @@ class _FinalAddState extends State<FinalAdd> {
                                                 margin: EdgeInsets.only(right: 8),
                                                 decoration: BoxDecoration(
                                                     shape: BoxShape.circle,
+                                      border: Border.all(color: colours.white(), width: 3),
                                                     color: colours.white() // change with colours.black()
                                                 ),
                                                 child: Image(
@@ -1374,10 +1381,18 @@ class _FinalAddState extends State<FinalAdd> {
                           ),
                           GestureDetector(
                             onTap: () {
+                              String formattedStartTime = Util().getStringFromTimeOfDay(startTime);
+                              String formattedEndTime = Util().getStringFromTimeOfDay(endTime);
+                              if(DateTime.parse(formattedEndTime).hour < DateTime.parse(formattedStartTime).hour) {
+                                String temp = formattedStartTime;
+                                formattedStartTime = formattedEndTime;
+                                formattedEndTime = temp;
+                              }
+                              ModeService().insertMode(title, formattedStartTime, formattedEndTime, selectedApps, wallpaperPath);
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) {
-                                    return FinalAdd(title: title, selectedApps: selectedApps, startTime: startTime, endTime: endTime,);
+                                    return Home();
                                   },
                                 ),
                               );

@@ -25,18 +25,12 @@ class _HomeState extends State<Home> {
   Sizes sizes = Sizes();
   Colours colours = Colours();
   PageController _pageController = PageController(initialPage: 1, viewportFraction: 0.8);
-
-  File topImage;
-  File mainImage;
-  File bottomImage;
-
-  bool pageChanged;
+  int pageNum = 1;
 
   @override
   void initState() {
     super.initState();
     _pageController = PageController(initialPage: 1, viewportFraction: 0.8);
-
     Util().isMyAppLauncherDefault();
   }
 
@@ -57,7 +51,9 @@ class _HomeState extends State<Home> {
                 itemCount: (allModes.length + 1),
                 scrollDirection: Axis.vertical,
                 onPageChanged: (val) {
-                  setState(() {});
+                  setState(() {
+                    pageNum = _pageController.page.toInt();
+                  });
                 },
                 itemBuilder: (context, index) {
                   if (index == allModes.length) {
@@ -77,7 +73,7 @@ class _HomeState extends State<Home> {
                         ),
                         child: Column(
                           children: [
-                            _pageController.page.toInt() == (index) ? Padding(
+                            pageNum == (index-1) ? Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -156,7 +152,7 @@ class _HomeState extends State<Home> {
                       ) : BoxDecoration(color: colours.black()),
                       child: Column(
                         children: [
-                          _pageController.page.toInt() != (index) ? SizedBox() : Padding(
+                          pageNum != (index) ? SizedBox() : Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
