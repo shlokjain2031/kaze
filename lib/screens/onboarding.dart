@@ -270,6 +270,7 @@ class _OnboardingState extends State<Onboarding> {
                       padding: EdgeInsets.only(top: 16),
                       child: GestureDetector(
                         onTap: () {
+                          Util().displayDefaultLauncherChooser();
                           initUser();
                           Navigator.of(context).push(
                             MaterialPageRoute(

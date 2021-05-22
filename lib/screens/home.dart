@@ -24,14 +24,13 @@ class _HomeState extends State<Home> {
 
   Sizes sizes = Sizes();
   Colours colours = Colours();
-  PageController _pageController = PageController(initialPage: 1, viewportFraction: 0.8);
+  PageController _pageController = PageController(initialPage: 1, viewportFraction: 0.85);
   int pageNum = 1;
 
   @override
   void initState() {
     super.initState();
-    _pageController = PageController(initialPage: 1, viewportFraction: 0.8);
-    Util().isMyAppLauncherDefault();
+    _pageController = PageController(initialPage: 1, viewportFraction: 0.85);
   }
 
   @override
@@ -73,7 +72,7 @@ class _HomeState extends State<Home> {
                         ),
                         child: Column(
                           children: [
-                            pageNum == (index-1) ? Padding(
+                            Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -88,15 +87,19 @@ class _HomeState extends State<Home> {
                                         color: colours.white(opacity: .9)
                                     ),
                                   ),
-                                  Image(
-                                    image: AssetImage('assets/category.png'),
-                                    width: 36,
-                                    color: colours.white(),
-                                    fit: BoxFit.fill,
+                                  GestureDetector(
+                                    onTap: () {
+                                    },
+                                    child: Image(
+                                      image: AssetImage('assets/category.png'),
+                                      width: 36,
+                                      color: colours.white(),
+                                      fit: BoxFit.fill,
+                                    ),
                                   )
                                 ],
                               ),
-                            ) : SizedBox(),
+                            ),
 
                             SizedBox(height: sizes.height(context, 200)),
                             Text(
@@ -143,57 +146,46 @@ class _HomeState extends State<Home> {
                           image: DecorationImage(
                             image: FileImage(File(mode.wallpaperPath)),
                             fit: BoxFit.fitHeight,
-                            colorFilter: ColorFilter.mode(colours.black().withOpacity(0.7),
+                            colorFilter: ColorFilter.mode(colours.black().withOpacity(0.65),
                                 BlendMode.dstATop),
                           ),
                           border: Border(
                               bottom: BorderSide(color: colours.white(), width: 5)
                           )
-                      ) : BoxDecoration(color: colours.black()),
+                      ) : BoxDecoration(
+                          color: colours.black(),
+                          border: Border(
+                            bottom: BorderSide(color: colours.white(), width: 5)
+                          )
+                      ),
                       child: Column(
                         children: [
-                          pageNum != (index) ? SizedBox() : Padding(
+                          Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) {
-                                          return FinalAdd(mode: mode,);
-                                        },
-                                      ),
-                                    );
-                                  },
-                                  child: Text(
-                                    'edit mode',
-                                    style: TextStyle(
-                                        fontFamily: 'ProductSans',
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.bold,
-                                        color: colours.white(opacity: .9)
-                                    ),
+                                Text(
+                                  'edit mode',
+                                  style: TextStyle(
+                                      fontFamily: 'ProductSans',
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                      color: colours.white(opacity: .9)
                                   ),
                                 ),
-                                GestureDetector(
-                                  onTap: () {
-                                    CustomDialogs().category(context, sizes, colours);
-                                  },
-                                  child: Image(
-                                    image: AssetImage('assets/category.png'),
-                                    width: 36,
-                                    color: colours.white(),
-                                    fit: BoxFit.fill,
-                                  ),
+                                Image(
+                                  image: AssetImage('assets/category.png'),
+                                  width: 36,
+                                  color: colours.white(),
+                                  fit: BoxFit.fill,
                                 )
                               ],
                             ),
                           ),
 
-                          SizedBox(height: sizes.height(context, 200)),
+                          SizedBox(height: sizes.height(context, 175)),
                           Text(
                             mode.title,
                             style: TextStyle(
@@ -221,11 +213,12 @@ class _HomeState extends State<Home> {
                               color: colours.white(opacity: .8),
                             ),
                           ),
-                          SizedBox(height: sizes.height(context, 64)),
+                          SizedBox(height: sizes.height(context, 72)),
 
-                          SizedBox(
+                          Container(
                             width: sizes.width(context, 414),
                             height: sizes.height(context, 64),
+                            margin: EdgeInsets.only(left: sizes.width(context, 80)),
                             child: ListView.builder(
                               itemCount: apps.length > 4 ? 4 : apps.length,
                               scrollDirection: Axis.horizontal,
@@ -243,10 +236,11 @@ class _HomeState extends State<Home> {
                                   child: Container(
                                     width: sizes.width(context, 50),
                                     height: sizes.height(context, 64),
-                                    margin: EdgeInsets.only(right: 12),
+                                    margin: EdgeInsets.only(right: 20),
                                     decoration: BoxDecoration(
                                         shape: BoxShape.circle,
-                                        color: colours.white() // change with colours.black()
+                                        color: colours.white(),
+                                        border: Border.all(color: colours.white(), width: 3)
                                     ),
                                     child: Image(
                                       image: MemoryImage(Util().getAppIcon(apps[listIndex]["icon"])),
@@ -258,24 +252,37 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                           SizedBox(height: sizes.height(context, 32)),
-                          SizedBox(
+                          Container(
                             width: sizes.width(context, 414),
                             height: sizes.height(context, 64),
+                            margin: EdgeInsets.only(left: sizes.width(context, 80)),
                             child: ListView.builder(
                               itemCount: apps.length > 4 ? (apps.length - 4) : 0,
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, listIndex) {
-                                return Container(
-                                  width: sizes.width(context, 50),
-                                  height: sizes.height(context, 64),
-                                  margin: EdgeInsets.only(right: 12),
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: colours.white() // change with colours.black()
-                                  ),
-                                  child: Image(
-                                    image: MemoryImage(Util().getAppIcon(apps[(listIndex + 4)]["icon"])),
-                                    fit: BoxFit.fill,
+                                return GestureDetector(
+                                  onTap: () {
+                                    bool appCanBeUsed = ModeService().checkIfAppCanBeUsed(mode);
+                                    if(appCanBeUsed) {
+                                      Util().launchApp(apps[(listIndex + 4)]["package"]);
+                                    }
+                                    else {
+                                      CustomDialogs().openApp(context, sizes, colours, apps[(listIndex + 4)]);
+                                    }
+                                  },
+                                  child: Container(
+                                    width: sizes.width(context, 50),
+                                    height: sizes.height(context, 64),
+                                    margin: EdgeInsets.only(right: 20),
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: colours.white(),
+                                      border: Border.all(color: colours.white(), width: 3)
+                                    ),
+                                    child: Image(
+                                      image: MemoryImage(Util().getAppIcon(apps[(listIndex + 4)]["icon"])),
+                                      fit: BoxFit.fill,
+                                    ),
                                   ),
                                 );
                               },

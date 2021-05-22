@@ -13,6 +13,9 @@ import 'package:launcher_assist/launcher_assist.dart';
 import 'package:notification_permissions/notification_permissions.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:intent/intent.dart' as intentFlutter;
+import 'package:intent/action.dart' as actionFlutter;
+import 'package:intent/category.dart' as categoryFlutter;
+import 'package:intent/flag.dart' as flag;
 
 class Util {
   Future getAllApps() async {
@@ -141,16 +144,12 @@ class Util {
     return (startTimeAppCanBeUsed && endTimeAppCanBeUsed);
   }
 
-  void isMyAppLauncherDefault() {
-    print("yello");
+  void displayDefaultLauncherChooser() {
     intentFlutter
         .Intent()
-          ..setAction("android.intent.action.MAIN")
-          ..addCategory("android.intent.category.HOME")
-          ..addCategory("android.intent.category.DEFAULT")
-          ..addCategory("android.intent.category.LAUNCHER")
+          ..setAction(actionFlutter.Action.ACTION_MAIN)
+          ..addFlag(flag.Flag.FLAG_ACTIVITY_NEW_DOCUMENT)
           ..startActivity().catchError((e) => print("intent error: " + e.toString()));
-    print("bello");
   }
 
   Future<UserCredential> signInWithGoogle() async {
