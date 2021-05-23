@@ -270,6 +270,96 @@ class _OnboardingState extends State<Onboarding> {
                       padding: EdgeInsets.only(top: 16),
                       child: GestureDetector(
                         onTap: () {
+                          // Util().notificationPolicyAccessCheck();
+                          Util().displayDefaultLauncherChooser();
+                          initUser();
+                          setState(() {
+                            onboardingTracker = 3;
+                          });
+                        },
+                        child: Container(
+                          width: sizes.width(context, 100),
+                          height: sizes.height(context, 100),
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: colours.white()
+                          ),
+                          child: Center(
+                              child: Icon(
+                                Icons.arrow_forward_rounded,
+                                color: colours.black(),
+                                size: sizes.height(context, 48),
+                              )
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            )
+          ],
+        );
+        break;
+      case 3:
+        onboarding = Column(
+          children: [
+            Container(
+              width: sizes.width(context, 414),
+              height: sizes.height(context, 500),
+              margin: EdgeInsets.only(top: 32),
+              child: Image(
+                image: AssetImage('assets/shutdown.png'),
+              ),
+            ),
+            Text(
+                "turn on dnd access",
+                style: TextStyle(
+                    fontFamily: 'ProductSans',
+                    fontSize: 36,
+                    fontWeight: FontWeight.bold,
+                    color: colours.white()
+                )
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 12),
+              child: Text(
+                  "continue and give us access to the\ndnd settings to help you focus more",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontFamily: 'ProductSans',
+                      fontSize: 18,
+                      color: colours.white().withOpacity(.8)
+                  )
+              ),
+            ),
+
+            Container(
+              margin: EdgeInsets.only(top: 54),
+              child: Stack(
+                children: [
+                  Center(
+                    child: Container(
+                      width: sizes.width(context, 140),
+                      height: sizes.height(context, 140),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.transparent,
+                          border: Border.all(color: colours.white().withOpacity(.5), width: 3.5)
+                      ),
+                    ),
+                  ),
+
+                  Container(
+                    // todo: gauge
+                  ),
+
+                  Center(
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 16),
+                      child: GestureDetector(
+                        onTap: () {
+                          Util().notificationPolicyAccess();
                           Util().displayDefaultLauncherChooser();
                           initUser();
                           Navigator.of(context).push(

@@ -5,6 +5,7 @@ import 'dart:typed_data';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dnd/flutter_dnd.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intent/action.dart';
@@ -167,5 +168,25 @@ class Util {
 
     // Once signed in, return the UserCredential
     return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
+  void notificationPolicyAccess() async {
+    bool isNotificationPolicyAccessGranted = await FlutterDnd.isNotificationPolicyAccessGranted;
+    if (!(isNotificationPolicyAccessGranted)) {
+      FlutterDnd.gotoPolicySettings();
+    }
+
+    if(isNotificationPolicyAccessGranted) {
+      setDndFilter();
+    }
+  }
+  
+  setDndFilter({bool dnd=true}) {
+    if(dnd) {
+      FlutterDnd.setInterruptionFilter(FlutterDnd.INTERRUPTION_FILTER_PRIORITY);
+    }
+    else {
+      FlutterDnd.setInterruptionFilter(FlutterDnd.INTERRUPTION_FILTER_ALL);
+    }
   }
 }

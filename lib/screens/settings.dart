@@ -10,6 +10,7 @@ import 'package:kaze/services/mode.dart';
 import 'package:kaze/services/settings.dart';
 import 'package:kaze/services/util.dart';
 import 'package:kaze/utils/colours.dart';
+import 'package:kaze/utils/dialogs.dart';
 import 'package:kaze/utils/sizes.dart';
 import 'package:launcher_assist/launcher_assist.dart';
 
@@ -139,6 +140,12 @@ class _SettingsState extends State<Settings> {
                                         onToggle: (val) {
                                           setState(() {
                                             notifications = val;
+                                            if(notifications) {
+                                              CustomDialogs().areYouSure(context, sizes, colours);
+                                            }
+                                            else {
+                                              Util().setDndFilter();
+                                            }
                                             saveSettings();
                                           });
                                         }
@@ -195,6 +202,12 @@ class _SettingsState extends State<Settings> {
                                         onToggle: (val) {
                                           setState(() {
                                             phone = val;
+                                            if(phone) {
+                                              CustomDialogs().areYouSure(context, sizes, colours);
+                                            }
+                                            else {
+                                              Util().setDndFilter();
+                                            }
                                             saveSettings();
                                           });
                                         }
@@ -509,6 +522,12 @@ class _SettingsState extends State<Settings> {
                                         onToggle: (val) {
                                           setState(() {
                                             notifications = val;
+                                            if(notifications) {
+                                              CustomDialogs().areYouSure(context, sizes, colours);
+                                            }
+                                            else {
+                                              Util().setDndFilter();
+                                            }
                                           });
                                         }
                                     )
@@ -565,6 +584,12 @@ class _SettingsState extends State<Settings> {
                                           setState(() {
                                             phone = val;
                                           });
+                                          if(phone) {
+                                            CustomDialogs().areYouSure(context, sizes, colours);
+                                          }
+                                          else {
+                                            Util().setDndFilter();
+                                          }
                                         }
                                     )
                                   ],

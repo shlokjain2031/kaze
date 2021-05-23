@@ -25,7 +25,7 @@ class _HomeState extends State<Home> {
   Sizes sizes = Sizes();
   Colours colours = Colours();
   PageController _pageController = PageController(initialPage: 1, viewportFraction: 0.85);
-  int pageNum = 1;
+  int pageNum = 1; // _pageController's initialPage value;
 
   @override
   void initState() {
