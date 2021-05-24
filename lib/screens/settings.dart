@@ -882,7 +882,16 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
                       GestureDetector(
                         onTap: () {
                           SettingsService().setFocusModeApps(selectedApps.value);
-                          // todo toast
+                          final focusModeAppsSetSnackBar = SnackBar(
+                            content: Text('Focus Mode Apps Set'),
+                            action: SnackBarAction(
+                              label: '',
+                              onPressed: () {},
+                            ),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(focusModeAppsSetSnackBar);
+
+                          Future.delayed(Duration(milliseconds: 800));
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) {
@@ -976,7 +985,14 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
                                                   print("newSelectedApps is removed");
                                                 }
                                                 else if (selectedApps.value.length >= 2) {
-                                                  // todo: toast
+                                                  final focusModeAppsSetSnackBar = SnackBar(
+                                                    content: Text('Not more than 2 apps allowed'),
+                                                    action: SnackBarAction(
+                                                      label: '',
+                                                      onPressed: () {},
+                                                    ),
+                                                  );
+                                                  ScaffoldMessenger.of(context).showSnackBar(focusModeAppsSetSnackBar);
                                                   print("newSelectedApps os greater than 2");
                                                 }
                                                 else {
@@ -1142,7 +1158,14 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
                                                   print("newSelectedApps is removed");
                                                 }
                                                 else if (selectedApps.value.length >= 2) {
-                                                  // todo: toast
+                                                  final focusModeAppsSetSnackBar = SnackBar(
+                                                    content: Text('not more than two apps allowed'),
+                                                    action: SnackBarAction(
+                                                      label: '',
+                                                      onPressed: () {},
+                                                    ),
+                                                  );
+                                                  ScaffoldMessenger.of(context).showSnackBar(focusModeAppsSetSnackBar);
                                                   print("newSelectedApps os greater than 2");
                                                 }
                                                 else {

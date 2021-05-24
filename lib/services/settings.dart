@@ -29,6 +29,6 @@ class SettingsService {
   
   Future<List<String>> getFocusModeApps() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    return preferences.getStringList("focusModeApps") ?? null;
+    return preferences.getStringList("focusModeApps");
   }
 }

@@ -4,6 +4,7 @@ import 'package:kaze/models/mode.dart';
 import 'package:kaze/services/settings.dart';
 import 'package:kaze/services/user.dart';
 import 'package:kaze/services/util.dart';
+import 'package:kaze/utils/circle.dart';
 import 'package:kaze/utils/colours.dart';
 import 'package:kaze/utils/sizes.dart';
 
@@ -88,8 +89,8 @@ class _OnboardingState extends State<Onboarding> {
                     ),
                   ),
 
-                  Container(
-                    // todo: gauge
+                  Center(
+                    child: MyArc(diameter: sizes.width(context, 110), piMultiplier: (1/2),)
                   ),
 
                   Center(
@@ -175,8 +176,8 @@ class _OnboardingState extends State<Onboarding> {
                     ),
                   ),
 
-                  Container(
-                    // todo: gauge
+                  Center(
+                      child: MyArc(diameter: sizes.width(context, 110), piMultiplier: 1,)
                   ),
 
                   Center(
@@ -261,8 +262,8 @@ class _OnboardingState extends State<Onboarding> {
                     ),
                   ),
 
-                  Container(
-                    // todo: gauge
+                  Center(
+                      child: MyArc(diameter: sizes.width(context, 110), piMultiplier: (3/2),)
                   ),
 
                   Center(
@@ -350,8 +351,8 @@ class _OnboardingState extends State<Onboarding> {
                     ),
                   ),
 
-                  Container(
-                    // todo: gauge
+                  Center(
+                      child: MyArc(diameter: sizes.width(context, 110), piMultiplier: 2,)
                   ),
 
                   Center(
