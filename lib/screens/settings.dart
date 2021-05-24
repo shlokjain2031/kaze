@@ -855,7 +855,7 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
       future: SettingsService().getFocusModeApps(),
       builder: (context, snapshot) {
         if(snapshot.hasData) {
-          // selectedApps = ValueNotifier(snapshot.data);
+          selectedApps = ValueNotifier(snapshot.data);
           print("focus hai");
           print("valueNot: " + selectedApps.value.toString());
           return Scaffold(
