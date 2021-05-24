@@ -49,11 +49,6 @@ class _HomeState extends State<Home> {
                 controller: _pageController,
                 itemCount: (allModes.length + 1),
                 scrollDirection: Axis.vertical,
-                onPageChanged: (val) {
-                  setState(() {
-                    pageNum = _pageController.page.toInt();
-                  });
-                },
                 itemBuilder: (context, index) {
                   if (index == allModes.length) {
                     return GestureDetector(
@@ -89,6 +84,7 @@ class _HomeState extends State<Home> {
                                   ),
                                   GestureDetector(
                                     onTap: () {
+                                      CustomDialogs().category(context, sizes, colours);
                                     },
                                     child: Image(
                                       image: AssetImage('assets/category.png'),
@@ -175,11 +171,16 @@ class _HomeState extends State<Home> {
                                       color: colours.white(opacity: .9)
                                   ),
                                 ),
-                                Image(
-                                  image: AssetImage('assets/category.png'),
-                                  width: 36,
-                                  color: colours.white(),
-                                  fit: BoxFit.fill,
+                                GestureDetector(
+                                  onTap: () {
+                                    CustomDialogs().category(context, sizes, colours);
+                                  },
+                                  child: Image(
+                                    image: AssetImage('assets/category.png'),
+                                    width: 36,
+                                    color: colours.white(),
+                                    fit: BoxFit.fill,
+                                  ),
                                 )
                               ],
                             ),

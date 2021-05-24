@@ -50,6 +50,7 @@ class _TitleAddState extends State<TitleAdd> {
                       style: TextStyle(
                         color: colours.white(),
                         fontSize: 64,
+                        fontFamily: 'ProductSans',
                         fontWeight: FontWeight.bold,
                       ),
                       decoration: InputDecoration(
@@ -59,6 +60,7 @@ class _TitleAddState extends State<TitleAdd> {
                           color: colours.white().withOpacity(.7),
                           fontSize: 64,
                           fontWeight: FontWeight.bold,
+                          fontFamily: 'ProductSans',
                         ),
                         border: InputBorder.none,
                         focusedBorder: InputBorder.none,

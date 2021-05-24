@@ -841,7 +841,13 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
   Sizes sizes = Sizes();
   Colours colours = Colours();
 
-  List<String> selectedApps = [];
+  ValueNotifier<List<String>> selectedApps = ValueNotifier([]);
+
+  @override
+  void dispose() {
+    selectedApps.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -849,6 +855,9 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
       future: SettingsService().getFocusModeApps(),
       builder: (context, snapshot) {
         if(snapshot.hasData) {
+          // selectedApps = ValueNotifier(snapshot.data);
+          print("focus hai");
+          print("valueNot: " + selectedApps.value.toString());
           return Scaffold(
             backgroundColor: colours.black(),
             body: Padding(
@@ -872,7 +881,7 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          SettingsService().setFocusModeApps(selectedApps);
+                          SettingsService().setFocusModeApps(selectedApps.value);
                           // todo toast
                           Navigator.of(context).push(
                             MaterialPageRoute(
@@ -957,18 +966,44 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
                                             ),
                                           ],
                                         ),
-                                        GestureDetector(
-                                          onTap: () async {
-                                            await addAppInFocusMode(app);
-                                          },
-                                          child: Container(
-                                            width: sizes.width(context, 48),
-                                            height: sizes.height(context, 54),
-                                            decoration: BoxDecoration(
-                                                color: selectedApps.contains(app["package"]) ? colours.white() : Colors.transparent,
-                                                border: Border.all(color: colours.white(), width: 3)
-                                            ),
-                                          ),
+                                        ValueListenableBuilder(
+                                          valueListenable: selectedApps,
+                                          builder: (context, value, child) {
+                                            return GestureDetector(
+                                              onTap: () {
+                                                if(selectedApps.value.length == 2 && selectedApps.value.contains(app["package"])) {
+                                                  selectedApps.value.remove(app["package"]);
+                                                  print("newSelectedApps is removed");
+                                                }
+                                                else if (selectedApps.value.length >= 2) {
+                                                  // todo: toast
+                                                  print("newSelectedApps os greater than 2");
+                                                }
+                                                else {
+                                                  if (selectedApps.value.contains(app["package"])) {
+                                                    selectedApps.value.remove(app["package"]);
+                                                    print("newSelectedApps is removed");
+                                                  }
+                                                  else {
+                                                    selectedApps.value.add(app["package"]);
+                                                    print("newSelectedApps is added");
+                                                  }
+                                                }
+                                                selectedApps.notifyListeners();
+                                                // selectedApps = ValueNotifier(selectedApps.value);
+                                                // print("lenNew: " + newSelectedApps.length.toString());
+                                                print("lenOld: " + selectedApps.value.length.toString());
+                                              },
+                                              child: Container(
+                                                width: sizes.width(context, 48),
+                                                height: sizes.height(context, 54),
+                                                decoration: BoxDecoration(
+                                                    color: selectedApps.value.contains(app["package"]) ? colours.white() : Colors.transparent,
+                                                    border: Border.all(color: colours.white(), width: 3)
+                                                ),
+                                              ),
+                                            );
+                                          }
                                         )
                                       ],
                                     ),
@@ -1013,7 +1048,7 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          SettingsService().setFocusModeApps(selectedApps);
+                          SettingsService().setFocusModeApps(selectedApps.value);
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) {
@@ -1054,94 +1089,96 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
                   SizedBox(height: sizes.height(context, 32)),
 
                   FutureBuilder(
-                      future: LauncherAssist.getAllApps(),
+                      future: Util().getAllApps(),
                       builder: (context, snapshot) {
                         if(snapshot.hasData) {
                           List allApps = snapshot.data;
-                          return SizedBox(
-                            width: sizes.width(context, 414),
-                            height: sizes.height(context, 568),
-                            child: ListView.builder(
-                              itemCount: allApps.length,
-                              itemBuilder: (context, index) {
-                                Map app = allApps[index];
-                                return Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          return ValueListenableBuilder(
+                            valueListenable: selectedApps,
+                            builder: (context, value, child) {
+                              List<String> newSelectedApps = value;
+                              return SizedBox(
+                                width: sizes.width(context, 414),
+                                height: sizes.height(context, 568),
+                                child: ListView.builder(
+                                  itemCount: allApps.length,
+                                  itemBuilder: (context, index) {
+                                    Map app = allApps[index];
+                                    return Column(
                                       children: [
                                         Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Container(
-                                              width: sizes.width(context, 36),
-                                              height: sizes.height(context, 48),
-                                              decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: colours.white()
-                                              ),
-                                              child: Image(
-                                                image: MemoryImage(app["icon"]),
-                                                fit: BoxFit.fill,
-                                              ),
+                                            Row(
+                                              children: [
+                                                Container(
+                                                  width: sizes.width(context, 36),
+                                                  height: sizes.height(context, 48),
+                                                  decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      color: colours.white()
+                                                  ),
+                                                  child: Image(
+                                                    image: MemoryImage(app["icon"]),
+                                                    fit: BoxFit.fill,
+                                                  ),
+                                                ),
+                                                SizedBox(width: 10),
+                                                Text(
+                                                  app["label"],
+                                                  style: TextStyle(
+                                                      fontSize: 24,
+                                                      fontWeight: FontWeight.bold,
+                                                      fontFamily: 'ProductSans',
+                                                      color: colours.white()
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                            SizedBox(width: 10),
-                                            Text(
-                                              app["label"],
-                                              style: TextStyle(
-                                                  fontSize: 24,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontFamily: 'ProductSans',
-                                                  color: colours.white()
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            bool addAppBool = true;
-                                            if(selectedApps.length == 0) {
-                                              selectedApps.add(app["package"]);
-                                            }
-                                            else {
-                                              selectedApps.forEach((element) {
-                                                log("app pack: " + app["package"].toString());
-                                                log("elem pack: " + element.toString());
-                                                if(app["package"] == element) {
-                                                  addAppBool = false;
+                                            GestureDetector(
+                                              onTap: () {
+                                                if(selectedApps.value.length == 2 && selectedApps.value.contains(app["package"])) {
+                                                  selectedApps.value.remove(app["package"]);
+                                                  print("newSelectedApps is removed");
                                                 }
-                                              });
-                                              if(addAppBool) {
-                                                if(selectedApps.length<2) {
-                                                  selectedApps.add(app["package"]);
+                                                else if (selectedApps.value.length >= 2) {
+                                                  // todo: toast
+                                                  print("newSelectedApps os greater than 2");
                                                 }
                                                 else {
-                                                  // todo: toaast
+                                                  if (selectedApps.value.contains(app["package"])) {
+                                                    selectedApps.value.remove(app["package"]);
+                                                    print("newSelectedApps is removed");
+                                                  }
+                                                  else {
+                                                    selectedApps.value.add(app["package"]);
+                                                    print("newSelectedApps is added");
+                                                  }
                                                 }
-                                              }
-                                              else {
-                                                selectedApps.remove(app["package"]);
-                                              }
-                                            }
-                                            setState(() {
-                                            });
-                                            log("apps: " + selectedApps.toString());
-                                          },
-                                          child: Container(
-                                            width: sizes.width(context, 48),
-                                            height: sizes.height(context, 54),
-                                            decoration: BoxDecoration(
-                                                color: selectedApps.contains(app["package"]) ? colours.white() : colours.white(opacity: 0.1),
-                                                border: Border.all(color: colours.white(), width: 3)
-                                            ),
-                                          ),
-                                        )
+                                                selectedApps = ValueNotifier(selectedApps.value);
+
+                                                selectedApps.notifyListeners();
+                                                print("lenNew: " + newSelectedApps.length.toString());
+                                                print("lenOld: " + selectedApps.value.length.toString());
+                                              },
+                                              child: Container(
+                                                width: sizes.width(context, 48),
+                                                height: sizes.height(context, 54),
+                                                decoration: BoxDecoration(
+                                                    color: newSelectedApps.contains(app["package"]) ? colours.white() : Colors.transparent,
+                                                    border: Border.all(color: colours.white(), width: 3)
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        SizedBox(height: 32),
                                       ],
-                                    ),
-                                    SizedBox(height: 32),
-                                  ],
-                                );
-                              },
-                            ),
+                                    );
+                                  },
+                                ),
+                              );
+                            }
                           );
                         }
                         else {
@@ -1156,39 +1193,6 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
         }
       }
     );
-  }
-
-  Future<bool> addAppInFocusMode(Map<dynamic, dynamic> app) async {
-    bool addAppBool = true;
-    if(selectedApps.length == 0) {
-      selectedApps.add(app["package"]);
-    }
-    else {
-      selectedApps.forEach((element) {
-        log("app pack: " + app["package"].toString());
-        log("elem pack: " + element.toString());
-        if(app["package"] == element) {
-          addAppBool = false;
-        }
-      });
-      if(addAppBool) {
-        if(selectedApps.length<2) {
-          selectedApps.add(app["package"]);
-        }
-        else {
-          // todo: toaast
-        }
-      }
-      else {
-        selectedApps.remove(app["package"]);
-      }
-    }
-    setState(() {
-      SettingsService().setFocusModeApps(selectedApps);
-    });
-    log("apps: " + selectedApps.toString());
-
-    return true;
   }
 }
 
