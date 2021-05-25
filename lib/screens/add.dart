@@ -1105,7 +1105,7 @@ class _FinalAddState extends State<FinalAdd> {
                           ),
                           GestureDetector(
                             onTap: () async {
-                              if(await ModeService().checkForDuplicate(title)) {
+                              if(!(await ModeService().checkForDuplicate(title))) {
                                 String formattedStartTime = Util().getStringFromTimeOfDay(startTime);
                                 String formattedEndTime = Util().getStringFromTimeOfDay(endTime);
                                 if(DateTime.parse(formattedEndTime).hour < DateTime.parse(formattedStartTime).hour) {

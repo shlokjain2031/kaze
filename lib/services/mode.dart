@@ -69,10 +69,15 @@ class ModeService {
   Future<bool> checkForDuplicate(String title) async {
     bool isDuplicate = false;
     List<ModeModel> allModes = await getAllModes();
-    for(int i=0;i<allModes.length;i++) {
-      if(allModes[i].title == title) {
-        isDuplicate = true;
-        break;
+    if(allModes == null) {
+      isDuplicate = false;
+    }
+    else {
+      for(int i=0;i<allModes.length;i++) {
+        if(allModes[i].title == title) {
+          isDuplicate = true;
+          break;
+        }
       }
     }
 

@@ -1,16 +1,15 @@
-import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kaze/models/mode.dart';
-import 'package:kaze/screens/onboarding.dart';
 import 'package:kaze/services/mode.dart';
 import 'package:kaze/services/util.dart';
 import 'package:kaze/utils/colours.dart';
 import 'package:kaze/utils/dialogs.dart';
 import 'package:kaze/utils/sizes.dart';
+import 'package:launcher_assist/launcher_assist.dart';
 
 import 'add.dart';
 
@@ -46,14 +45,12 @@ class _HomeState extends State<Home> {
           builder: (context, snapshot) {
             if(snapshot.hasData) {
               List<ModeModel> allModes = snapshot.data;
-              print("len: " + allModes.length.toString());
 
               return PageView.builder(
                 controller: _pageController,
                 itemCount: (allModes.length + 1),
                 scrollDirection: Axis.vertical,
                 itemBuilder: (context, index) {
-                  print("bk");
                   if (index == allModes.length) {
                     return GestureDetector(
                       onTap: () {
@@ -398,6 +395,100 @@ class _HomeState extends State<Home> {
     );
   }
 }
-//
+
+class AllApps extends StatelessWidget {
+  AllApps({Key key}) : super(key: key);
+  List installedApps;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colours().black(),
+      body: FutureBuilder(
+        future: Util().getAllApps(),
+        builder: (context, snapshot) {
+          if(snapshot.hasData) {
+            List installedApps = snapshot.data;
+            return Column(
+              children: [
+                SizedBox(height: 32,),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Icon(
+                        Icons.arrow_back_outlined,
+                        size: 48,
+                        color: Colours().white(),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: Sizes().height(context, 790),
+                  width: Sizes().width(context, 414),
+                  child: GridView.count(
+                    crossAxisCount: 4,
+                    mainAxisSpacing: 24,
+                    physics: BouncingScrollPhysics(),
+                    children: List.generate(
+                      installedApps != null ? installedApps.length : 0,
+                          (index) {
+                        return GestureDetector(
+                          child: Container(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                iconContainer(index, installedApps),
+                                SizedBox(height: 10),
+                                Text(
+                                  installedApps[index]["label"],
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
+                          ),
+                          onTap: () =>
+                              LauncherAssist.launchApp(installedApps[index]["package"]),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            );
+          }
+          else {
+            return SizedBox();
+          }
+        }
+      ),
+    );
+  }
+
+  iconContainer(index, installedApps) {
+    try {
+      return Image.memory(
+        installedApps[index]["icon"] != null
+            ? installedApps[index]["icon"]
+            : Uint8List(0),
+        height: 50,
+        width: 50,
+      );
+    } catch (e) {
+      return Container();
+    }
+  }
+}
+
 
 
