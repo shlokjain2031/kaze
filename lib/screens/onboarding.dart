@@ -273,7 +273,6 @@ class _OnboardingState extends State<Onboarding> {
                         onTap: () {
                           // Util().notificationPolicyAccessCheck();
                           Util().displayDefaultLauncherChooser();
-                          initUser();
                           setState(() {
                             onboardingTracker = 3;
                           });
@@ -310,7 +309,7 @@ class _OnboardingState extends State<Onboarding> {
               height: sizes.height(context, 500),
               margin: EdgeInsets.only(top: 32),
               child: Image(
-                image: AssetImage('assets/shutdown.png'),
+                image: AssetImage('assets/dnd.jpeg'),
               ),
             ),
             Text(
@@ -366,7 +365,7 @@ class _OnboardingState extends State<Onboarding> {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) {
-                                return TitleAdd();
+                                return AddSplashScreen();
                               },
                             ),
                           );
@@ -408,3 +407,91 @@ class _OnboardingState extends State<Onboarding> {
     Util().checkNotificationPermission();
   }
 }
+
+class AddSplashScreen extends StatelessWidget {
+  AddSplashScreen({Key key}) : super(key: key);
+
+  Sizes sizes = Sizes();
+  Colours colours = Colours();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: colours.black(),
+      body: Column(
+        children: [
+          Container(
+            width: sizes.width(context, 414),
+            height: sizes.height(context, 500),
+            margin: EdgeInsets.only(top: 32),
+            child: Image(
+              image: AssetImage('assets/add.png'),
+            ),
+          ),
+          Text(
+              "add a mode",
+              style: TextStyle(
+                  fontFamily: 'ProductSans',
+                  fontSize: 36,
+                  fontWeight: FontWeight.bold,
+                  color: colours.white()
+              )
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 12),
+            child: Text(
+              // todo: content
+                "a mode is [descriptiob about mode]",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontFamily: 'ProductSans',
+                    fontSize: 18,
+                    color: colours.white().withOpacity(.8)
+                )
+            ),
+          ),
+          SizedBox(height: 32,),
+
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) {
+                    return TitleAdd();
+                  },
+                ),
+              );
+            },
+            child: Container(
+              width: sizes.width(context, 325),
+              height: 64,
+              decoration: BoxDecoration(
+                color: colours.white(),
+                boxShadow: [
+                  BoxShadow(
+                    offset: Offset(8, 16),
+                    color: colours.white(opacity: .1),
+                    blurRadius: 32
+                  )
+                ]
+              ),
+              child: Center(
+                child: Text(
+                  'click here to add a mode',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 24,
+                    color: colours.black(),
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'ProductSans'
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+

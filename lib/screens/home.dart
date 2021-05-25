@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kaze/models/mode.dart';
+import 'package:kaze/screens/onboarding.dart';
 import 'package:kaze/services/mode.dart';
 import 'package:kaze/services/util.dart';
 import 'package:kaze/utils/colours.dart';
@@ -30,6 +31,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    print("yello");
     _pageController = PageController(initialPage: 1, viewportFraction: 0.85);
   }
 
@@ -51,6 +53,7 @@ class _HomeState extends State<Home> {
                 itemCount: (allModes.length + 1),
                 scrollDirection: Axis.vertical,
                 itemBuilder: (context, index) {
+                  print("bk");
                   if (index == allModes.length) {
                     return GestureDetector(
                       onTap: () {
@@ -310,7 +313,84 @@ class _HomeState extends State<Home> {
               );
             }
             else {
-              return SizedBox();
+              return GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return TitleAdd();
+                      },
+                    ),
+                  );
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: colours.black(),
+                  ),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              'mode',
+                              style: TextStyle(
+                                  fontFamily: 'ProductSans',
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                  color: colours.white(opacity: .9)
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                CustomDialogs().category(context, sizes, colours);
+                              },
+                              child: Image(
+                                image: AssetImage('assets/category.png'),
+                                width: 36,
+                                color: colours.white(),
+                                fit: BoxFit.fill,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+
+                      SizedBox(height: sizes.height(context, 200)),
+                      Text(
+                        "Add +",
+                        style: TextStyle(
+                            fontSize: 54,
+                            fontFamily: 'ProductSans',
+                            fontWeight: FontWeight.bold,
+                            color: colours.white(opacity: .9),
+                            shadows: [
+                              Shadow(
+                                  offset: Offset(8, 8),
+                                  blurRadius: 32,
+                                  color: colours.black(opacity: .6)
+                              )
+                            ]
+                        ),
+                      ),
+                      SizedBox(height: 18),
+                      Text(
+                        'click to add a mode',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontFamily: 'ProductSans',
+                          color: colours.white(opacity: .8),
+                        ),
+                      ),
+                      SizedBox(height: sizes.height(context, 48)),
+                    ],
+                  ),
+                ),
+              );
             }
           }
         ),

@@ -75,6 +75,8 @@ flutter:
     - assets/watch.png
     - assets/done.png
     - assets/wait.png
+    - assets/dnd.jpeg
+    - assets/add.png
 
   fonts:
     - family: ProductSans
