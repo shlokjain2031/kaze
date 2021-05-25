@@ -42,7 +42,7 @@ dependencies:
   intent: ^1.4.0
   awesome_notifications: ^0.0.6+7
   flutter_dnd: ^0.1.3
-  clippy_flutter: ^1.1.1
+  random_string: ^2.1.0
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2

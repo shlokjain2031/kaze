@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -8,6 +9,7 @@ import 'package:kaze/models/mode.dart';
 import 'package:kaze/services/util.dart';
 import 'package:launcher_assist/launcher_assist.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:random_string/random_string.dart';
 
 class ModeService {
 
@@ -21,7 +23,8 @@ class ModeService {
 
   insertMode(String title, String startTime, String endTime, List apps, String wallpaperPath) {
     String rawApps = jsonEncode(apps);
-    ModeModel mode = ModeModel(title: title, startTime: startTime, endTime: endTime, apps: rawApps, wallpaperPath: wallpaperPath);
+    int rid = randomBetween(100000, 999999);
+    ModeModel mode = ModeModel(id: rid, title: title, startTime: startTime, endTime: endTime, apps: rawApps, wallpaperPath: wallpaperPath);
 
     ModeModelProvider()
         .insertMode(mode)
@@ -30,9 +33,10 @@ class ModeService {
     initBackup();
   }
 
-  updateMode(String title, String startTime, String endTime, List apps, String wallpaperPath) {
+  updateMode(int id, String title, String startTime, String endTime, List apps, String wallpaperPath) {
     String rawApps = jsonEncode(apps);
-    ModeModel mode = ModeModel(title: title, startTime: startTime, endTime: endTime, apps: rawApps, wallpaperPath: wallpaperPath);
+    ModeModel mode = ModeModel(id: id, title: title, startTime: startTime, endTime: endTime, apps: rawApps, wallpaperPath: wallpaperPath);
+    print("title: " + title);
 
     ModeModelProvider()
         .updateMode(mode)
@@ -54,6 +58,19 @@ class ModeService {
     bool appCanBeUsed = Util().checkTimeBeforeAfter(startTime, endTime);
 
     return appCanBeUsed;
+  }
+
+  Future<bool> checkForDuplicate(String title) async {
+    bool isDuplicate = false;
+    List<ModeModel> allModes = await getAllModes();
+    for(int i=0;i<allModes.length;i++) {
+      if(allModes[i].title == title) {
+        isDuplicate = true;
+        break;
+      }
+    }
+
+    return isDuplicate;
   }
 
   backup(User user) async {

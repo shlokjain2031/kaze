@@ -597,7 +597,7 @@ class CustomDialogs {
     );
   }
 
-  void noAppsInFocusMode(context, Sizes sizes, Colours colours) {
+  void areYouSureFocus(BuildContext context, Sizes sizes, Colours colours) {
     showGeneralDialog(
       barrierLabel: "Barrier",
       barrierDismissible: true,
@@ -609,31 +609,32 @@ class CustomDialogs {
           alignment: Alignment.center,
           child: Container(
             width: sizes.width(context, 335),
-            height: sizes.height(context, 215),
+            height: sizes.height(context, 225),
             decoration: BoxDecoration(
                 color: colours.white(),
                 border: Border.all(color: colours.black(), width: 3)
             ),
             child: Column(
               children: [
-                SizedBox(height: sizes.height(context, 20),),
+                SizedBox(height: sizes.height(context, 16),),
                 Text(
-                  'No apps added in focus mode',
+                  'Are you sure?',
                   style: TextStyle(
                       fontFamily: 'ProductSans',
-                      fontSize: 24,
+                      fontSize: 32,
                       color: colours.black(),
                       fontWeight: FontWeight.bold,
                       decoration: TextDecoration.none
                   ),
                 ),
-                SizedBox(height: sizes.height(context, 20),),
+                SizedBox(height: sizes.height(context, 12),),
                 Text(
-                  'in focus mode, you will be able to use only 2 apps\n  of your choice, you can exit it whenever you want',
+                  "this will switch off focus and you might be\ndistracted and be unable to focus, so are you sure?",
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                       fontFamily: 'ProductSans',
                       fontSize: 12,
-                      height: .65,
+                      height: 1.3,
                       color: colours.black(opacity: .8),
                       decoration: TextDecoration.none
                   ),
@@ -649,13 +650,7 @@ class CustomDialogs {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return FocusModeSettings();
-                                },
-                              ),
-                            );
+                            areYouSureFocusAgain(context, sizes, colours);
                           },
                           child: Container(
                             width: sizes.width(context, 110),
@@ -665,11 +660,11 @@ class CustomDialogs {
                                 border: Border.all(color: colours.black(), width: 2)
                             ),
                             child: Text(
-                              'add apps',
+                              'yes',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontFamily: 'ProductSans',
-                                  fontSize: 20,
+                                  fontSize: 22,
                                   fontWeight: FontWeight.bold,
                                   color: colours.white(),
                                   decoration: TextDecoration.none
@@ -690,11 +685,11 @@ class CustomDialogs {
                                 border: Border.all(color: colours.black(), width: 2)
                             ),
                             child: Text(
-                              'go back',
+                              'no',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontFamily: 'ProductSans',
-                                  fontSize: 20,
+                                  fontSize: 22,
                                   fontWeight: FontWeight.bold,
                                   color: colours.black(),
                                   decoration: TextDecoration.none
@@ -720,7 +715,7 @@ class CustomDialogs {
     );
   }
 
-  void areYouSureFocus(BuildContext context, Sizes sizes, Colours colours) {
+  void areYouSureFocusAgain(BuildContext context, Sizes sizes, Colours colours) {
     showGeneralDialog(
       barrierLabel: "Barrier",
       barrierDismissible: true,
@@ -741,7 +736,7 @@ class CustomDialogs {
               children: [
                 SizedBox(height: sizes.height(context, 16),),
                 Text(
-                  'Are you sure?',
+                  'Leave Focus Mode?',
                   style: TextStyle(
                       fontFamily: 'ProductSans',
                       fontSize: 32,

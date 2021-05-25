@@ -303,6 +303,7 @@ class _AppsAddState extends State<AppsAdd> {
                           List apps = snapshot.data;
                           allApps = apps;
                           return ListView.builder(
+                            
                             itemCount: apps.length,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (BuildContext context, int index) {
@@ -671,6 +672,7 @@ class _TimeAddState extends State<TimeAdd> {
                     width: sizes.width(context, 400),
                     height: sizes.height(context, 100),
                     child: ListView.builder(
+                      
                       itemCount: allApps.length,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (BuildContext context, int index) {
@@ -754,7 +756,7 @@ class _TimeAddState extends State<TimeAdd> {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) {
-                                return FinalAdd(title: title, selectedApps: selectedApps, startTime: startTime, endTime: endTime, allApps: allApps);
+                                return FinalAdd(allApps, title: title, selectedApps: selectedApps, startTime: startTime, endTime: endTime);
                               },
                             ),
                           );
@@ -814,10 +816,10 @@ class FinalAdd extends StatefulWidget {
   TimeOfDay endTime;
   List allApps;
 
-  FinalAdd({Key key, this.mode, this.title, this.selectedApps, this.startTime, this.endTime, this.allApps}) : super(key: key);
+  FinalAdd(this.allApps, {Key key, this.mode, this.title, this.selectedApps, this.startTime, this.endTime}) : super(key: key);
 
   @override
-  _FinalAddState createState() => _FinalAddState(mode: mode, title: title, selectedApps: selectedApps, startTime: startTime, endTime: endTime, allApps: allApps);
+  _FinalAddState createState() => _FinalAddState(allApps, mode: mode, title: title, selectedApps: selectedApps, startTime: startTime, endTime: endTime, );
 }
 class _FinalAddState extends State<FinalAdd> {
   ModeModel mode;
@@ -827,7 +829,7 @@ class _FinalAddState extends State<FinalAdd> {
   TimeOfDay endTime;
   List allApps;
 
-  _FinalAddState({this.mode, this.title, this.selectedApps, this.startTime, this.endTime, this.allApps});
+  _FinalAddState(this.allApps, {this.mode, this.title, this.selectedApps, this.startTime, this.endTime});
 
   Colours colours = Colours();
   Sizes sizes = Sizes();
@@ -836,7 +838,10 @@ class _FinalAddState extends State<FinalAdd> {
 
   @override
   void initState() {
-    if(mode != null) { selectedApps.value = Util().listParser(mode.apps); }
+    if(mode != null) {
+      selectedApps = ValueNotifier(Util().listParser(mode.apps));
+      wallpaperPath = mode.wallpaperPath;
+    }
     super.initState();
   }
 
@@ -1021,6 +1026,7 @@ class _FinalAddState extends State<FinalAdd> {
                         height: sizes.height(context, 100),
                         child: ListView.builder(
                           itemCount: allApps.length,
+                          
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (BuildContext context, int index) {
                             // Map dataObject = appList[index];
@@ -1098,22 +1104,27 @@ class _FinalAddState extends State<FinalAdd> {
                             ),
                           ),
                           GestureDetector(
-                            onTap: () {
-                              String formattedStartTime = Util().getStringFromTimeOfDay(startTime);
-                              String formattedEndTime = Util().getStringFromTimeOfDay(endTime);
-                              if(DateTime.parse(formattedEndTime).hour < DateTime.parse(formattedStartTime).hour) {
-                                String temp = formattedStartTime;
-                                formattedStartTime = formattedEndTime;
-                                formattedEndTime = temp;
+                            onTap: () async {
+                              if(await ModeService().checkForDuplicate(title)) {
+                                String formattedStartTime = Util().getStringFromTimeOfDay(startTime);
+                                String formattedEndTime = Util().getStringFromTimeOfDay(endTime);
+                                if(DateTime.parse(formattedEndTime).hour < DateTime.parse(formattedStartTime).hour) {
+                                  String temp = formattedStartTime;
+                                  formattedStartTime = formattedEndTime;
+                                  formattedEndTime = temp;
+                                }
+                                ModeService().insertMode(title, formattedStartTime, formattedEndTime, selectedApps.value, wallpaperPath);
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return Home();
+                                    },
+                                  ),
+                                );
                               }
-                              ModeService().insertMode(title, formattedStartTime, formattedEndTime, selectedApps.value, wallpaperPath);
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return Home();
-                                  },
-                                ),
-                              );
+                              else {
+                                // todo: scnack bar/dialog
+                              }
                             },
                             child: Text(
                               'confirm',
@@ -1143,9 +1154,9 @@ class _FinalAddState extends State<FinalAdd> {
           children: [
             Container(
               height: sizes.height(context, 896),
-              decoration: mode.wallpaperPath != null ? BoxDecoration(
+              decoration: wallpaperPath != null ? BoxDecoration(
                   image: DecorationImage(
-                    image: FileImage(File(mode.wallpaperPath)),
+                    image: FileImage(File(wallpaperPath)),
                     fit: BoxFit.fitHeight,
                     colorFilter: ColorFilter.mode(colours.black().withOpacity(0.75),
                         BlendMode.dstATop),
@@ -1155,15 +1166,33 @@ class _FinalAddState extends State<FinalAdd> {
                 children: [
                   Column(
                     children: [
-                      SizedBox(height: 12),
+                      SizedBox(height: 0),
                       Center(
-                        child: Text(
-                          mode.title,
+                        child: TextField(
+                          textAlign: TextAlign.center,
+                          onChanged: (newTitle) {
+                            title = newTitle;
+                          },
                           style: TextStyle(
                             color: colours.white(),
                             fontSize: 64,
-                            fontWeight: FontWeight.bold,
                             fontFamily: 'ProductSans',
+                            fontWeight: FontWeight.bold,
+                          ),
+                          decoration: InputDecoration(
+                            hintText: mode.title,
+                            hintMaxLines: 1,
+                            hintStyle: TextStyle(
+                              color: colours.white().withOpacity(.9),
+                              fontSize: 64,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'ProductSans',
+                            ),
+                            border: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none,
                           ),
                         ),
                       ),
@@ -1221,7 +1250,7 @@ class _FinalAddState extends State<FinalAdd> {
                                               color: colours.white(), // change with colours.black(),
                                             ),
                                             child: Image(
-                                              image: MemoryImage(selectedApps.value[listIndex]["icon"]),
+                                              image: MemoryImage(Util().getAppIcon(selectedApps.value[(listIndex)]["icon"])),
                                               fit: BoxFit.fill,
                                             ),
                                           ),
@@ -1266,7 +1295,7 @@ class _FinalAddState extends State<FinalAdd> {
                           }
                       ),
 
-                      SizedBox(height: sizes.height(context, 80)),
+                      SizedBox(height: sizes.height(context, 54)),
 
                       GestureDetector(
                         onTap: () async {
@@ -1309,6 +1338,7 @@ class _FinalAddState extends State<FinalAdd> {
                         height: sizes.height(context, 100),
                         child: ListView.builder(
                           itemCount: allApps.length,
+                          
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (BuildContext context, int index) {
                             // Map dataObject = appList[index];
@@ -1386,15 +1416,25 @@ class _FinalAddState extends State<FinalAdd> {
                             ),
                           ),
                           GestureDetector(
-                            onTap: () {
-                              String formattedStartTime = Util().getStringFromTimeOfDay(startTime);
-                              String formattedEndTime = Util().getStringFromTimeOfDay(endTime);
-                              if(DateTime.parse(formattedEndTime).hour < DateTime.parse(formattedStartTime).hour) {
-                                String temp = formattedStartTime;
-                                formattedStartTime = formattedEndTime;
-                                formattedEndTime = temp;
+                            onTap: () async {
+                              if(title == mode.title) {
+                                ModeService().updateMode(mode.id, mode.title, mode.startTime, mode.endTime, selectedApps.value, wallpaperPath);
                               }
-                              ModeService().insertMode(title, formattedStartTime, formattedEndTime, selectedApps.value, wallpaperPath);
+                              else {
+                                if(!(await ModeService().checkForDuplicate(title))) {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return Home();
+                                      },
+                                    ),
+                                  );
+                                }
+                                else {
+                                  // todo: scnack bar/dialog
+                                }
+                              }
+
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) {
@@ -1404,7 +1444,7 @@ class _FinalAddState extends State<FinalAdd> {
                               );
                             },
                             child: Text(
-                              'continue',
+                              'update',
                               style: TextStyle(
                                   fontFamily: 'ProductSans',
                                   fontSize: 28,

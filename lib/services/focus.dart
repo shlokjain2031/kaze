@@ -36,14 +36,16 @@ class FocusModeService {
     List<ModeModel> allModes = await ModeService().getAllModes();
     String wallpaperPath = "";
 
-    allModes.forEach((mode) {
-      if(Util().checkTimeBeforeAfter(DateTime.parse(mode.startTime), DateTime.parse(mode.endTime))) {
-        wallpaperPath = mode.wallpaperPath;
+    for(int i=0;i<allModes.length;i++) {
+      DateTime startTime = DateTime.parse(allModes[i].startTime);
+      DateTime endTime = DateTime.parse(allModes[i].endTime);
+      bool appCanBeUsed = Util().checkTimeBeforeAfter(startTime, endTime);
+
+      if(appCanBeUsed) {
+        wallpaperPath = allModes[i].wallpaperPath;
+        break;
       }
-      else {
-        wallpaperPath = null;
-      }
-    });
+    }
 
     return wallpaperPath;
   }

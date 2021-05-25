@@ -33,7 +33,7 @@ class ModeModelProvider {
     String dbPath = join(databasesPath, "kaze.db");
     Database initDatabase = await openDatabase(dbPath, version: 1, onCreate: (Database db, int version) async {
       await db.execute(
-          "CREATE TABLE kaze(id INTEGER PRIMARY KEY, title TEXT, startTime TEXT, endTime TEXT, wallpaperPath TEXT, apps TEXT)"
+          "CREATE TABLE kaze(id INTEGER, title TEXT, startTime TEXT, endTime TEXT, wallpaperPath TEXT, apps TEXT)"
       );
     });
   }
@@ -50,8 +50,10 @@ class ModeModelProvider {
     var databasesPath = await getDatabasesPath();
     String dbPath = join(databasesPath, "kaze.db");
     Database database = await openDatabase(dbPath, version: 1);
+    String column = "title";
+    print("title: " + mode.title);
 
-    return database.update("kaze", mode.toMap(), where: 'id = ?', whereArgs: [mode.id]);
+    return database.update("kaze", mode.toMap(), where: '$column = ?', whereArgs: [mode.title]);
   }
 
   Future<int> deleteMode(int id) async {

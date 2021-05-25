@@ -25,7 +25,9 @@ class FocusMode extends StatelessWidget {
           future: FocusModeService().getApps(),
           builder: (context, snapshot) {
             if(snapshot.hasData) {
+              focusModeApps = snapshot.data;
               return FutureBuilder(
+                future: FocusModeService().getFocusWallpaper(),
                 builder: (context, wallpaperSnapshot) {
                   return wallpaperSnapshot.data != null ? Container(
                       width: sizes.width(context, 414),
@@ -280,13 +282,7 @@ class FocusMode extends StatelessWidget {
                             ),
                             GestureDetector(
                               onTap: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) {
-                                      return Home();
-                                    },
-                                  ),
-                                );
+                                CustomDialogs().areYouSureFocus(context, sizes, colours);
                               },
                               child: Text(
                                 'exit',

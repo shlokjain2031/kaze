@@ -162,13 +162,25 @@ class _HomeState extends State<Home> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Text(
-                                  'edit mode',
-                                  style: TextStyle(
-                                      fontFamily: 'ProductSans',
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.bold,
-                                      color: colours.white(opacity: .9)
+                                GestureDetector(
+                                  onTap: () async {
+                                    List allApps = await Util().getAllApps();
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return FinalAdd(allApps, mode: mode,);
+                                        },
+                                      ),
+                                    );
+                                  },
+                                  child: Text(
+                                    'edit mode',
+                                    style: TextStyle(
+                                        fontFamily: 'ProductSans',
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.bold,
+                                        color: colours.white(opacity: .9)
+                                    ),
                                   ),
                                 ),
                                 GestureDetector(
