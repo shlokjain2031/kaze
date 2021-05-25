@@ -51,17 +51,17 @@ class ModeModelProvider {
     String dbPath = join(databasesPath, "kaze.db");
     Database database = await openDatabase(dbPath, version: 1);
     String column = "title";
-    print("title: " + mode.title);
 
     return database.update("kaze", mode.toMap(), where: '$column = ?', whereArgs: [mode.title]);
   }
 
-  Future<int> deleteMode(int id) async {
+  Future<int> deleteMode(String title) async {
     var databasesPath = await getDatabasesPath();
     String dbPath = join(databasesPath, "kaze.db");
     Database database = await openDatabase(dbPath, version: 1);
+    String column = "title";
 
-    return await database.delete("kaze", where: 'id = ?', whereArgs: [id]);
+    return await database.delete("kaze", where: '$column = ?', whereArgs: [title]);
   }
 
   Future<ModeModel> getSingleMode(int id) async {

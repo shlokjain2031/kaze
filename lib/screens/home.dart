@@ -44,6 +44,7 @@ class _HomeState extends State<Home> {
           builder: (context, snapshot) {
             if(snapshot.hasData) {
               List<ModeModel> allModes = snapshot.data;
+              print("len: " + allModes.length.toString());
 
               return PageView.builder(
                 controller: _pageController,
@@ -185,7 +186,7 @@ class _HomeState extends State<Home> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    CustomDialogs().category(context, sizes, colours);
+                                    CustomDialogs().category(context, sizes, colours, title: mode.title);
                                   },
                                   child: Image(
                                     image: AssetImage('assets/category.png'),
