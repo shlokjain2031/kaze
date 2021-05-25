@@ -149,6 +149,8 @@ class Util {
     intentFlutter
         .Intent()
           ..setAction(actionFlutter.Action.ACTION_MAIN)
+          ..addCategory("android.intent.category.HOME")
+          ..addCategory("android.intent.category.DEFAULT")
           ..addFlag(flag.Flag.FLAG_ACTIVITY_NEW_DOCUMENT)
           ..startActivity().catchError((e) => print("intent error: " + e.toString()));
   }
