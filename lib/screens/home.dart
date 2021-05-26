@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kaze/models/mode.dart';
@@ -14,7 +15,7 @@ import 'package:launcher_assist/launcher_assist.dart';
 import 'add.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key key}) : super(key: key);
+  Home({Key key}) : super(key: key);
 
   @override
   _HomeState createState() => _HomeState();
@@ -25,14 +26,13 @@ class _HomeState extends State<Home> {
   Sizes sizes = Sizes();
   Colours colours = Colours();
   PageController _pageController = PageController(initialPage: 1, viewportFraction: 0.85);
-  int pageNum = 1; // _pageController's initialPage value;
+  int pageNum = 1;
 
   @override
   void initState() {
     super.initState();
     Util().notificationPolicyAccess(fromHome: true);
     _pageController = PageController(initialPage: 1, viewportFraction: 0.85);
-
   }
 
   @override
@@ -62,6 +62,7 @@ class _HomeState extends State<Home> {
                             },
                           ),
                         );
+                        FirebaseAnalytics().logEvent(name: "click on adding mode");
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -87,6 +88,7 @@ class _HomeState extends State<Home> {
                                   GestureDetector(
                                     onTap: () {
                                       CustomDialogs().category(context, sizes, colours);
+                                      FirebaseAnalytics().logEvent(name: "click on category");
                                     },
                                     child: Image(
                                       image: AssetImage('assets/category.png'),
@@ -174,6 +176,7 @@ class _HomeState extends State<Home> {
                                         },
                                       ),
                                     );
+                                    FirebaseAnalytics().logEvent(name: "click on edit mode");
                                   },
                                   child: Text(
                                     'edit mode',
@@ -188,6 +191,7 @@ class _HomeState extends State<Home> {
                                 GestureDetector(
                                   onTap: () {
                                     CustomDialogs().category(context, sizes, colours, title: mode.title);
+                                    FirebaseAnalytics().logEvent(name: "click on category");
                                   },
                                   child: Image(
                                     image: AssetImage('assets/category.png'),
@@ -247,6 +251,8 @@ class _HomeState extends State<Home> {
                                     else {
                                       CustomDialogs().openApp(context, sizes, colours, apps[listIndex]);
                                     }
+
+                                    FirebaseAnalytics().logEvent(name: "click on launch app");
                                   },
                                   child: Container(
                                     width: sizes.width(context, 50),
@@ -320,6 +326,7 @@ class _HomeState extends State<Home> {
                       },
                     ),
                   );
+                  FirebaseAnalytics().logEvent(name: "click on add mode");
                 },
                 child: Container(
                   decoration: BoxDecoration(
@@ -450,6 +457,7 @@ class AllApps extends StatelessWidget {
                           ),
                           onTap: () {
                             CustomDialogs().openApp(context, Sizes(), Colours(), installedApps[index]);
+                            FirebaseAnalytics().logEvent(name: "click on launch app in all apps screen");
                           }
                         );
                       },

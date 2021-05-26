@@ -7,6 +7,7 @@ import 'package:kaze/services/util.dart';
 import 'package:kaze/utils/circle.dart';
 import 'package:kaze/utils/colours.dart';
 import 'package:kaze/utils/sizes.dart';
+import 'package:firebase_analytics/firebase_analytics.dart' as analytics;
 
 import 'add.dart';
 
@@ -98,7 +99,7 @@ class _OnboardingState extends State<Onboarding> {
                       padding: EdgeInsets.only(top: 16),
                       child: GestureDetector(
                         onTap: () {
-                          print("hello");
+                          analytics.FirebaseAnalytics().logEvent(name: "onboarding 1");
                           setState(() {
                             onboardingTracker = 1;
                           });
@@ -185,6 +186,7 @@ class _OnboardingState extends State<Onboarding> {
                       padding: EdgeInsets.only(top: 16),
                       child: GestureDetector(
                         onTap: () {
+                          analytics.FirebaseAnalytics().logEvent(name: "onboarding 2");
                           setState(() {
                             onboardingTracker = 2;
                           });
@@ -276,6 +278,7 @@ class _OnboardingState extends State<Onboarding> {
                           setState(() {
                             onboardingTracker = 3;
                           });
+                          analytics.FirebaseAnalytics().logEvent(name: "onboarding 3");
                         },
                         child: Container(
                           width: sizes.width(context, 100),
@@ -369,6 +372,7 @@ class _OnboardingState extends State<Onboarding> {
                               },
                             ),
                           );
+                          analytics.FirebaseAnalytics().logEvent(name: "onboarding 4");
                         },
                         child: Container(
                           width: sizes.width(context, 100),
@@ -440,8 +444,7 @@ class AddSplashScreen extends StatelessWidget {
           Container(
             margin: EdgeInsets.only(top: 12),
             child: Text(
-              // todo: content
-                "a mode is [descriptiob about mode]",
+                "you can add multiple apps in a mode and give it a time range,\nnow you can only use those apps in said time range ",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontFamily: 'ProductSans',
@@ -461,6 +464,7 @@ class AddSplashScreen extends StatelessWidget {
                   },
                 ),
               );
+              analytics.FirebaseAnalytics().logEvent(name: "first add mode");
             },
             child: Container(
               width: sizes.width(context, 325),

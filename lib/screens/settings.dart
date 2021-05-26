@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -59,6 +60,7 @@ class _SettingsState extends State<Settings> {
                           onTap: () {
                             saveSettings();
                             Navigator.of(context).pop();
+                            FirebaseAnalytics().logEvent(name: "went back from settings to homne");
                           },
                           child: Icon(
                             Icons.arrow_back_outlined,
@@ -147,6 +149,7 @@ class _SettingsState extends State<Settings> {
                                               Util().setDndFilter();
                                             }
                                             saveSettings();
+                                            FirebaseAnalytics().logEvent(name: "changed notif settings");
                                           });
                                         }
                                     )
@@ -209,6 +212,7 @@ class _SettingsState extends State<Settings> {
                                               Util().setDndFilter();
                                             }
                                             saveSettings();
+                                            FirebaseAnalytics().logEvent(name: "changed phone settings");
                                           });
                                         }
                                     )
@@ -266,6 +270,7 @@ class _SettingsState extends State<Settings> {
                                             backup = val;
                                             saveSettings();
                                           });
+                                          FirebaseAnalytics().logEvent(name: "changed backup settings");
                                         }
                                     )
                                   ],
@@ -300,6 +305,7 @@ class _SettingsState extends State<Settings> {
                                     },
                                   ),
                                 );
+                                FirebaseAnalytics().logEvent(name: "clicked on focus mode settings");
                               },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -364,18 +370,23 @@ class _SettingsState extends State<Settings> {
                                     ),
                                   ],
                                 ),
-                                Container(
-                                  width: sizes.width(context, 48),
-                                  height: sizes.height(context, 54),
-                                  decoration: BoxDecoration(
-                                    color: colours.white(opacity: .9),
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  child: Center(
-                                    child: Icon(
-                                      Icons.arrow_forward_ios_outlined,
-                                      size: 20,
-                                      color: colours.black(),
+                                GestureDetector(
+                                  onTap: () {
+                                    FirebaseAnalytics().logEvent(name: "clicked on total shutdown settings");
+                                  },
+                                  child: Container(
+                                    width: sizes.width(context, 48),
+                                    height: sizes.height(context, 54),
+                                    decoration: BoxDecoration(
+                                      color: colours.white(opacity: .9),
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    child: Center(
+                                      child: Icon(
+                                        Icons.arrow_forward_ios_outlined,
+                                        size: 20,
+                                        color: colours.black(),
+                                      ),
                                     ),
                                   ),
                                 )
@@ -528,6 +539,7 @@ class _SettingsState extends State<Settings> {
                                             else {
                                               Util().setDndFilter();
                                             }
+                                            FirebaseAnalytics().logEvent(name: "changed notif settings");
                                           });
                                         }
                                     )
@@ -590,6 +602,7 @@ class _SettingsState extends State<Settings> {
                                           else {
                                             Util().setDndFilter();
                                           }
+                                          FirebaseAnalytics().logEvent(name: "changed phone settings");
                                         }
                                     )
                                   ],
@@ -646,6 +659,7 @@ class _SettingsState extends State<Settings> {
                                             backup = val;
                                           });
                                           initGoogleSigning(backup);
+                                          FirebaseAnalytics().logEvent(name: "changed backup settings");
                                         }
                                     )
                                   ],

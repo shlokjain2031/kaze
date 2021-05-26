@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kaze/screens/settings.dart';
@@ -152,6 +153,7 @@ class FocusMode extends StatelessWidget {
                                   GestureDetector(
                                     onTap: () {
                                       CustomDialogs().areYouSureFocus(context, sizes, colours);
+                                      FirebaseAnalytics().logEvent(name: "tried exiting");
                                     },
                                     child: Text(
                                       'exit',
@@ -286,6 +288,7 @@ class FocusMode extends StatelessWidget {
                               GestureDetector(
                                 onTap: () {
                                   CustomDialogs().areYouSureFocus(context, sizes, colours);
+                                  FirebaseAnalytics().logEvent(name: "tried exiting");
                                 },
                                 child: Text(
                                   'exit',

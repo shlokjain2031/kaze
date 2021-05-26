@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:kaze/screens/focus.dart';
 import 'package:kaze/screens/home.dart';
@@ -39,6 +40,7 @@ class CustomDialogs {
                           },
                         ),
                       );
+                      FirebaseAnalytics().logEvent(name: "clicked on settings");
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -64,6 +66,7 @@ class CustomDialogs {
                   GestureDetector(
                     onTap: () {
                       focusMode(context, sizes, colours);
+                      FirebaseAnalytics().logEvent(name: "clicked start focus mode");
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -95,6 +98,7 @@ class CustomDialogs {
                           },
                         ),
                       );
+                      FirebaseAnalytics().logEvent(name: "clicked all apps");
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -120,6 +124,7 @@ class CustomDialogs {
                   GestureDetector(
                     onTap: () {
                       title != null ? areYouSureModeDelete(context, sizes, colours, title) : print("title is null");
+                      FirebaseAnalytics().logEvent(name: "clicked delete mode");
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -217,6 +222,7 @@ class CustomDialogs {
                                 },
                               ),
                             );
+                            FirebaseAnalytics().logEvent(name: "went to focus mode");
                           },
                           child: Container(
                             width: sizes.width(context, 110),
@@ -242,6 +248,7 @@ class CustomDialogs {
                         GestureDetector(
                           onTap: () {
                             Navigator.of(context).pop();
+                            FirebaseAnalytics().logEvent(name: "didn't go to focus mode");
                           },
                           child: Container(
                             width: sizes.width(context, 95),
@@ -335,6 +342,7 @@ class CustomDialogs {
                         GestureDetector(
                           onTap: () {
                             openAppSecondary(context, sizes, colours, app);
+                            FirebaseAnalytics().logEvent(name: "went to open app secondary");
                           },
                           child: Container(
                             width: sizes.width(context, 110),
@@ -360,6 +368,7 @@ class CustomDialogs {
                         GestureDetector(
                           onTap: () {
                             Navigator.of(context).pop();
+                            FirebaseAnalytics().logEvent(name: "went back to home");
                           },
                           child: Container(
                             width: sizes.width(context, 95),
@@ -453,6 +462,7 @@ class CustomDialogs {
                         GestureDetector(
                           onTap: () {
                             Util().launchApp(app["package"]);
+                            FirebaseAnalytics().logEvent(name: "opened app");
                           },
                           child: Container(
                             width: sizes.width(context, 110),
@@ -478,6 +488,7 @@ class CustomDialogs {
                         GestureDetector(
                           onTap: () {
                             Navigator.of(context).pop();
+                            FirebaseAnalytics().logEvent(name: "went back to open app");
                           },
                           child: Container(
                             width: sizes.width(context, 95),
@@ -674,7 +685,7 @@ class CustomDialogs {
                 ),
                 SizedBox(height: sizes.height(context, 12),),
                 Text(
-                  "this will switch off focus and you might be\ndistracted and be unable to focus, so are you sure?",
+                  "this will switch off focus mode and you might be\ndistracted and be unable to focus, so are you sure?",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontFamily: 'ProductSans',
@@ -696,6 +707,7 @@ class CustomDialogs {
                         GestureDetector(
                           onTap: () {
                             areYouSureFocusSecondary(context, sizes, colours);
+                            FirebaseAnalytics().logEvent(name: "went to focus mode secondary");
                           },
                           child: Container(
                             width: sizes.width(context, 110),
@@ -721,6 +733,7 @@ class CustomDialogs {
                         GestureDetector(
                           onTap: () {
                             Navigator.of(context).pop();
+                            FirebaseAnalytics().logEvent(name: "went back to focus mode");
                           },
                           child: Container(
                             width: sizes.width(context, 95),
@@ -814,6 +827,7 @@ class CustomDialogs {
                         GestureDetector(
                           onTap: () {
                             areYouSureFocusThird(context, sizes, colours);
+                            FirebaseAnalytics().logEvent(name: "went to focus mode third");
                           },
                           child: Container(
                             width: sizes.width(context, 110),
@@ -839,6 +853,7 @@ class CustomDialogs {
                         GestureDetector(
                           onTap: () {
                             Navigator.of(context).pop();
+                            FirebaseAnalytics().logEvent(name: "went to focus mode");
                           },
                           child: Container(
                             width: sizes.width(context, 95),
@@ -939,6 +954,7 @@ class CustomDialogs {
                                 },
                               ),
                             );
+                            FirebaseAnalytics().logEvent(name: "exited focus mode");
                           },
                           child: Container(
                             width: sizes.width(context, 110),
@@ -964,6 +980,7 @@ class CustomDialogs {
                         GestureDetector(
                           onTap: () {
                             Navigator.of(context).pop();
+                            FirebaseAnalytics().logEvent(name: "went back to focus mode secondary");
                           },
                           child: Container(
                             width: sizes.width(context, 95),
@@ -1035,7 +1052,7 @@ class CustomDialogs {
                 ),
                 SizedBox(height: sizes.height(context, 12),),
                 Text(
-                  "you will not be able to get this mode back once it is deleted,\nyou will have to recreate it",
+                  "you will not be able to get this mode back\nonce it is deleted,you will have to recreate it",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontFamily: 'ProductSans',
@@ -1064,6 +1081,7 @@ class CustomDialogs {
                                 },
                               ),
                             );
+                            FirebaseAnalytics().logEvent(name: "deleted mode");
                           },
                           child: Container(
                             width: sizes.width(context, 110),
@@ -1089,6 +1107,7 @@ class CustomDialogs {
                         GestureDetector(
                           onTap: () {
                             Navigator.of(context).pop();
+                            FirebaseAnalytics().logEvent(name: "went back to main category");
                           },
                           child: Container(
                             width: sizes.width(context, 95),
