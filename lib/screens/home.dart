@@ -452,6 +452,16 @@ class AllApps extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
                                 iconContainer(index, installedApps),
+                                SizedBox(height: 10),
+                                Text(
+                                  installedApps[index]["label"],
+                                  style: TextStyle(
+                                    color: Colours().white(),
+                                  ),
+                                  textAlign: TextAlign.center,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ],
                             ),
                           ),

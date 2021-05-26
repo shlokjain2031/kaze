@@ -155,6 +155,15 @@ class Util {
           ..startActivity().catchError((e) => print("intent error: " + e.toString()));
   }
 
+  void removeLauncherDefault() {
+    intentFlutter
+        .Intent()
+      ..setAction(actionFlutter.Action.ACTION_MAIN)
+      ..addCategory("android.intent.category.HOME")
+      ..addFlag(flag.Flag.FLAG_ACTIVITY_NEW_DOCUMENT)
+      ..startActivity().catchError((e) => print("intent error: " + e.toString()));
+  }
+
   Future<UserCredential> signInWithGoogle() async {
     // Trigger the authentication flow
     final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
@@ -196,4 +205,6 @@ class Util {
       FlutterDnd.setInterruptionFilter(FlutterDnd.INTERRUPTION_FILTER_ALL);
     }
   }
+
+
 }

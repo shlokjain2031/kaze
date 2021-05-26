@@ -967,7 +967,7 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
                                           children: [
                                             Container(
                                               width: sizes.width(context, 48),
-                                              height: sizes.height(context, 48),
+                                              height: sizes.height(context, 54),
                                               decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
                                                   color: colours.white()
@@ -1143,7 +1143,7 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
                                               children: [
                                                 Container(
                                                   width: sizes.width(context, 48),
-                                                  height: sizes.height(context, 48),
+                                                  height: sizes.height(context, 54),
                                                   decoration: BoxDecoration(
                                                       shape: BoxShape.circle,
                                                       color: colours.white()
