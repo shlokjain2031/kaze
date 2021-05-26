@@ -1178,7 +1178,7 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
                                                     print("newSelectedApps is added");
                                                   }
                                                 }
-                                                selectedApps = ValueNotifier(selectedApps.value);
+                                                // selectedApps = ValueNotifier(selectedApps.value);
 
                                                 selectedApps.notifyListeners();
                                                 print("lenNew: " + newSelectedApps.length.toString());

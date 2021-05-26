@@ -183,9 +183,12 @@ class Util {
     }
   }
   
-  setDndFilter({bool dnd=true}) {
-    if(dnd) {
+  setDndFilter({int dnd=1}) {
+    if(dnd == 1) {
       FlutterDnd.setInterruptionFilter(FlutterDnd.INTERRUPTION_FILTER_PRIORITY);
+    }
+    else if(dnd == 2) {
+      FlutterDnd.setInterruptionFilter(FlutterDnd.INTERRUPTION_FILTER_NONE);
     }
     else {
       FlutterDnd.setInterruptionFilter(FlutterDnd.INTERRUPTION_FILTER_ALL);

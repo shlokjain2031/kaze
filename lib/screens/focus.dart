@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kaze/screens/settings.dart';
 import 'package:kaze/services/focus.dart';
 import 'package:kaze/services/settings.dart';
 import 'package:kaze/services/util.dart';
@@ -336,7 +337,7 @@ class FocusMode extends StatelessWidget {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) {
-                                    return FocusMode();
+                                    return FocusModeSettings();
                                   },
                                 ),
                               );
@@ -344,17 +345,17 @@ class FocusMode extends StatelessWidget {
                             child: Container(
                               width: sizes.width(context, 150),
                               height: sizes.height(context, 80),
-                              padding: EdgeInsets.only(top: 8),
+                              padding: EdgeInsets.only(top: 12),
                               decoration: BoxDecoration(
                                   color: colours.white(),
                                   border: Border.all(color: colours.black(), width: 2)
                               ),
                               child: Text(
-                                'yes',
+                                'add apps',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontFamily: 'ProductSans',
-                                    fontSize: 28,
+                                    fontSize: 24,
                                     fontWeight: FontWeight.bold,
                                     color: colours.black(),
                                     decoration: TextDecoration.none
@@ -365,22 +366,28 @@ class FocusMode extends StatelessWidget {
                           SizedBox(width: 6,),
                           GestureDetector(
                             onTap: () {
-                              Navigator.of(context).pop();
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return Home();
+                                  },
+                                ),
+                              );
                             },
                             child: Container(
                               width: sizes.width(context, 120),
                               height: sizes.height(context, 80),
-                              padding: EdgeInsets.only(top: 8),
+                              padding: EdgeInsets.only(top: 12),
                               decoration: BoxDecoration(
                                   color: Colors.transparent,
                                   border: Border.all(color: colours.white(), width: 2)
                               ),
                               child: Text(
-                                'no',
+                                'go back',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontFamily: 'ProductSans',
-                                    fontSize: 28,
+                                    fontSize: 24,
                                     fontWeight: FontWeight.bold,
                                     color: colours.white(),
                                     decoration: TextDecoration.none
