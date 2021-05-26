@@ -1417,21 +1417,22 @@ class _FinalAddState extends State<FinalAdd> {
                           ),
                           GestureDetector(
                             onTap: () async {
-                              if(title == mode.title) {
+                              if(title == null) {
                                 ModeService().updateMode(mode.id, mode.title, mode.startTime, mode.endTime, selectedApps.value, wallpaperPath);
                               }
                               else {
                                 if(!(await ModeService().checkForDuplicate(title))) {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) {
-                                        return Home();
-                                      },
-                                    ),
-                                  );
+                                  ModeService().updateMode(mode.id, title, mode.startTime, mode.endTime, selectedApps.value, wallpaperPath, prevTitle: mode.title);
                                 }
                                 else {
-                                  // todo: scnack bar/dialog
+                                  final duplicateSnackBar = SnackBar(
+                                    content: Text('Name of the mode is duplicate, change it'),
+                                    action: SnackBarAction(
+                                      label: '',
+                                      onPressed: () {},
+                                    ),
+                                  );
+                                  ScaffoldMessenger.of(context).showSnackBar(duplicateSnackBar);
                                 }
                               }
 

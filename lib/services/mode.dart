@@ -33,13 +33,12 @@ class ModeService {
     initBackup();
   }
 
-  updateMode(int id, String title, String startTime, String endTime, List apps, String wallpaperPath) {
+  updateMode(int id, String title, String startTime, String endTime, List apps, String wallpaperPath, {String prevTitle}) {
     String rawApps = jsonEncode(apps);
     ModeModel mode = ModeModel(id: id, title: title, startTime: startTime, endTime: endTime, apps: rawApps, wallpaperPath: wallpaperPath);
-    print("title: " + title);
 
     ModeModelProvider()
-        .updateMode(mode)
+        .updateMode(mode, prevTitle: prevTitle)
         .then((value) => print("mode updated; id of mode: " + value.toString()));
 
     initBackup();

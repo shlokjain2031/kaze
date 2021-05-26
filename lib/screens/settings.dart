@@ -952,7 +952,7 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
                                         Row(
                                           children: [
                                             Container(
-                                              width: sizes.width(context, 36),
+                                              width: sizes.width(context, 48),
                                               height: sizes.height(context, 48),
                                               decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
@@ -1128,7 +1128,7 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
                                             Row(
                                               children: [
                                                 Container(
-                                                  width: sizes.width(context, 36),
+                                                  width: sizes.width(context, 48),
                                                   height: sizes.height(context, 48),
                                                   decoration: BoxDecoration(
                                                       shape: BoxShape.circle,
@@ -1159,7 +1159,7 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
                                                 }
                                                 else if (selectedApps.value.length >= 2) {
                                                   final focusModeAppsSetSnackBar = SnackBar(
-                                                    content: Text('not more than two apps allowed'),
+                                                    content: Text('Only 2 apps are allowed'),
                                                     action: SnackBarAction(
                                                       label: '',
                                                       onPressed: () {},

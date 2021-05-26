@@ -69,7 +69,7 @@ class CustomDialogs {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Focus Mode',
+                          'Start Focus Mode',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 32,
@@ -571,6 +571,13 @@ class CustomDialogs {
                         GestureDetector(
                           onTap: () {
                             Util().setDndFilter(dnd: 2);
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return Home();
+                                },
+                              ),
+                            );
                           },
                           child: Container(
                             width: sizes.width(context, 110),

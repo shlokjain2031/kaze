@@ -46,13 +46,14 @@ class ModeModelProvider {
     return database.insert("kaze", mode.toMap());
   }
 
-  Future<int> updateMode(ModeModel mode) async {
+  Future<int> updateMode(ModeModel mode, {String prevTitle}) async {
     var databasesPath = await getDatabasesPath();
     String dbPath = join(databasesPath, "kaze.db");
     Database database = await openDatabase(dbPath, version: 1);
     String column = "title";
 
-    return database.update("kaze", mode.toMap(), where: '$column = ?', whereArgs: [mode.title]);
+    return prevTitle != null ? database.update("kaze", mode.toMap(), where: '$column = ?', whereArgs: [prevTitle])
+                              : database.update("kaze", mode.toMap(), where: '$column = ?', whereArgs: [mode.title]);
   }
 
   Future<int> deleteMode(String title) async {

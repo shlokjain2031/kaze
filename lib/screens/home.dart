@@ -30,8 +30,9 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    print("yello");
+    Util().notificationPolicyAccess(fromHome: true);
     _pageController = PageController(initialPage: 1, viewportFraction: 0.85);
+
   }
 
   @override

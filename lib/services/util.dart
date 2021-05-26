@@ -172,14 +172,16 @@ class Util {
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
-  void notificationPolicyAccess() async {
+  void notificationPolicyAccess({bool fromHome=false}) async {
     bool isNotificationPolicyAccessGranted = await FlutterDnd.isNotificationPolicyAccessGranted;
     if (!(isNotificationPolicyAccessGranted)) {
       FlutterDnd.gotoPolicySettings();
     }
 
-    if(isNotificationPolicyAccessGranted) {
-      setDndFilter();
+    if(!fromHome) {
+      if (isNotificationPolicyAccessGranted) {
+        setDndFilter();
+      }
     }
   }
   
