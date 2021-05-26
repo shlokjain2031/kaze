@@ -432,8 +432,8 @@ class AllApps extends StatelessWidget {
                   height: Sizes().height(context, 790),
                   width: Sizes().width(context, 414),
                   child: GridView.count(
-                    crossAxisCount: 4,
-                    mainAxisSpacing: 24,
+                    crossAxisCount: 5,
+                    mainAxisSpacing: 20,
                     physics: BouncingScrollPhysics(),
                     children: List.generate(
                       installedApps != null ? installedApps.length : 0,
@@ -444,21 +444,12 @@ class AllApps extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
                                 iconContainer(index, installedApps),
-                                SizedBox(height: 10),
-                                Text(
-                                  installedApps[index]["label"],
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
                               ],
                             ),
                           ),
-                          onTap: () =>
-                              LauncherAssist.launchApp(installedApps[index]["package"]),
+                          onTap: () {
+                            CustomDialogs().openApp(context, Sizes(), Colours(), installedApps[index]);
+                          }
                         );
                       },
                     ),

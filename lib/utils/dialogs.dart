@@ -903,7 +903,7 @@ class CustomDialogs {
                 ),
                 SizedBox(height: sizes.height(context, 12),),
                 Text(
-                  "we are repeatedly asking you to help you resist the urge of using your phone,\nplease don't take it in any other context",
+                  "we are repeatedly asking you to help you resist the urge of using your phone, please don't take it in any other context",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontFamily: 'ProductSans',
@@ -924,6 +924,7 @@ class CustomDialogs {
                       children: [
                         GestureDetector(
                           onTap: () {
+                            Util().setDndFilter();
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) {
