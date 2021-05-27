@@ -1,19 +1,14 @@
-import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:kaze/models/mode.dart';
 import 'package:kaze/services/mode.dart';
 import 'package:kaze/services/util.dart';
 import 'package:kaze/utils/colours.dart';
 import 'package:kaze/utils/sizes.dart';
-import 'package:palette_generator/palette_generator.dart';
 
 import 'home.dart';
 
@@ -326,14 +321,16 @@ class _AppsAddState extends State<AppsAdd> {
                                           return GestureDetector(
                                             onTap: () {
                                               bool duplicate = false;
-                                              selectedApps.value.forEach((element) {
-                                                if(element["package"] == apps[index]["package"]) {
+                                              for(int i=0;i<selectedApps.value.length;i++) {
+                                                if(selectedApps.value[i]["package"] == apps[index]["package"]) {
                                                   duplicate = true;
+                                                  break;
                                                 }
                                                 else {
                                                   duplicate = false;
                                                 }
-                                              });
+                                              }
+
                                               if(!duplicate) {
                                                 selectedApps.value.add(apps[index]);
                                               }
@@ -700,14 +697,15 @@ class _TimeAddState extends State<TimeAdd> {
                                       return GestureDetector(
                                         onTap: () {
                                           bool duplicate = false;
-                                          selectedApps.value.forEach((element) {
-                                            if(element["package"] == allApps[index]["package"]) {
+                                          for(int i=0;i<selectedApps.value.length;i++) {
+                                            if(selectedApps.value[i]["package"] == allApps[index]["package"]) {
                                               duplicate = true;
+                                              break;
                                             }
                                             else {
                                               duplicate = false;
                                             }
-                                          });
+                                          }
                                           if(!duplicate) {
                                             selectedApps.value.add(allApps[index]);
                                           }
@@ -1055,14 +1053,15 @@ class _FinalAddState extends State<FinalAdd> {
                                           return GestureDetector(
                                             onTap: () {
                                               bool duplicate = false;
-                                              selectedApps.value.forEach((element) {
-                                                if(element["package"] == allApps[index]["package"]) {
+                                              for(int i=0;i<selectedApps.value.length;i++) {
+                                                if(selectedApps.value[i]["package"] == allApps[index]["package"]) {
                                                   duplicate = true;
+                                                  break;
                                                 }
                                                 else {
                                                   duplicate = false;
                                                 }
-                                              });
+                                              }
                                               if(!duplicate) {
                                                 selectedApps.value.add(allApps[index]);
                                               }
@@ -1382,14 +1381,15 @@ class _FinalAddState extends State<FinalAdd> {
                                           return GestureDetector(
                                             onTap: () {
                                               bool duplicate = false;
-                                              selectedApps.value.forEach((element) {
-                                                if(element["package"] == allApps[index]["package"]) {
+                                              for(int i=0;i<selectedApps.value.length;i++) {
+                                                if(selectedApps.value[i]["package"] == allApps[index]["package"]) {
                                                   duplicate = true;
+                                                  break;
                                                 }
                                                 else {
                                                   duplicate = false;
                                                 }
-                                              });
+                                              }
                                               if(!duplicate) {
                                                 selectedApps.value.add(allApps[index]);
                                               }

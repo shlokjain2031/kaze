@@ -158,69 +158,7 @@ class _SettingsState extends State<Settings> {
                               ],
                             ),
                             SizedBox(height: sizes.height(context, 36)),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Image(
-                                      image: AssetImage('assets/phone.png'),
-                                      fit: BoxFit.fill,
-                                      width: 30,
-                                      color: colours.white(),
-                                    ),
-                                    SizedBox(width: 8,),
-                                    Text(
-                                      'phone ringtone',
-                                      style: TextStyle(
-                                          fontSize: 24,
-                                          color: colours.white(),
-                                          fontFamily: 'ProductSans'
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      phone ? 'on' : 'off',
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          color: colours.white(opacity: .6),
-                                          fontFamily: 'ProductSans'
-                                      ),
-                                    ),
-                                    SizedBox(width: 10,),
-                                    FlutterSwitch(
-                                        width: sizes.width(context, 64),
-                                        height: sizes.height(context, 54),
-                                        toggleSize: sizes.height(context, 42),
-                                        borderRadius: 16,
-                                        showOnOff: false,
-                                        activeColor: Color(0xFF393e46),
-                                        inactiveColor: colours.white(),
-                                        activeTextColor: colours.white(),
-                                        inactiveToggleColor: Color(0xFF3C3C3C),
-                                        value: phone,
-                                        onToggle: (val) {
-                                          setState(() {
-                                            phone = val;
-                                            if(phone) {
-                                              CustomDialogs().areYouSure(context, sizes, colours);
-                                            }
-                                            else {
-                                              Util().setDndFilter();
-                                            }
-                                            saveSettings();
-                                            FirebaseAnalytics().logEvent(name: "changed phone settings");
-                                          });
-                                        }
-                                    )
-                                  ],
-                                )
-                              ],
-                            ),
-                            SizedBox(height: sizes.height(context, 36)),
+
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -548,68 +486,7 @@ class _SettingsState extends State<Settings> {
                               ],
                             ),
                             SizedBox(height: sizes.height(context, 36)),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Image(
-                                      image: AssetImage('assets/phone.png'),
-                                      fit: BoxFit.fill,
-                                      width: 30,
-                                      color: colours.white(),
-                                    ),
-                                    SizedBox(width: 8,),
-                                    Text(
-                                      'phone ringtone',
-                                      style: TextStyle(
-                                          fontSize: 24,
-                                          color: colours.white(),
-                                          fontFamily: 'ProductSans'
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      phone ? 'on' : 'off',
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          color: colours.white(opacity: .6),
-                                          fontFamily: 'ProductSans'
-                                      ),
-                                    ),
-                                    SizedBox(width: 10,),
-                                    FlutterSwitch(
-                                        width: sizes.width(context, 64),
-                                        height: sizes.height(context, 54),
-                                        toggleSize: sizes.height(context, 42),
-                                        borderRadius: 16,
-                                        showOnOff: false,
-                                        activeColor: Color(0xFF393e46),
-                                        inactiveColor: colours.white(),
-                                        activeTextColor: colours.white(),
-                                        inactiveToggleColor: Color(0xFF3C3C3C),
-                                        value: phone,
-                                        onToggle: (val) {
-                                          setState(() {
-                                            phone = val;
-                                          });
-                                          if(phone) {
-                                            CustomDialogs().areYouSure(context, sizes, colours);
-                                          }
-                                          else {
-                                            Util().setDndFilter();
-                                          }
-                                          FirebaseAnalytics().logEvent(name: "changed phone settings");
-                                        }
-                                    )
-                                  ],
-                                )
-                              ],
-                            ),
-                            SizedBox(height: sizes.height(context, 36)),
+
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [

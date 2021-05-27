@@ -342,15 +342,18 @@ class CustomDialogs {
                 SizedBox(height: sizes.height(context, 16),),
                 SizedBox(
                   width: sizes.width(context, 310),
-                  child: Text(
-                    'Open ' + app["label"] + '?',
-                    maxLines: 1,
-                    style: TextStyle(
-                        fontFamily: 'ProductSans',
-                        fontSize: 32,
-                        color: colours.black(),
-                        fontWeight: FontWeight.bold,
-                        decoration: TextDecoration.none
+                  child: Center(
+                    child: Text(
+                      'Open ' + app["label"] + '?',
+                      maxLines: 1,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontFamily: 'ProductSans',
+                          fontSize: 32,
+                          color: colours.black(),
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.none
+                      ),
                     ),
                   ),
                 ),
@@ -621,7 +624,7 @@ class CustomDialogs {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) {
-                                  return Home();
+                                  return Settings();
                                 },
                               ),
                             );
