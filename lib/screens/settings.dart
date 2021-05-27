@@ -59,7 +59,13 @@ class _SettingsState extends State<Settings> {
                         GestureDetector(
                           onTap: () {
                             saveSettings();
-                            Navigator.of(context).pop();
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return Home();
+                                },
+                              ),
+                            );
                             FirebaseAnalytics().logEvent(name: "went back from settings to homne");
                           },
                           child: Icon(
@@ -389,7 +395,13 @@ class _SettingsState extends State<Settings> {
                         GestureDetector(
                           onTap: () {
                             saveSettings();
-                            Navigator.of(context).pop();
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return Home();
+                                },
+                              ),
+                            );
                           },
                           child: Icon(
                             Icons.arrow_back_outlined,
@@ -705,7 +717,13 @@ class _SettingsState extends State<Settings> {
 
   Future<bool> _androidBack(BuildContext context) async {
     saveSettings();
-    Navigator.of(context).pop();
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) {
+          return Home();
+        },
+      ),
+    );
     return true;
   }
 

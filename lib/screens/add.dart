@@ -203,7 +203,7 @@ class _AppsAddState extends State<AppsAdd> {
                   Container(
                     margin: const EdgeInsets.only(top: 16),
                     child: Text(
-                      'click max 8 apps you will use in this mode',
+                      'click the apps you will use in this mode',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontFamily: 'ProductSans',
@@ -215,156 +215,175 @@ class _AppsAddState extends State<AppsAdd> {
                   SizedBox(height: sizes.height(context, 175),),
 
                   ValueListenableBuilder(
-                    valueListenable: selectedApps,
-                    builder: (context, value, child) {
-                      return Container(
-                        margin: EdgeInsets.only(left: sizes.width(context, 72)),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              width: sizes.width(context, 414),
-                              height: sizes.height(context, 64),
-                              child: ListView.builder(
-                                itemCount: selectedApps.value.length > 4 ? 4 : selectedApps.value.length,
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: (context, listIndex) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      selectedApps.value.removeAt(listIndex);
-                                      selectedApps.notifyListeners();
-                                      FirebaseAnalytics().logEvent(name: "removed an app");
-                                    },
-                                    child: Container(
-                                      width: sizes.width(context, 50),
-                                      height: sizes.height(context, 64),
-                                      margin: EdgeInsets.only(right: 20),
-                                      decoration: BoxDecoration(
+                      valueListenable: selectedApps,
+                      builder: (context, value, child) {
+                        return Container(
+                          margin: EdgeInsets.only(left: sizes.width(context, 42)),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                width: sizes.width(context, 414),
+                                height: sizes.height(context, 64),
+                                child: ListView.builder(
+                                  itemCount: selectedApps.value.length > 5 ? 5 : selectedApps.value.length,
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, listIndex) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        selectedApps.value.removeAt(listIndex);
+                                        selectedApps.notifyListeners();
+                                        FirebaseAnalytics().logEvent(name: "removed an app");
+                                      },
+                                      child: Container(
+                                        width: sizes.width(context, 50),
+                                        height: sizes.height(context, 64),
+                                        margin: EdgeInsets.only(right: 20),
+                                        decoration: BoxDecoration(
                                           shape: BoxShape.circle,
                                           border: Border.all(color: colours.white(), width: 3),
                                           color: colours.white(), // change with colours.black(),
+                                        ),
+                                        child: Image(
+                                          image: MemoryImage(selectedApps.value[listIndex]["icon"]),
+                                          fit: BoxFit.fill,
+                                        ),
                                       ),
-                                      child: Image(
-                                        image: MemoryImage(selectedApps.value[listIndex]["icon"]),
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ),
-                                  );
-                                },
+                                    );
+                                  },
+                                ),
                               ),
-                            ),
-                            SizedBox(height: sizes.height(context, 32)),
-                            SizedBox(
-                              width: sizes.width(context, 414),
-                              height: sizes.height(context, 64),
-                              child: ListView.builder(
-                                itemCount: selectedApps.value.length > 4 ? (selectedApps.value.length - 4) : 0,
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: (context, listIndex) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      selectedApps.value.removeAt(listIndex);
-                                      selectedApps.notifyListeners();
-                                    },
-                                    child: Container(
-                                      width: sizes.width(context, 50),
-                                      height: sizes.height(context, 64),
-                                      margin: EdgeInsets.only(right: 20),
-                                      decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          border: Border.all(color: colours.white(), width: 3),
-                                          color: colours.white() // change with colours.black()
+                              SizedBox(height: sizes.height(context, 42)),
+                              SizedBox(
+                                width: sizes.width(context, 414),
+                                height: sizes.height(context, 64),
+                                child: ListView.builder(
+                                  itemCount: selectedApps.value.length > 5 ? (selectedApps.value.length - 5) : 0,
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, listIndex) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        selectedApps.value.removeAt(listIndex+5);
+                                        selectedApps.notifyListeners();
+                                      },
+                                      child: Container(
+                                        width: sizes.width(context, 50),
+                                        height: sizes.height(context, 64),
+                                        margin: EdgeInsets.only(right: 20),
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            border: Border.all(color: colours.white(), width: 3),
+                                            color: colours.white() // change with colours.black()
+                                        ),
+                                        child: Image(
+                                          image: MemoryImage(Util().getAppIcon(selectedApps.value[(listIndex + 5)]["icon"])),
+                                          fit: BoxFit.fill,
+                                        ),
                                       ),
-                                      child: Image(
-                                        image: MemoryImage(Util().getAppIcon(selectedApps.value[(listIndex + 4)]["icon"])),
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ),
-                                  );
-                                },
+                                    );
+                                  },
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      );
-                    }
+                            ],
+                          ),
+                        );
+                      }
                   ),
 
                   SizedBox(
-                    height: sizes.height(context, 200),
+                    height: sizes.height(context, 180),
                   ),
 
                   Container(
                     width: sizes.width(context, 400),
                     height: sizes.height(context, 100),
                     child: FutureBuilder(
-                      future: Util().getAllApps(),
-                      builder: (context, snapshot) {
-                        if(snapshot.hasData) {
-                          List apps = snapshot.data;
-                          allApps = apps;
-                          return ListView.builder(
-                            
-                            itemCount: apps.length,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (BuildContext context, int index) {
-                              // Map dataObject = appList[index];
-                              return Center(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                                      child: ValueListenableBuilder(
-                                        valueListenable: selectedApps,
-                                        builder: (context, value, child) {
-                                          return GestureDetector(
-                                            onTap: () {
-                                              bool duplicate = false;
-                                              for(int i=0;i<selectedApps.value.length;i++) {
-                                                if(selectedApps.value[i]["package"] == apps[index]["package"]) {
-                                                  duplicate = true;
-                                                  break;
-                                                }
-                                                else {
-                                                  duplicate = false;
-                                                }
-                                              }
+                        future: Util().getAllApps(),
+                        builder: (context, snapshot) {
+                          if(snapshot.hasData) {
+                            List apps = snapshot.data;
+                            allApps = apps;
+                            return ListView.builder(
+                              itemCount: apps.length,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (BuildContext context, int index) {
+                                // Map dataObject = appList[index];
+                                return Center(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                                        child: ValueListenableBuilder(
+                                            valueListenable: selectedApps,
+                                            builder: (context, value, child) {
+                                              return GestureDetector(
+                                                onTap: () {
+                                                  bool duplicate = false;
+                                                  for(int i=0;i<selectedApps.value.length;i++) {
+                                                    if(selectedApps.value[i]["package"] == apps[index]["package"]) {
+                                                      duplicate = true;
+                                                      break;
+                                                    }
+                                                    else {
+                                                      duplicate = false;
+                                                    }
+                                                  }
 
-                                              if(!duplicate) {
-                                                selectedApps.value.add(apps[index]);
-                                              }
-                                              selectedApps.notifyListeners();
-                                              FirebaseAnalytics().logEvent(name: "selected an app");
-                                            },
-                                            child: Container(
-                                              width: sizes.width(context, 50),
-                                              height: sizes.height(context, 64),
-                                              margin: EdgeInsets.only(right: 8),
-                                              decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                          border: Border.all(color: colours.white(), width: 3),
-                                                  color: colours.white() // change with colours.black()
-                                              ),
-                                              child: Image(
-                                                image: MemoryImage(apps[index]["icon"]),
-                                                fit: BoxFit.fill,
-                                              ),
-                                            ),
-                                          );
-                                        }
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              );
-                            },
-                          );
+                                                  if(!duplicate) {
+                                                    if(selectedApps.value.length <= 9) {
+                                                      selectedApps.value.add(apps[index]);
+                                                    }
+                                                    else {
+                                                      final duplicateOrExceedSnackBar = SnackBar(
+                                                        content: Text(
+                                                          "Only 10 apps are allowed in a single mode, click the app to remove it",
+                                                          textAlign: TextAlign.center,
+                                                          style: TextStyle(
+                                                              color: colours.white(),
+                                                              fontSize: 18,
+                                                              fontFamily: 'ProductSans'
+                                                          ),
+                                                        ),
+                                                        action: SnackBarAction(
+                                                          label: '',
+                                                          onPressed: () {},
+                                                        ),
+                                                      );
+                                                      ScaffoldMessenger.of(context).showSnackBar(duplicateOrExceedSnackBar);
+                                                    }
+                                                  }
+                                                  selectedApps.notifyListeners();
+                                                  FirebaseAnalytics().logEvent(name: "selected an app");
+                                                },
+                                                child: Container(
+                                                  width: sizes.width(context, 50),
+                                                  height: sizes.height(context, 64),
+                                                  margin: EdgeInsets.only(right: 8),
+                                                  decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      border: Border.all(color: colours.white(), width: 3),
+                                                      color: colours.white(),
+                                                  ),
+                                                  child: Image(
+                                                    image: MemoryImage(apps[index]["icon"]),
+                                                    fit: BoxFit.fill,
+                                                  ),
+                                                ),
+                                              );
+                                            }
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                          }
+                          else {
+                            return SizedBox();
+                          }
                         }
-                        else {
-                          return SizedBox();
-                        }
-                      }
                     ),
                   ),
                 ],
@@ -585,10 +604,10 @@ class _TimeAddState extends State<TimeAdd> {
                                 Text(
                                   (startTime.hour < 10 ? "0" + startTime.hour.toString() : startTime.hour.toString()) + ":" + (startTime.minute == 0 ? startTime.minute.toString() + "0" : startTime.minute.toString()),
                                   style: TextStyle(
-                                    color: colours.white(opacity: .1),
-                                    fontFamily: 'ProductSans',
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 64
+                                      color: colours.white(opacity: .1),
+                                      fontFamily: 'ProductSans',
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 64
                                   ),
                                 ),
                                 Container(
@@ -596,8 +615,8 @@ class _TimeAddState extends State<TimeAdd> {
                                   height: sizes.height(context, 54),
                                   margin: EdgeInsets.only(top: 48, left: 8),
                                   decoration: BoxDecoration(
-                                    color: colours.white(),
-                                    borderRadius: BorderRadius.circular(15)
+                                      color: colours.white(),
+                                      borderRadius: BorderRadius.circular(15)
                                   ),
                                   child: Row(
                                     children: [
@@ -611,9 +630,9 @@ class _TimeAddState extends State<TimeAdd> {
                                       Text(
                                         'start time',
                                         style: TextStyle(
-                                            color: colours.black(),
-                                            fontFamily: 'ProductSans',
-                                            fontSize: 20,
+                                          color: colours.black(),
+                                          fontFamily: 'ProductSans',
+                                          fontSize: 20,
                                         ),
                                       )
                                     ],
@@ -680,7 +699,7 @@ class _TimeAddState extends State<TimeAdd> {
                     width: sizes.width(context, 400),
                     height: sizes.height(context, 100),
                     child: ListView.builder(
-                      
+
                       itemCount: allApps.length,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (BuildContext context, int index) {
@@ -707,7 +726,27 @@ class _TimeAddState extends State<TimeAdd> {
                                             }
                                           }
                                           if(!duplicate) {
-                                            selectedApps.value.add(allApps[index]);
+                                            if(selectedApps.value.length <= 9) {
+                                              selectedApps.value.add(allApps[index]);
+                                            }
+                                            else {
+                                              final duplicateOrExceedSnackBar = SnackBar(
+                                                content: Text(
+                                                  "Only 10 apps are allowed in a single mode, click the app to remove it",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      color: colours.white(),
+                                                      fontSize: 18,
+                                                      fontFamily: 'ProductSans'
+                                                  ),
+                                                ),
+                                                action: SnackBarAction(
+                                                  label: '',
+                                                  onPressed: () {},
+                                                ),
+                                              );
+                                              ScaffoldMessenger.of(context).showSnackBar(duplicateOrExceedSnackBar);
+                                            }
                                           }
                                           selectedApps.notifyListeners();
                                         },
@@ -1037,7 +1076,7 @@ class _FinalAddState extends State<FinalAdd> {
                         height: sizes.height(context, 100),
                         child: ListView.builder(
                           itemCount: allApps.length,
-                          
+
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (BuildContext context, int index) {
                             // Map dataObject = appList[index];
@@ -1063,7 +1102,27 @@ class _FinalAddState extends State<FinalAdd> {
                                                 }
                                               }
                                               if(!duplicate) {
-                                                selectedApps.value.add(allApps[index]);
+                                                if(selectedApps.value.length <= 9) {
+                                                  selectedApps.value.add(allApps[index]);
+                                                }
+                                                else {
+                                                  final duplicateOrExceedSnackBar = SnackBar(
+                                                    content: Text(
+                                                      "Only 10 apps are allowed in a single mode, click the app to remove it",
+                                                      textAlign: TextAlign.center,
+                                                      style: TextStyle(
+                                                          color: colours.white(),
+                                                          fontSize: 18,
+                                                          fontFamily: 'ProductSans'
+                                                      ),
+                                                    ),
+                                                    action: SnackBarAction(
+                                                      label: '',
+                                                      onPressed: () {},
+                                                    ),
+                                                  );
+                                                  ScaffoldMessenger.of(context).showSnackBar(duplicateOrExceedSnackBar);
+                                                }
                                               }
                                               selectedApps.notifyListeners();
                                             },
@@ -1365,7 +1424,7 @@ class _FinalAddState extends State<FinalAdd> {
                         height: sizes.height(context, 100),
                         child: ListView.builder(
                           itemCount: allApps.length,
-                          
+
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (BuildContext context, int index) {
                             // Map dataObject = appList[index];
@@ -1391,7 +1450,27 @@ class _FinalAddState extends State<FinalAdd> {
                                                 }
                                               }
                                               if(!duplicate) {
-                                                selectedApps.value.add(allApps[index]);
+                                                if(selectedApps.value.length <= 9) {
+                                                  selectedApps.value.add(allApps[index]);
+                                                }
+                                                else {
+                                                  final duplicateOrExceedSnackBar = SnackBar(
+                                                    content: Text(
+                                                      "Only 10 apps are allowed in a single mode, click the app to remove it",
+                                                      textAlign: TextAlign.center,
+                                                      style: TextStyle(
+                                                          color: colours.white(),
+                                                          fontSize: 18,
+                                                          fontFamily: 'ProductSans'
+                                                      ),
+                                                    ),
+                                                    action: SnackBarAction(
+                                                      label: '',
+                                                      onPressed: () {},
+                                                    ),
+                                                  );
+                                                  ScaffoldMessenger.of(context).showSnackBar(duplicateOrExceedSnackBar);
+                                                }
                                               }
                                               selectedApps.notifyListeners();
                                               FirebaseAnalytics().logEvent(name: "updated: added app");
@@ -1498,8 +1577,3 @@ class _FinalAddState extends State<FinalAdd> {
     }
   }
 }
-
-
-
-
-
