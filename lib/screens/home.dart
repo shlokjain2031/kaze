@@ -49,6 +49,7 @@ class _HomeState extends State<Home> {
 
               return SizedBox(
                 height: sizes.height(context, 880),
+                width: sizes.width(context, 414),
                 child: PageView.builder(
                   controller: _pageController,
                   itemCount: (allModes.length + 1),
@@ -147,7 +148,7 @@ class _HomeState extends State<Home> {
                         decoration: mode.wallpaperPath != null ? BoxDecoration(
                             image: DecorationImage(
                               image: FileImage(File(mode.wallpaperPath)),
-                              fit: BoxFit.fitHeight,
+                              fit: BoxFit.fitWidth,
                               colorFilter: ColorFilter.mode(colours.black().withOpacity(0.65),
                                   BlendMode.dstATop),
                             ),
@@ -248,30 +249,35 @@ class _HomeState extends State<Home> {
                                       itemCount: apps.length > 5 ? 5 : apps.length,
                                       scrollDirection: Axis.horizontal,
                                       itemBuilder: (context, listIndex) {
-                                        return GestureDetector(
-                                          onTap: () {
-                                            bool appCanBeUsed = ModeService().checkIfAppCanBeUsed(mode);
-                                            if(appCanBeUsed) {
-                                              Util().launchApp(apps[listIndex]["package"]);
-                                            }
-                                            else {
-                                              CustomDialogs().openApp(context, sizes, colours, apps[listIndex]);
-                                            }
+                                        return Align(
+                                          alignment: Alignment.center,
+                                          child: Center(
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                bool appCanBeUsed = ModeService().checkIfAppCanBeUsed(mode);
+                                                if(appCanBeUsed) {
+                                                  Util().launchApp(apps[listIndex]["package"]);
+                                                }
+                                                else {
+                                                  CustomDialogs().openApp(context, sizes, colours, apps[listIndex]);
+                                                }
 
-                                            FirebaseAnalytics().logEvent(name: "click_on_launch app");
-                                          },
-                                          child: Container(
-                                            width: sizes.width(context, 50),
-                                            height: sizes.height(context, 64),
-                                            margin: EdgeInsets.only(right: 20),
-                                            decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: colours.white(),
-                                                border: Border.all(color: colours.white(), width: 3)
-                                            ),
-                                            child: Image(
-                                              image: MemoryImage(Util().getAppIcon(apps[listIndex]["icon"])),
-                                              fit: BoxFit.fill,
+                                                FirebaseAnalytics().logEvent(name: "click_on_launch app");
+                                              },
+                                              child: Container(
+                                                width: sizes.width(context, 50),
+                                                height: sizes.height(context, 64),
+                                                margin: EdgeInsets.only(right: 20),
+                                                decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color: colours.white(),
+                                                    border: Border.all(color: colours.white(), width: 3)
+                                                ),
+                                                child: Image(
+                                                  image: MemoryImage(Util().getAppIcon(apps[listIndex]["icon"])),
+                                                  fit: BoxFit.fill,
+                                                ),
+                                              ),
                                             ),
                                           ),
                                         );
