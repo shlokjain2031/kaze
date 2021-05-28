@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kaze/models/mode.dart';
 import 'package:kaze/services/mode.dart';
-import 'package:kaze/services/notifications.dart';
 import 'package:kaze/services/util.dart';
 import 'package:kaze/utils/colours.dart';
 import 'package:kaze/utils/dialogs.dart';
@@ -58,14 +57,13 @@ class _HomeState extends State<Home> {
                     if (index == allModes.length) {
                       return GestureDetector(
                         onTap: () {
-                          NotificationService().cancelNotifications();
-                          // Navigator.of(context).push(
-                          //   MaterialPageRoute(
-                          //     builder: (context) {
-                          //       return TitleAdd();
-                          //     },
-                          //   ),
-                          // );
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return TitleAdd();
+                              },
+                            ),
+                          );
                           FirebaseAnalytics().logEvent(name: "click_on_adding_mode");
                         },
                         child: Container(

@@ -41,7 +41,7 @@ class CustomDialogs {
                           },
                         ),
                       );
-                      FirebaseAnalytics().logEvent(name: "clicked on settings");
+                      FirebaseAnalytics().logEvent(name: "clicked_on_settings");
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -68,7 +68,7 @@ class CustomDialogs {
                   GestureDetector(
                     onTap: () {
                       focusMode(context, sizes, colours);
-                      FirebaseAnalytics().logEvent(name: "clicked start focus mode");
+                      FirebaseAnalytics().logEvent(name: "clicked_start_focus_mode");
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -101,7 +101,7 @@ class CustomDialogs {
                           },
                         ),
                       );
-                      FirebaseAnalytics().logEvent(name: "clicked all apps");
+                      FirebaseAnalytics().logEvent(name: "clicked_all_apps");
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -128,7 +128,7 @@ class CustomDialogs {
                   GestureDetector(
                     onTap: () {
                       title != null ? areYouSureModeDelete(context, sizes, colours, title) : print("title is null");
-                      FirebaseAnalytics().logEvent(name: "clicked delete mode");
+                      FirebaseAnalytics().logEvent(name: "clicked_delete_mode");
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -155,7 +155,7 @@ class CustomDialogs {
                   GestureDetector(
                     onTap: () {
                       areYouSureQuitKaze(context, sizes, colours);
-                      FirebaseAnalytics().logEvent(name: "clicked quit kaze");
+                      FirebaseAnalytics().logEvent(name: "clicked_quit_kaze");
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -255,7 +255,7 @@ class CustomDialogs {
                                 },
                               ),
                             );
-                            FirebaseAnalytics().logEvent(name: "went to focus mode");
+                            FirebaseAnalytics().logEvent(name: "went_to_focus_mode");
                           },
                           child: Container(
                             width: sizes.width(context, 110),
@@ -281,7 +281,7 @@ class CustomDialogs {
                         GestureDetector(
                           onTap: () {
                             Navigator.of(context).pop();
-                            FirebaseAnalytics().logEvent(name: "didn't go to focus mode");
+                            FirebaseAnalytics().logEvent(name: "did_not_go_focus_mode");
                           },
                           child: Container(
                             width: sizes.width(context, 95),
@@ -382,7 +382,7 @@ class CustomDialogs {
                         GestureDetector(
                           onTap: () {
                             openAppSecondary(context, sizes, colours, app);
-                            FirebaseAnalytics().logEvent(name: "went to open app secondary");
+                            FirebaseAnalytics().logEvent(name: "went_open_app_secondary");
                           },
                           child: Container(
                             width: sizes.width(context, 110),
@@ -408,7 +408,7 @@ class CustomDialogs {
                         GestureDetector(
                           onTap: () {
                             Navigator.of(context).pop();
-                            FirebaseAnalytics().logEvent(name: "went back to home");
+                            FirebaseAnalytics().logEvent(name: "went_back_to_home");
                           },
                           child: Container(
                             width: sizes.width(context, 95),
@@ -502,7 +502,7 @@ class CustomDialogs {
                         GestureDetector(
                           onTap: () {
                             Util().launchApp(app["package"]);
-                            FirebaseAnalytics().logEvent(name: "opened app");
+                            FirebaseAnalytics().logEvent(name: "opened_app");
                           },
                           child: Container(
                             width: sizes.width(context, 110),
@@ -528,7 +528,7 @@ class CustomDialogs {
                         GestureDetector(
                           onTap: () {
                             Navigator.of(context).pop();
-                            FirebaseAnalytics().logEvent(name: "went back to open app");
+                            FirebaseAnalytics().logEvent(name: "went_back_to_open_app");
                           },
                           child: Container(
                             width: sizes.width(context, 95),
@@ -747,7 +747,7 @@ class CustomDialogs {
                         GestureDetector(
                           onTap: () {
                             areYouSureFocusSecondary(context, sizes, colours);
-                            FirebaseAnalytics().logEvent(name: "went to focus mode secondary");
+                            FirebaseAnalytics().logEvent(name: "went_focus_mode_secondary");
                           },
                           child: Container(
                             width: sizes.width(context, 110),
@@ -773,7 +773,7 @@ class CustomDialogs {
                         GestureDetector(
                           onTap: () {
                             Navigator.of(context).pop();
-                            FirebaseAnalytics().logEvent(name: "went back to focus mode");
+                            FirebaseAnalytics().logEvent(name: "went_back_to_focus_mode");
                           },
                           child: Container(
                             width: sizes.width(context, 95),
@@ -867,7 +867,7 @@ class CustomDialogs {
                         GestureDetector(
                           onTap: () {
                             areYouSureFocusThird(context, sizes, colours);
-                            FirebaseAnalytics().logEvent(name: "went to focus mode third");
+                            FirebaseAnalytics().logEvent(name: "went_focus_mode_third");
                           },
                           child: Container(
                             width: sizes.width(context, 110),
@@ -893,7 +893,7 @@ class CustomDialogs {
                         GestureDetector(
                           onTap: () {
                             Navigator.of(context).pop();
-                            FirebaseAnalytics().logEvent(name: "went to focus mode");
+                            FirebaseAnalytics().logEvent(name: "went_focus_mode");
                           },
                           child: Container(
                             width: sizes.width(context, 95),
@@ -995,7 +995,7 @@ class CustomDialogs {
                                 },
                               ),
                             );
-                            FirebaseAnalytics().logEvent(name: "exited focus mode");
+                            FirebaseAnalytics().logEvent(name: "exited_focus_mode");
                           },
                           child: Container(
                             width: sizes.width(context, 110),
@@ -1021,7 +1021,7 @@ class CustomDialogs {
                         GestureDetector(
                           onTap: () {
                             Navigator.of(context).pop();
-                            FirebaseAnalytics().logEvent(name: "went back to focus mode secondary");
+                            FirebaseAnalytics().logEvent(name: "went_back_focus_mode_secondary");
                           },
                           child: Container(
                             width: sizes.width(context, 95),
@@ -1122,7 +1122,7 @@ class CustomDialogs {
                                 },
                               ),
                             );
-                            FirebaseAnalytics().logEvent(name: "deleted mode");
+                            FirebaseAnalytics().logEvent(name: "deleted_mode");
                           },
                           child: Container(
                             width: sizes.width(context, 110),
@@ -1148,7 +1148,7 @@ class CustomDialogs {
                         GestureDetector(
                           onTap: () {
                             Navigator.of(context).pop();
-                            FirebaseAnalytics().logEvent(name: "went back to main category");
+                            FirebaseAnalytics().logEvent(name: "went_back_main_category");
                           },
                           child: Container(
                             width: sizes.width(context, 95),
@@ -1243,7 +1243,7 @@ class CustomDialogs {
                           onTap: () {
                             Util().removeLauncherDefault();
                             SystemNavigator.pop();
-                            FirebaseAnalytics().logEvent(name: "exited kaze");
+                            FirebaseAnalytics().logEvent(name: "exited_kaze");
                           },
                           child: Container(
                             width: sizes.width(context, 110),
@@ -1269,7 +1269,7 @@ class CustomDialogs {
                         GestureDetector(
                           onTap: () {
                             Navigator.of(context).pop();
-                            FirebaseAnalytics().logEvent(name: "went back to focus mode secondary");
+                            FirebaseAnalytics().logEvent(name: "went_back_focus_mode_secondary");
                           },
                           child: Container(
                             width: sizes.width(context, 95),

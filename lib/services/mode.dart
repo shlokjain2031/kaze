@@ -44,15 +44,10 @@ class ModeService {
   }
 
   deleteMode(String title) async {
-
-    int numOfModes = (await getAllModes()).length;
-
-    if(numOfModes != 1) {
-      ModeModelProvider()
-          .deleteMode(title)
-          .then((value) =>
-          print("mode deleted; id of mode: " + value.toString()));
-    }
+    ModeModelProvider()
+        .deleteMode(title)
+        .then((value) =>
+        print("mode deleted; id of mode: " + value.toString()));
   }
 
   bool checkIfAppCanBeUsed(ModeModel mode) {

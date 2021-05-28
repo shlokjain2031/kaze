@@ -808,7 +808,7 @@ class _TimeAddState extends State<TimeAdd> {
                               },
                             ),
                           );
-                          FirebaseAnalytics().logEvent(name: "went to FinalAdd");
+                          FirebaseAnalytics().logEvent(name: "went_to_FinalAdd");
                         },
                         child: Text(
                           'confirm',
@@ -1038,7 +1038,7 @@ class _FinalAddState extends State<FinalAdd> {
                         onTap: () async {
                           // _pickWallpaper();
                           wallpaperPath = await Util().pickImage();
-                          FirebaseAnalytics().logEvent(name: "clicked wallpaper add");
+                          FirebaseAnalytics().logEvent(name: "clicked_wallpaper_add");
                           setState(() {});
                         },
                         child: Container(
@@ -1163,7 +1163,7 @@ class _FinalAddState extends State<FinalAdd> {
                           GestureDetector(
                             onTap: () {
                               Navigator.of(context).pop();
-                              FirebaseAnalytics().logEvent(name: "went back to timeaddd");
+                              FirebaseAnalytics().logEvent(name: "went_back_timeaddd");
                             },
                             child: Text(
                               'back',
@@ -1204,7 +1204,7 @@ class _FinalAddState extends State<FinalAdd> {
                                 );
                                 ScaffoldMessenger.of(context).showSnackBar(duplicateSnackBar);
                               }
-                              FirebaseAnalytics().logEvent(name: "added a new mode");
+                              FirebaseAnalytics().logEvent(name: "added_new mode");
                             },
                             child: Text(
                               'confirm',
@@ -1254,7 +1254,7 @@ class _FinalAddState extends State<FinalAdd> {
                             title = newTitle;
                           },
                           onTap: () {
-                            FirebaseAnalytics().logEvent(name: "updated title");
+                            FirebaseAnalytics().logEvent(name: "updated_title");
                           },
                           style: TextStyle(
                             color: colours.white(),
@@ -1322,7 +1322,7 @@ class _FinalAddState extends State<FinalAdd> {
                                           onTap: () {
                                             selectedApps.value.removeAt(listIndex);
                                             selectedApps.notifyListeners();
-                                            FirebaseAnalytics().logEvent(name: "updated: removed app");
+                                            FirebaseAnalytics().logEvent(name: "updated_removed app");
                                           },
                                           child: Container(
                                             width: sizes.width(context, 50),
@@ -1354,7 +1354,7 @@ class _FinalAddState extends State<FinalAdd> {
                                           onTap: () {
                                             selectedApps.value.removeAt(listIndex);
                                             selectedApps.notifyListeners();
-                                            FirebaseAnalytics().logEvent(name: "updated: removed app");
+                                            FirebaseAnalytics().logEvent(name: "updated_removed app");
                                           },
                                           child: Container(
                                             width: sizes.width(context, 50),
@@ -1386,7 +1386,7 @@ class _FinalAddState extends State<FinalAdd> {
                         onTap: () async {
                           // _pickWallpaper();
                           wallpaperPath = await Util().pickImage();
-                          FirebaseAnalytics().logEvent(name: "updated: changed wallpaper");
+                          FirebaseAnalytics().logEvent(name: "updated_changed_wallpaper");
                           setState(() {});
                         },
                         child: Container(
@@ -1473,7 +1473,7 @@ class _FinalAddState extends State<FinalAdd> {
                                                 }
                                               }
                                               selectedApps.notifyListeners();
-                                              FirebaseAnalytics().logEvent(name: "updated: added app");
+                                              FirebaseAnalytics().logEvent(name: "updated_added_app");
                                             },
                                             child: Container(
                                               width: sizes.width(context, 50),
@@ -1512,7 +1512,7 @@ class _FinalAddState extends State<FinalAdd> {
                           GestureDetector(
                             onTap: () {
                               Navigator.of(context).pop();
-                              FirebaseAnalytics().logEvent(name: "went back from editing");
+                              FirebaseAnalytics().logEvent(name: "went_back_from_editing");
                             },
                             child: Text(
                               'back',

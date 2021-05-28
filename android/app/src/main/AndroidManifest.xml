@@ -2,6 +2,7 @@
     package="com.kaze.kaze">
 
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
     <application
         android:label="kaze"
         android:icon="@mipmap/ic_launcher"
