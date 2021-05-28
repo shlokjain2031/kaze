@@ -23,7 +23,7 @@ class CustomDialogs {
           alignment: Alignment.center,
           child: Container(
             width: sizes.width(context, 375),
-            height: sizes.height(context, 370),
+            height: sizes.height(context, 360),
             decoration: BoxDecoration(
               color: colours.white(),
             ),
@@ -31,7 +31,7 @@ class CustomDialogs {
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: Column(
                 children: [
-                  SizedBox(height: sizes.height(context, 12)),
+                  SizedBox(height: sizes.height(context, 16)),
                   GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(
@@ -247,6 +247,7 @@ class CustomDialogs {
                         GestureDetector(
                           onTap: () {
                             Util().setDndFilter(dnd: 3);
+                            SystemChrome.setEnabledSystemUIOverlays([]);
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) {
@@ -986,6 +987,7 @@ class CustomDialogs {
                         GestureDetector(
                           onTap: () {
                             Util().setDndFilter();
+                            SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) {

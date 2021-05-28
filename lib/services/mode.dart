@@ -9,7 +9,6 @@ import 'package:kaze/models/mode.dart';
 import 'package:kaze/services/util.dart';
 import 'package:launcher_assist/launcher_assist.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:random_string/random_string.dart';
 
 class ModeService {
 
@@ -23,7 +22,7 @@ class ModeService {
 
   insertMode(String title, String startTime, String endTime, List apps, String wallpaperPath) {
     String rawApps = jsonEncode(apps);
-    int rid = randomBetween(100000, 999999);
+    int rid = 1;
     ModeModel mode = ModeModel(id: rid, title: title, startTime: startTime, endTime: endTime, apps: rawApps, wallpaperPath: wallpaperPath);
 
     ModeModelProvider()

@@ -153,7 +153,7 @@ class FocusMode extends StatelessWidget {
                                   GestureDetector(
                                     onTap: () {
                                       CustomDialogs().areYouSureFocus(context, sizes, colours);
-                                      FirebaseAnalytics().logEvent(name: "tried exiting");
+                                      FirebaseAnalytics().logEvent(name: "tried_exiting");
                                     },
                                     child: Text(
                                       'exit',
@@ -288,7 +288,7 @@ class FocusMode extends StatelessWidget {
                               GestureDetector(
                                 onTap: () {
                                   CustomDialogs().areYouSureFocus(context, sizes, colours);
-                                  FirebaseAnalytics().logEvent(name: "tried exiting");
+                                  FirebaseAnalytics().logEvent(name: "tried_exiting");
                                 },
                                 child: Text(
                                   'exit',

@@ -99,7 +99,7 @@ class _OnboardingState extends State<Onboarding> {
                       padding: EdgeInsets.only(top: 16),
                       child: GestureDetector(
                         onTap: () {
-                          analytics.FirebaseAnalytics().logEvent(name: "onboarding 1");
+                          analytics.FirebaseAnalytics().logEvent(name: "onboarding_1");
                           setState(() {
                             onboardingTracker = 1;
                           });
@@ -186,7 +186,7 @@ class _OnboardingState extends State<Onboarding> {
                       padding: EdgeInsets.only(top: 16),
                       child: GestureDetector(
                         onTap: () {
-                          analytics.FirebaseAnalytics().logEvent(name: "onboarding 2");
+                          analytics.FirebaseAnalytics().logEvent(name: "onboarding_2");
                           setState(() {
                             onboardingTracker = 2;
                           });
@@ -278,7 +278,7 @@ class _OnboardingState extends State<Onboarding> {
                           setState(() {
                             onboardingTracker = 3;
                           });
-                          analytics.FirebaseAnalytics().logEvent(name: "onboarding 3");
+                          analytics.FirebaseAnalytics().logEvent(name: "onboarding_3");
                         },
                         child: Container(
                           width: sizes.width(context, 100),
@@ -372,7 +372,7 @@ class _OnboardingState extends State<Onboarding> {
                               },
                             ),
                           );
-                          analytics.FirebaseAnalytics().logEvent(name: "onboarding 4");
+                          analytics.FirebaseAnalytics().logEvent(name: "onboarding_4");
                         },
                         child: Container(
                           width: sizes.width(context, 100),
@@ -444,16 +444,17 @@ class AddSplashScreen extends StatelessWidget {
           Container(
             margin: EdgeInsets.only(top: 12),
             child: Text(
-                "you can add multiple apps in a mode and give it a time range,\nnow you can only use those apps in said time range ",
+                "add multiple apps in a mode and give it\na time range, use those apps only in that time",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontFamily: 'ProductSans',
                     fontSize: 18,
-                    color: colours.white().withOpacity(.8)
+                    color: colours.white().withOpacity(.8),
+                  height: 1.5
                 )
             ),
           ),
-          SizedBox(height: 32,),
+          SizedBox(height: 42,),
 
           GestureDetector(
             onTap: () {
@@ -464,7 +465,7 @@ class AddSplashScreen extends StatelessWidget {
                   },
                 ),
               );
-              analytics.FirebaseAnalytics().logEvent(name: "first add mode");
+              analytics.FirebaseAnalytics().logEvent(name: "first_add_mode");
             },
             child: Container(
               width: sizes.width(context, 325),

@@ -41,7 +41,7 @@ class _TitleAddState extends State<TitleAdd> {
                         title = newTitle;
                       },
                       onTap: () {
-                        FirebaseAnalytics().logEvent(name: "added title");
+                        FirebaseAnalytics().logEvent(name: "added_title");
                       },
                       style: TextStyle(
                         color: colours.white(),
@@ -129,7 +129,7 @@ class _TitleAddState extends State<TitleAdd> {
                               },
                             ),
                           );
-                          FirebaseAnalytics().logEvent(name: "went to ChooseApps");
+                          FirebaseAnalytics().logEvent(name: "went_to_ChooseApps");
                         },
                         child: Text(
                           'continue',
@@ -233,7 +233,7 @@ class _AppsAddState extends State<AppsAdd> {
                                       onTap: () {
                                         selectedApps.value.removeAt(listIndex);
                                         selectedApps.notifyListeners();
-                                        FirebaseAnalytics().logEvent(name: "removed an app");
+                                        FirebaseAnalytics().logEvent(name: "removed_an_app");
                                       },
                                       child: Container(
                                         width: sizes.width(context, 50),
@@ -346,7 +346,7 @@ class _AppsAddState extends State<AppsAdd> {
                                                           ),
                                                         ),
                                                         action: SnackBarAction(
-                                                          label: '',
+                                                          label: 'Ok',
                                                           onPressed: () {},
                                                         ),
                                                       );
@@ -354,7 +354,7 @@ class _AppsAddState extends State<AppsAdd> {
                                                     }
                                                   }
                                                   selectedApps.notifyListeners();
-                                                  FirebaseAnalytics().logEvent(name: "selected an app");
+                                                  FirebaseAnalytics().logEvent(name: "selected_an_app");
                                                 },
                                                 child: Container(
                                                   width: sizes.width(context, 50),
@@ -399,7 +399,7 @@ class _AppsAddState extends State<AppsAdd> {
                       GestureDetector(
                         onTap: () {
                           Navigator.of(context).pop();
-                          FirebaseAnalytics().logEvent(name: "went back to title");
+                          FirebaseAnalytics().logEvent(name: "went_back_to_title");
                         },
                         child: Text(
                           'back',
@@ -420,7 +420,7 @@ class _AppsAddState extends State<AppsAdd> {
                               },
                             ),
                           );
-                          FirebaseAnalytics().logEvent(name: "went to TimeAdd");
+                          FirebaseAnalytics().logEvent(name: "went_to_TimeAdd");
                         },
                         child: Text(
                           'continue',
@@ -514,7 +514,7 @@ class _TimeAddState extends State<TimeAdd> {
                       valueListenable: selectedApps,
                       builder: (context, value, child) {
                         return Container(
-                          margin: EdgeInsets.only(left: sizes.width(context, 72)),
+                          margin: EdgeInsets.only(left: sizes.width(context, 42)),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
@@ -522,7 +522,7 @@ class _TimeAddState extends State<TimeAdd> {
                                 width: sizes.width(context, 414),
                                 height: sizes.height(context, 64),
                                 child: ListView.builder(
-                                  itemCount: selectedApps.value.length > 4 ? 4 : selectedApps.value.length,
+                                  itemCount: selectedApps.value.length > 5 ? 5 : selectedApps.value.length,
                                   scrollDirection: Axis.horizontal,
                                   itemBuilder: (context, listIndex) {
                                     return GestureDetector(
@@ -553,12 +553,12 @@ class _TimeAddState extends State<TimeAdd> {
                                 width: sizes.width(context, 414),
                                 height: sizes.height(context, 64),
                                 child: ListView.builder(
-                                  itemCount: selectedApps.value.length > 4 ? (selectedApps.value.length - 4) : 0,
+                                  itemCount: selectedApps.value.length > 5 ? (selectedApps.value.length - 5) : 0,
                                   scrollDirection: Axis.horizontal,
                                   itemBuilder: (context, listIndex) {
                                     return GestureDetector(
                                       onTap: () {
-                                        selectedApps.value.removeAt(listIndex);
+                                        selectedApps.value.removeAt(listIndex+5);
                                         selectedApps.notifyListeners();
                                       },
                                       child: Container(
@@ -571,7 +571,7 @@ class _TimeAddState extends State<TimeAdd> {
                                             color: colours.white() // change with colours.black()
                                         ),
                                         child: Image(
-                                          image: MemoryImage(Util().getAppIcon(selectedApps.value[(listIndex + 4)]["icon"])),
+                                          image: MemoryImage(Util().getAppIcon(selectedApps.value[(listIndex + 5)]["icon"])),
                                           fit: BoxFit.fill,
                                         ),
                                       ),
@@ -597,7 +597,7 @@ class _TimeAddState extends State<TimeAdd> {
                           GestureDetector(
                             onTap: () {
                               _startTimePicker();
-                              FirebaseAnalytics().logEvent(name: "clicked startTime");
+                              FirebaseAnalytics().logEvent(name: "clicked_startTime");
                             },
                             child: Stack(
                               children: [
@@ -644,7 +644,7 @@ class _TimeAddState extends State<TimeAdd> {
                           GestureDetector(
                             onTap: () {
                               _endTimePicker();
-                              FirebaseAnalytics().logEvent(name: "clicked endTime");
+                              FirebaseAnalytics().logEvent(name: "clicked_endTime");
                             },
                             child: Stack(
                               children: [
@@ -741,7 +741,7 @@ class _TimeAddState extends State<TimeAdd> {
                                                   ),
                                                 ),
                                                 action: SnackBarAction(
-                                                  label: '',
+                                                  label: 'Ok',
                                                   onPressed: () {},
                                                 ),
                                               );
@@ -787,7 +787,7 @@ class _TimeAddState extends State<TimeAdd> {
                       GestureDetector(
                         onTap: () {
                           Navigator.of(context).pop();
-                          FirebaseAnalytics().logEvent(name: "went back to ChooseApps");
+                          FirebaseAnalytics().logEvent(name: "went_back_to_ChooseApps");
                         },
                         child: Text(
                           'back',
@@ -961,7 +961,7 @@ class _FinalAddState extends State<FinalAdd> {
                           valueListenable: selectedApps,
                           builder: (context, value, child) {
                             return Container(
-                              margin: EdgeInsets.only(left: sizes.width(context, 72)),
+                              margin: EdgeInsets.only(left: sizes.width(context, 42)),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
@@ -969,7 +969,7 @@ class _FinalAddState extends State<FinalAdd> {
                                     width: sizes.width(context, 414),
                                     height: sizes.height(context, 64),
                                     child: ListView.builder(
-                                      itemCount: selectedApps.value.length > 4 ? 4 : selectedApps.value.length,
+                                      itemCount: selectedApps.value.length > 5 ? 5 : selectedApps.value.length,
                                       scrollDirection: Axis.horizontal,
                                       itemBuilder: (context, listIndex) {
                                         return GestureDetector(
@@ -1000,12 +1000,12 @@ class _FinalAddState extends State<FinalAdd> {
                                     width: sizes.width(context, 414),
                                     height: sizes.height(context, 64),
                                     child: ListView.builder(
-                                      itemCount: selectedApps.value.length > 4 ? (selectedApps.value.length - 4) : 0,
+                                      itemCount: selectedApps.value.length > 5 ? (selectedApps.value.length - 5) : 0,
                                       scrollDirection: Axis.horizontal,
                                       itemBuilder: (context, listIndex) {
                                         return GestureDetector(
                                           onTap: () {
-                                            selectedApps.value.removeAt(listIndex);
+                                            selectedApps.value.removeAt(listIndex+5);
                                             selectedApps.notifyListeners();
                                           },
                                           child: Container(
@@ -1117,7 +1117,7 @@ class _FinalAddState extends State<FinalAdd> {
                                                       ),
                                                     ),
                                                     action: SnackBarAction(
-                                                      label: '',
+                                                      label: 'Ok',
                                                       onPressed: () {},
                                                     ),
                                                   );
@@ -1198,7 +1198,7 @@ class _FinalAddState extends State<FinalAdd> {
                                 final duplicateSnackBar = SnackBar(
                                   content: Text('Name of the mode is duplicate, change it'),
                                   action: SnackBarAction(
-                                    label: '',
+                                    label: 'Ok',
                                     onPressed: () {},
                                   ),
                                 );
@@ -1307,7 +1307,7 @@ class _FinalAddState extends State<FinalAdd> {
                           valueListenable: selectedApps,
                           builder: (context, value, child) {
                             return Container(
-                              margin: EdgeInsets.only(left: sizes.width(context, 72)),
+                              margin: EdgeInsets.only(left: sizes.width(context, 42)),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
@@ -1315,7 +1315,7 @@ class _FinalAddState extends State<FinalAdd> {
                                     width: sizes.width(context, 414),
                                     height: sizes.height(context, 64),
                                     child: ListView.builder(
-                                      itemCount: selectedApps.value.length > 4 ? 4 : selectedApps.value.length,
+                                      itemCount: selectedApps.value.length > 5 ? 5 : selectedApps.value.length,
                                       scrollDirection: Axis.horizontal,
                                       itemBuilder: (context, listIndex) {
                                         return GestureDetector(
@@ -1347,7 +1347,7 @@ class _FinalAddState extends State<FinalAdd> {
                                     width: sizes.width(context, 414),
                                     height: sizes.height(context, 64),
                                     child: ListView.builder(
-                                      itemCount: selectedApps.value.length > 4 ? (selectedApps.value.length - 4) : 0,
+                                      itemCount: selectedApps.value.length > 5 ? (selectedApps.value.length - 5) : 0,
                                       scrollDirection: Axis.horizontal,
                                       itemBuilder: (context, listIndex) {
                                         return GestureDetector(
@@ -1465,7 +1465,7 @@ class _FinalAddState extends State<FinalAdd> {
                                                       ),
                                                     ),
                                                     action: SnackBarAction(
-                                                      label: '',
+                                                      label: 'Ok',
                                                       onPressed: () {},
                                                     ),
                                                   );
@@ -1537,7 +1537,7 @@ class _FinalAddState extends State<FinalAdd> {
                                   final duplicateSnackBar = SnackBar(
                                     content: Text('Name of the mode is duplicate, change it'),
                                     action: SnackBarAction(
-                                      label: '',
+                                      label: 'Ok',
                                       onPressed: () {},
                                     ),
                                   );

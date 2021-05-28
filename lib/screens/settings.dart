@@ -66,7 +66,7 @@ class _SettingsState extends State<Settings> {
                                 },
                               ),
                             );
-                            FirebaseAnalytics().logEvent(name: "went back from settings to homne");
+                            FirebaseAnalytics().logEvent(name: "back_from_settings_to_home");
                           },
                           child: Icon(
                             Icons.arrow_back_outlined,
@@ -155,7 +155,7 @@ class _SettingsState extends State<Settings> {
                                               Util().setDndFilter();
                                             }
                                             saveSettings();
-                                            FirebaseAnalytics().logEvent(name: "changed notif settings");
+                                            FirebaseAnalytics().logEvent(name: "changed_notif_settings");
                                           });
                                         }
                                     )
@@ -214,7 +214,7 @@ class _SettingsState extends State<Settings> {
                                             backup = val;
                                             saveSettings();
                                           });
-                                          FirebaseAnalytics().logEvent(name: "changed backup settings");
+                                          FirebaseAnalytics().logEvent(name: "changed_backup_settings");
                                         }
                                     )
                                   ],
@@ -249,7 +249,7 @@ class _SettingsState extends State<Settings> {
                                     },
                                   ),
                                 );
-                                FirebaseAnalytics().logEvent(name: "clicked on focus mode settings");
+                                FirebaseAnalytics().logEvent(name: "click_focus_mode_settings");
                               },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -316,7 +316,7 @@ class _SettingsState extends State<Settings> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    FirebaseAnalytics().logEvent(name: "clicked on total shutdown settings");
+                                    FirebaseAnalytics().logEvent(name: "click_total_shutdown_settings");
                                   },
                                   child: Container(
                                     width: sizes.width(context, 48),
@@ -489,7 +489,7 @@ class _SettingsState extends State<Settings> {
                                             else {
                                               Util().setDndFilter();
                                             }
-                                            FirebaseAnalytics().logEvent(name: "changed notif settings");
+                                            FirebaseAnalytics().logEvent(name: "changed_notif_settings");
                                           });
                                         }
                                     )
@@ -548,7 +548,7 @@ class _SettingsState extends State<Settings> {
                                             backup = val;
                                           });
                                           initGoogleSigning(backup);
-                                          FirebaseAnalytics().logEvent(name: "changed backup settings");
+                                          FirebaseAnalytics().logEvent(name: "changed_backup_settings");
                                         }
                                     )
                                   ],
@@ -862,7 +862,7 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
                                           children: [
                                             Container(
                                               width: sizes.width(context, 48),
-                                              height: sizes.height(context, 54),
+                                              height: sizes.height(context, 50),
                                               decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
                                                   color: colours.white()
@@ -1038,7 +1038,7 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
                                               children: [
                                                 Container(
                                                   width: sizes.width(context, 48),
-                                                  height: sizes.height(context, 54),
+                                                  height: sizes.height(context, 58),
                                                   decoration: BoxDecoration(
                                                       shape: BoxShape.circle,
                                                       color: colours.white()
