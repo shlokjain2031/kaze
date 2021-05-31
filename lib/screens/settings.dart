@@ -15,7 +15,6 @@ import 'package:kaze/utils/colours.dart';
 import 'package:kaze/utils/dialogs.dart';
 import 'package:kaze/utils/loading.dart';
 import 'package:kaze/utils/sizes.dart';
-import 'package:launcher_assist/launcher_assist.dart';
 
 class Settings extends StatefulWidget {
 
@@ -873,13 +872,17 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
                                               ),
                                             ),
                                             SizedBox(width: 10),
-                                            Text(
-                                              app["label"],
-                                              style: TextStyle(
-                                                  fontSize: 24,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontFamily: 'ProductSans',
-                                                  color: colours.white()
+                                            SizedBox(
+                                              width: sizes.width(context, 250),
+                                              child: Text(
+                                                app["label"],
+                                                maxLines: 2,
+                                                style: TextStyle(
+                                                    fontSize: 24,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontFamily: 'ProductSans',
+                                                    color: colours.white()
+                                                ),
                                               ),
                                             ),
                                           ],
@@ -1038,13 +1041,17 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
                                                     ),
                                                   ),
                                                   SizedBox(width: 10),
-                                                  Text(
-                                                    app["label"],
-                                                    style: TextStyle(
-                                                        fontSize: 24,
-                                                        fontWeight: FontWeight.bold,
-                                                        fontFamily: 'ProductSans',
-                                                        color: colours.white()
+                                                  SizedBox(
+                                                    width: sizes.width(context, 250),
+                                                    child: Text(
+                                                      app["label"],
+                                                      maxLines: 2,
+                                                      style: TextStyle(
+                                                          fontSize: 24,
+                                                          fontWeight: FontWeight.bold,
+                                                          fontFamily: 'ProductSans',
+                                                          color: colours.white()
+                                                      ),
                                                     ),
                                                   ),
                                                 ],

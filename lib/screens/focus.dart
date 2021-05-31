@@ -30,7 +30,7 @@ class FocusMode extends StatelessWidget {
       child: FutureBuilder(
         future: FocusModeService().getFocusModeApps(),
         builder: (context, snapshot) {
-          if(snapshot.data.length == 0) {
+          if(snapshot.data == null || snapshot.data.length == 0) {
             return Scaffold(
               backgroundColor: colours.black(),
               body: Column(
@@ -67,7 +67,7 @@ class FocusMode extends StatelessWidget {
                             child: Container(
                               width: sizes.width(context, 150),
                               height: sizes.height(context, 80),
-                              padding: EdgeInsets.only(top: 12),
+                              padding: EdgeInsets.only(top: sizes.height(context, 24)),
                               decoration: BoxDecoration(
                                   color: colours.white(),
                                   border: Border.all(color: colours.black(), width: 2)
@@ -99,7 +99,7 @@ class FocusMode extends StatelessWidget {
                             child: Container(
                               width: sizes.width(context, 120),
                               height: sizes.height(context, 80),
-                              padding: EdgeInsets.only(top: 12),
+                              padding: EdgeInsets.only(top: sizes.height(context, 24)),
                               decoration: BoxDecoration(
                                   color: Colors.transparent,
                                   border: Border.all(color: colours.white(), width: 2)

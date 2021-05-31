@@ -8,7 +8,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:kaze/models/mode.dart';
 import 'package:kaze/services/util.dart';
-import 'package:launcher_assist/launcher_assist.dart';
 import 'package:path_provider/path_provider.dart';
 
 class ModeService {

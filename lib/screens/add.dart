@@ -205,7 +205,7 @@ class _AppsAddState extends State<AppsAdd> {
                     ),
                   ),
                   Container(
-                    margin: const EdgeInsets.only(top: 16),
+                    margin: EdgeInsets.only(top: sizes.height(context, 16)),
                     child: Text(
                       'click the apps you will use in this mode',
                       textAlign: TextAlign.center,
@@ -295,7 +295,7 @@ class _AppsAddState extends State<AppsAdd> {
                   ),
 
                   SizedBox(
-                    height: sizes.height(context, 180),
+                    height: sizes.height(context, 200), // 180 for shlok
                   ),
 
                   Container(

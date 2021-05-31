@@ -12,7 +12,6 @@ import 'package:kaze/utils/colours.dart';
 import 'package:kaze/utils/dialogs.dart';
 import 'package:kaze/utils/loading.dart';
 import 'package:kaze/utils/sizes.dart';
-import 'package:launcher_assist/launcher_assist.dart';
 
 import 'add.dart';
 
@@ -34,7 +33,6 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     Util().notificationPolicyAccess(fromHome: true);
-    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
     _pageController = PageController(initialPage: 1, viewportFraction: 0.85);
   }
 
@@ -152,7 +150,7 @@ class _HomeState extends State<Home> {
                         decoration: mode.wallpaperPath != null ? BoxDecoration(
                             image: DecorationImage(
                               image: FileImage(File(mode.wallpaperPath)),
-                              fit: BoxFit.fitWidth,
+                              fit: BoxFit.fitHeight,
                               colorFilter: ColorFilter.mode(colours.black().withOpacity(0.65),
                                   BlendMode.dstATop),
                             ),
@@ -491,7 +489,7 @@ class AllApps extends StatelessWidget {
                                 ),
                               ),
                               onTap: () {
-                                CustomDialogs().openApp(context, Sizes(), Colours(), installedApps[index]);
+                                CustomDialogs().openApp(context, Sizes(), Colours(), Util().convertApplicationWithIconToMap(installedApps[index]));
                                 FirebaseAnalytics().logEvent(name: "click_on_launch_app_all_apps");
                               },
                             onLongPress: () {

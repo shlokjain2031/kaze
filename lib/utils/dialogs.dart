@@ -985,6 +985,7 @@ class CustomDialogs {
                         GestureDetector(
                           onTap: () {
                             Util().setDndFilter();
+                            SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) {
