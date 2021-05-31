@@ -4,11 +4,13 @@ import 'dart:typed_data';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:kaze/models/mode.dart';
 import 'package:kaze/services/mode.dart';
 import 'package:kaze/services/util.dart';
 import 'package:kaze/utils/colours.dart';
 import 'package:kaze/utils/dialogs.dart';
+import 'package:kaze/utils/loading.dart';
 import 'package:kaze/utils/sizes.dart';
 import 'package:launcher_assist/launcher_assist.dart';
 
@@ -32,6 +34,7 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     Util().notificationPolicyAccess(fromHome: true);
+    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
     _pageController = PageController(initialPage: 1, viewportFraction: 0.85);
   }
 
@@ -171,11 +174,10 @@ class _HomeState extends State<Home> {
                                 children: [
                                   GestureDetector(
                                     onTap: () async {
-                                      List allApps = await Util().getAllApps();
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
                                           builder: (context) {
-                                            return FinalAdd(allApps, mode: mode,);
+                                            return FinalAdd(mode: mode,);
                                           },
                                         ),
                                       );
@@ -425,78 +427,78 @@ class AllApps extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colours().black(),
-      body: FutureBuilder(
+    return FutureBuilder(
         future: Util().getAllApps(),
         builder: (context, snapshot) {
           if(snapshot.hasData) {
             List installedApps = snapshot.data;
-            return Column(
-              children: [
-                SizedBox(height: 32,),
-                Padding(
-                  padding: const EdgeInsets.only(left: 16),
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Icon(
-                        Icons.arrow_back_outlined,
-                        size: 48,
-                        color: Colours().white(),
+            return Scaffold(
+              backgroundColor: Colours().black(),
+              body: Column(
+                children: [
+                  SizedBox(height: 32,),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16),
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Icon(
+                          Icons.arrow_back_outlined,
+                          size: 48,
+                          color: Colours().white(),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: Sizes().height(context, 790),
-                  width: Sizes().width(context, 414),
-                  child: GridView.count(
-                    crossAxisCount: 5,
-                    mainAxisSpacing: 20,
-                    physics: BouncingScrollPhysics(),
-                    children: List.generate(
-                      installedApps != null ? installedApps.length : 0,
-                          (index) {
-                        return GestureDetector(
-                          child: Container(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                iconContainer(index, installedApps),
-                                SizedBox(height: 10),
-                                Text(
-                                  installedApps[index]["label"],
-                                  style: TextStyle(
-                                    color: Colours().white(),
-                                  ),
-                                  textAlign: TextAlign.center,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
+                  SizedBox(
+                    height: Sizes().height(context, 790),
+                    width: Sizes().width(context, 414),
+                    child: GridView.count(
+                      crossAxisCount: 5,
+                      mainAxisSpacing: 20,
+                      physics: BouncingScrollPhysics(),
+                      children: List.generate(
+                        installedApps != null ? installedApps.length : 0,
+                            (index) {
+                          return GestureDetector(
+                              child: Container(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    iconContainer(index, installedApps),
+                                    SizedBox(height: 10),
+                                    Text(
+                                      installedApps[index]["label"],
+                                      style: TextStyle(
+                                        color: Colours().white(),
+                                      ),
+                                      textAlign: TextAlign.center,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ),
-                          onTap: () {
-                            CustomDialogs().openApp(context, Sizes(), Colours(), installedApps[index]);
-                            FirebaseAnalytics().logEvent(name: "click_on_launch_app_all_apps");
-                          }
-                        );
-                      },
+                              ),
+                              onTap: () {
+                                CustomDialogs().openApp(context, Sizes(), Colours(), installedApps[index]);
+                                FirebaseAnalytics().logEvent(name: "click_on_launch_app_all_apps");
+                              }
+                          );
+                        },
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             );
           }
           else {
-            return SizedBox();
+            return Loading();
           }
         }
-      ),
     );
   }
 

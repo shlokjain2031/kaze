@@ -366,11 +366,7 @@ class _OnboardingState extends State<Onboarding> {
                           Util().displayDefaultLauncherChooser();
                           initUser();
                           Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return AddSplashScreen();
-                              },
-                            ),
+                            MaterialPageRoute(builder: (context) => AddSplashScreen());
                           );
                           analytics.FirebaseAnalytics().logEvent(name: "onboarding_4");
                         },
@@ -459,12 +455,9 @@ class AddSplashScreen extends StatelessWidget {
           GestureDetector(
             onTap: () {
               Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) {
-                    return TitleAdd();
-                  },
-                ),
+                MaterialPageRoute(builder: (context) => TitleAdd())
               );
+
               analytics.FirebaseAnalytics().logEvent(name: "first_add_mode");
             },
             child: Container(

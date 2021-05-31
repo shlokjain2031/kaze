@@ -245,9 +245,7 @@ class CustomDialogs {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         GestureDetector(
-                          onTap: () {
-                            Util().setDndFilter(dnd: 3);
-                            SystemChrome.setEnabledSystemUIOverlays([]);
+                          onTap: () async {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) {
@@ -987,7 +985,6 @@ class CustomDialogs {
                         GestureDetector(
                           onTap: () {
                             Util().setDndFilter();
-                            SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) {

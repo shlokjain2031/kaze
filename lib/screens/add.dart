@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -8,6 +9,7 @@ import 'package:kaze/models/mode.dart';
 import 'package:kaze/services/mode.dart';
 import 'package:kaze/services/util.dart';
 import 'package:kaze/utils/colours.dart';
+import 'package:kaze/utils/loading.dart' as loadingWidget;
 import 'package:kaze/utils/sizes.dart';
 
 import 'home.dart';
@@ -804,7 +806,7 @@ class _TimeAddState extends State<TimeAdd> {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) {
-                                return FinalAdd(allApps, title: title, selectedApps: selectedApps, startTime: startTime, endTime: endTime);
+                                return FinalAdd(allApps: allApps, title: title, selectedApps: selectedApps, startTime: startTime, endTime: endTime);
                               },
                             ),
                           );
@@ -865,10 +867,10 @@ class FinalAdd extends StatefulWidget {
   TimeOfDay endTime;
   List allApps;
 
-  FinalAdd(this.allApps, {Key key, this.mode, this.title, this.selectedApps, this.startTime, this.endTime}) : super(key: key);
+  FinalAdd({Key key, this.allApps, this.mode, this.title, this.selectedApps, this.startTime, this.endTime}) : super(key: key);
 
   @override
-  _FinalAddState createState() => _FinalAddState(allApps, mode: mode, title: title, selectedApps: selectedApps, startTime: startTime, endTime: endTime, );
+  _FinalAddState createState() => _FinalAddState(allApps: allApps, mode: mode, title: title, selectedApps: selectedApps, startTime: startTime, endTime: endTime, );
 }
 class _FinalAddState extends State<FinalAdd> {
   ModeModel mode;
@@ -878,7 +880,7 @@ class _FinalAddState extends State<FinalAdd> {
   TimeOfDay endTime;
   List allApps;
 
-  _FinalAddState(this.allApps, {this.mode, this.title, this.selectedApps, this.startTime, this.endTime});
+  _FinalAddState({this.mode, this.title, this.selectedApps, this.startTime, this.endTime, this.allApps});
 
   Colours colours = Colours();
   Sizes sizes = Sizes();
@@ -1228,352 +1230,366 @@ class _FinalAddState extends State<FinalAdd> {
       );
     }
     else {
-      return Scaffold(
-        backgroundColor: colours.black(),
-        body: ListView(
-          children: [
-            Container(
-              height: sizes.height(context, 896),
-              decoration: wallpaperPath != null ? BoxDecoration(
-                  image: DecorationImage(
-                    image: FileImage(File(wallpaperPath)),
-                    fit: BoxFit.fitHeight,
-                    colorFilter: ColorFilter.mode(colours.black().withOpacity(0.75),
-                        BlendMode.dstATop),
-                  )
-              ) : BoxDecoration(color: colours.black()),
-              child: Stack(
+      return FutureBuilder(
+        future: Util().getAllApps(),
+        builder: (context, snapshot) {
+          if(snapshot.hasData) {
+            allApps = snapshot.data;
+            return Scaffold(
+              backgroundColor: colours.black(),
+              body: ListView(
                 children: [
-                  Column(
-                    children: [
-                      SizedBox(height: 0),
-                      Center(
-                        child: TextField(
-                          textAlign: TextAlign.center,
-                          onChanged: (newTitle) {
-                            title = newTitle;
-                          },
-                          onTap: () {
-                            FirebaseAnalytics().logEvent(name: "updated_title");
-                          },
-                          style: TextStyle(
-                            color: colours.white(),
-                            fontSize: 64,
-                            fontFamily: 'ProductSans',
-                            fontWeight: FontWeight.bold,
-                          ),
-                          decoration: InputDecoration(
-                            hintText: mode.title,
-                            hintMaxLines: 1,
-                            hintStyle: TextStyle(
-                              color: colours.white().withOpacity(.9),
-                              fontSize: 64,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'ProductSans',
-                            ),
-                            border: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                            enabledBorder: InputBorder.none,
-                            errorBorder: InputBorder.none,
-                            disabledBorder: InputBorder.none,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: sizes.width(context, 48)),
-                        child: Divider(
-                          height: sizes.height(context, 6),
-                          thickness: 6,
-                          color: colours.white(),
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(top: 16),
-                        child: Text(
-                          DateTime.parse(mode.startTime).hour.toString() + ":" + (DateTime.parse(mode.startTime).minute == 0 ? DateTime.parse(mode.startTime).minute.toString() + "0" : DateTime.parse(mode.startTime).minute.toString())
-                              + " - " + DateTime.parse(mode.endTime).hour.toString() + ":" + (DateTime.parse(mode.endTime).minute == 0 ? DateTime.parse(mode.endTime).minute.toString() + "0" : DateTime.parse(mode.endTime).minute.toString()),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontFamily: 'ProductSans',
-                              fontSize: 20,
-                              color: colours.white()
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: sizes.height(context, 175),),
-
-                      // selected Apps here
-                      ValueListenableBuilder(
-                          valueListenable: selectedApps,
-                          builder: (context, value, child) {
-                            return Container(
-                              margin: EdgeInsets.only(left: sizes.width(context, 42)),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                    width: sizes.width(context, 414),
-                                    height: sizes.height(context, 64),
-                                    child: ListView.builder(
-                                      itemCount: selectedApps.value.length > 5 ? 5 : selectedApps.value.length,
-                                      scrollDirection: Axis.horizontal,
-                                      itemBuilder: (context, listIndex) {
-                                        return GestureDetector(
-                                          onTap: () {
-                                            selectedApps.value.removeAt(listIndex);
-                                            selectedApps.notifyListeners();
-                                            FirebaseAnalytics().logEvent(name: "updated_removed app");
-                                          },
-                                          child: Container(
-                                            width: sizes.width(context, 50),
-                                            height: sizes.height(context, 64),
-                                            margin: EdgeInsets.only(right: 20),
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              border: Border.all(color: colours.white(), width: 3),
-                                              color: colours.white(), // change with colours.black(),
-                                            ),
-                                            child: Image(
-                                              image: MemoryImage(Util().getAppIcon(selectedApps.value[(listIndex)]["icon"])),
-                                              fit: BoxFit.fill,
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                  SizedBox(height: sizes.height(context, 32)),
-                                  SizedBox(
-                                    width: sizes.width(context, 414),
-                                    height: sizes.height(context, 64),
-                                    child: ListView.builder(
-                                      itemCount: selectedApps.value.length > 5 ? (selectedApps.value.length - 5) : 0,
-                                      scrollDirection: Axis.horizontal,
-                                      itemBuilder: (context, listIndex) {
-                                        return GestureDetector(
-                                          onTap: () {
-                                            selectedApps.value.removeAt(listIndex);
-                                            selectedApps.notifyListeners();
-                                            FirebaseAnalytics().logEvent(name: "updated_removed app");
-                                          },
-                                          child: Container(
-                                            width: sizes.width(context, 50),
-                                            height: sizes.height(context, 64),
-                                            margin: EdgeInsets.only(right: 20),
-                                            decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                border: Border.all(color: colours.white(), width: 3),
-                                                color: colours.white() // change with colours.black()
-                                            ),
-                                            child: Image(
-                                              image: MemoryImage(Util().getAppIcon(selectedApps.value[(listIndex + 4)]["icon"])),
-                                              fit: BoxFit.fill,
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          }
-                      ),
-
-                      SizedBox(height: sizes.height(context, 54)),
-
-                      GestureDetector(
-                        onTap: () async {
-                          // _pickWallpaper();
-                          wallpaperPath = await Util().pickImage();
-                          FirebaseAnalytics().logEvent(name: "updated_changed_wallpaper");
-                          setState(() {});
-                        },
-                        child: Container(
-                          width: sizes.width(context, 200),
-                          height: sizes.height(context, 60),
-                          margin: EdgeInsets.only(top: 24),
-                          decoration: BoxDecoration(
-                            color: colours.white(),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Icon(
-                                Icons.image_rounded,
-                                color: colours.black(),
-                                size: sizes.width(context, 28),
-                              ),
-                              Text(
-                                'add wallpaper',
+                  Container(
+                    height: sizes.height(context, 896),
+                    decoration: wallpaperPath != null ? BoxDecoration(
+                        image: DecorationImage(
+                          image: FileImage(File(wallpaperPath)),
+                          fit: BoxFit.fitHeight,
+                          colorFilter: ColorFilter.mode(colours.black().withOpacity(0.75),
+                              BlendMode.dstATop),
+                        )
+                    ) : BoxDecoration(color: colours.black()),
+                    child: Stack(
+                      children: [
+                        Column(
+                          children: [
+                            SizedBox(height: 0),
+                            Center(
+                              child: TextField(
+                                textAlign: TextAlign.center,
+                                onChanged: (newTitle) {
+                                  title = newTitle;
+                                },
+                                onTap: () {
+                                  FirebaseAnalytics().logEvent(name: "updated_title");
+                                },
                                 style: TextStyle(
-                                    color: colours.black(),
-                                    fontSize: 20,
-                                    fontFamily: 'ProductSans'
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: sizes.height(context, 24)),
-
-                      Container(
-                        width: sizes.width(context, 400),
-                        height: sizes.height(context, 100),
-                        child: ListView.builder(
-                          itemCount: allApps.length,
-
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (BuildContext context, int index) {
-                            // Map dataObject = appList[index];
-                            return Center(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                                    child: ValueListenableBuilder(
-                                        valueListenable: selectedApps,
-                                        builder: (context, value, child) {
-                                          return GestureDetector(
-                                            onTap: () {
-                                              bool duplicate = false;
-                                              for(int i=0;i<selectedApps.value.length;i++) {
-                                                if(selectedApps.value[i]["package"] == allApps[index]["package"]) {
-                                                  duplicate = true;
-                                                  break;
-                                                }
-                                                else {
-                                                  duplicate = false;
-                                                }
-                                              }
-                                              if(!duplicate) {
-                                                if(selectedApps.value.length <= 9) {
-                                                  selectedApps.value.add(allApps[index]);
-                                                }
-                                                else {
-                                                  final duplicateOrExceedSnackBar = SnackBar(
-                                                    content: Text(
-                                                      "Only 10 apps are allowed in a single mode, click the app to remove it",
-                                                      textAlign: TextAlign.center,
-                                                      style: TextStyle(
-                                                          color: colours.white(),
-                                                          fontSize: 18,
-                                                          fontFamily: 'ProductSans'
-                                                      ),
-                                                    ),
-                                                    action: SnackBarAction(
-                                                      label: 'Ok',
-                                                      onPressed: () {},
-                                                    ),
-                                                  );
-                                                  ScaffoldMessenger.of(context).showSnackBar(duplicateOrExceedSnackBar);
-                                                }
-                                              }
-                                              selectedApps.notifyListeners();
-                                              FirebaseAnalytics().logEvent(name: "updated_added_app");
-                                            },
-                                            child: Container(
-                                              width: sizes.width(context, 50),
-                                              height: sizes.height(context, 64),
-                                              margin: EdgeInsets.only(right: 8),
-                                              decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  border: Border.all(color: colours.white(), width: 3),
-                                                  color: colours.white() // change with colours.black()
-                                              ),
-                                              child: Image(
-                                                image: MemoryImage(allApps[index]["icon"]),
-                                                fit: BoxFit.fill,
-                                              ),
-                                            ),
-                                          );
-                                        }
-                                    ),
-                                  )
-                                ],
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: sizes.height(context, 800)),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).pop();
-                              FirebaseAnalytics().logEvent(name: "went_back_from_editing");
-                            },
-                            child: Text(
-                              'back',
-                              style: TextStyle(
+                                  color: colours.white(),
+                                  fontSize: 64,
                                   fontFamily: 'ProductSans',
-                                  fontSize: 28,
                                   fontWeight: FontWeight.bold,
-                                  color: colours.white().withOpacity(.7)
+                                ),
+                                decoration: InputDecoration(
+                                  hintText: mode.title,
+                                  hintMaxLines: 1,
+                                  hintStyle: TextStyle(
+                                    color: colours.white().withOpacity(.9),
+                                    fontSize: 64,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'ProductSans',
+                                  ),
+                                  border: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  enabledBorder: InputBorder.none,
+                                  errorBorder: InputBorder.none,
+                                  disabledBorder: InputBorder.none,
+                                ),
                               ),
                             ),
-                          ),
-                          GestureDetector(
-                            onTap: () async {
-                              if(title == null) {
-                                ModeService().updateMode(mode.id, mode.title, mode.startTime, mode.endTime, selectedApps.value, wallpaperPath);
-                              }
-                              else {
-                                if(!(await ModeService().checkForDuplicate(title))) {
-                                  ModeService().updateMode(mode.id, title, mode.startTime, mode.endTime, selectedApps.value, wallpaperPath, prevTitle: mode.title);
-                                }
-                                else {
-                                  final duplicateSnackBar = SnackBar(
-                                    content: Text('Name of the mode is duplicate, change it'),
-                                    action: SnackBarAction(
-                                      label: 'Ok',
-                                      onPressed: () {},
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: sizes.width(context, 48)),
+                              child: Divider(
+                                height: sizes.height(context, 6),
+                                thickness: 6,
+                                color: colours.white(),
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(top: 16),
+                              child: Text(
+                                DateTime.parse(mode.startTime).hour.toString() + ":" + (DateTime.parse(mode.startTime).minute == 0 ? DateTime.parse(mode.startTime).minute.toString() + "0" : DateTime.parse(mode.startTime).minute.toString())
+                                    + " - " + DateTime.parse(mode.endTime).hour.toString() + ":" + (DateTime.parse(mode.endTime).minute == 0 ? DateTime.parse(mode.endTime).minute.toString() + "0" : DateTime.parse(mode.endTime).minute.toString()),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontFamily: 'ProductSans',
+                                    fontSize: 20,
+                                    color: colours.white()
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: sizes.height(context, 175),),
+
+                            // selected Apps here
+                            ValueListenableBuilder(
+                                valueListenable: selectedApps,
+                                builder: (context, value, child) {
+                                  return Container(
+                                    margin: EdgeInsets.only(left: sizes.width(context, 42)),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        SizedBox(
+                                          width: sizes.width(context, 414),
+                                          height: sizes.height(context, 64),
+                                          child: ListView.builder(
+                                            itemCount: selectedApps.value.length > 5 ? 5 : selectedApps.value.length,
+                                            scrollDirection: Axis.horizontal,
+                                            itemBuilder: (context, listIndex) {
+                                              return GestureDetector(
+                                                onTap: () {
+                                                  selectedApps.value.removeAt(listIndex);
+                                                  selectedApps.notifyListeners();
+                                                  FirebaseAnalytics().logEvent(name: "updated_removed app");
+                                                },
+                                                child: Container(
+                                                  width: sizes.width(context, 50),
+                                                  height: sizes.height(context, 64),
+                                                  margin: EdgeInsets.only(right: 20),
+                                                  decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    border: Border.all(color: colours.white(), width: 3),
+                                                    color: colours.white(), // change with colours.black(),
+                                                  ),
+                                                  child: Image(
+                                                    image: MemoryImage(Util().getAppIcon(selectedApps.value[(listIndex)]["icon"])),
+                                                    fit: BoxFit.fill,
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                        SizedBox(height: sizes.height(context, 32)),
+                                        SizedBox(
+                                          width: sizes.width(context, 414),
+                                          height: sizes.height(context, 64),
+                                          child: ListView.builder(
+                                            itemCount: selectedApps.value.length > 5 ? (selectedApps.value.length - 5) : 0,
+                                            scrollDirection: Axis.horizontal,
+                                            itemBuilder: (context, listIndex) {
+                                              return GestureDetector(
+                                                onTap: () {
+                                                  selectedApps.value.removeAt(listIndex);
+                                                  selectedApps.notifyListeners();
+                                                  FirebaseAnalytics().logEvent(name: "updated_removed app");
+                                                },
+                                                child: Container(
+                                                  width: sizes.width(context, 50),
+                                                  height: sizes.height(context, 64),
+                                                  margin: EdgeInsets.only(right: 20),
+                                                  decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      border: Border.all(color: colours.white(), width: 3),
+                                                      color: colours.white() // change with colours.black()
+                                                  ),
+                                                  child: Image(
+                                                    image: MemoryImage(Util().getAppIcon(selectedApps.value[(listIndex + 5)]["icon"])),
+                                                    fit: BoxFit.fill,
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   );
-                                  ScaffoldMessenger.of(context).showSnackBar(duplicateSnackBar);
                                 }
-                              }
+                            ),
 
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return Home();
-                                  },
+                            SizedBox(height: sizes.height(context, 54)),
+
+                            GestureDetector(
+                              onTap: () async {
+                                // _pickWallpaper();
+                                wallpaperPath = await Util().pickImage();
+                                FirebaseAnalytics().logEvent(name: "updated_changed_wallpaper");
+                                setState(() {});
+                              },
+                              child: Container(
+                                width: sizes.width(context, 200),
+                                height: sizes.height(context, 60),
+                                margin: EdgeInsets.only(top: 24),
+                                decoration: BoxDecoration(
+                                  color: colours.white(),
+                                  borderRadius: BorderRadius.circular(20),
                                 ),
-                              );
-                              FirebaseAnalytics().logEvent(name: "updated");
-                            },
-                            child: Text(
-                              'update',
-                              style: TextStyle(
-                                  fontFamily: 'ProductSans',
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.bold,
-                                  color: colours.white()
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Icon(
+                                      Icons.image_rounded,
+                                      color: colours.black(),
+                                      size: sizes.width(context, 28),
+                                    ),
+                                    Text(
+                                      'add wallpaper',
+                                      style: TextStyle(
+                                          color: colours.black(),
+                                          fontSize: 20,
+                                          fontFamily: 'ProductSans'
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
+                            SizedBox(height: sizes.height(context, 24)),
+
+                            Container(
+                              width: sizes.width(context, 400),
+                              height: sizes.height(context, 100),
+                              child: ListView.builder(
+                                itemCount: allApps.length,
+
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (BuildContext context, int index) {
+                                  // Map dataObject = appList[index];
+                                  return Center(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                                          child: ValueListenableBuilder(
+                                              valueListenable: selectedApps,
+                                              builder: (context, value, child) {
+                                                return GestureDetector(
+                                                  onTap: () {
+                                                    bool duplicate = false;
+                                                    for(int i=0;i<selectedApps.value.length;i++) {
+                                                      if(selectedApps.value[i]["package"] == allApps[index]["package"]) {
+                                                        duplicate = true;
+                                                        break;
+                                                      }
+                                                      else {
+                                                        duplicate = false;
+                                                      }
+                                                    }
+                                                    if(!duplicate) {
+                                                      if(selectedApps.value.length <= 9) {
+                                                        selectedApps.value.add(allApps[index]);
+                                                      }
+                                                      else {
+                                                        final duplicateOrExceedSnackBar = SnackBar(
+                                                          content: Text(
+                                                            "Only 10 apps are allowed in a single mode, click the app to remove it",
+                                                            textAlign: TextAlign.center,
+                                                            style: TextStyle(
+                                                                color: colours.white(),
+                                                                fontSize: 18,
+                                                                fontFamily: 'ProductSans'
+                                                            ),
+                                                          ),
+                                                          action: SnackBarAction(
+                                                            label: 'Ok',
+                                                            onPressed: () {},
+                                                          ),
+                                                        );
+                                                        ScaffoldMessenger.of(context).showSnackBar(duplicateOrExceedSnackBar);
+                                                      }
+                                                    }
+                                                    selectedApps.notifyListeners();
+                                                    FirebaseAnalytics().logEvent(name: "updated_added_app");
+                                                  },
+                                                  child: Container(
+                                                    width: sizes.width(context, 50),
+                                                    height: sizes.height(context, 64),
+                                                    margin: EdgeInsets.only(right: 8),
+                                                    decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        border: Border.all(color: colours.white(), width: 3),
+                                                        color: colours.white() // change with colours.black()
+                                                    ),
+                                                    child: Image(
+                                                      image: MemoryImage(allApps[index]["icon"]),
+                                                      fit: BoxFit.fill,
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: sizes.height(context, 800)),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context).pop();
+                                    FirebaseAnalytics().logEvent(name: "went_back_from_editing");
+                                  },
+                                  child: Text(
+                                    'back',
+                                    style: TextStyle(
+                                        fontFamily: 'ProductSans',
+                                        fontSize: 28,
+                                        fontWeight: FontWeight.bold,
+                                        color: colours.white().withOpacity(.7)
+                                    ),
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () async {
+                                    if(title == null) {
+                                      ModeService().updateMode(mode.id, mode.title, mode.startTime, mode.endTime, selectedApps.value, wallpaperPath);
+                                    }
+                                    else {
+                                      if(!(await ModeService().checkForDuplicate(title))) {
+                                        ModeService().updateMode(mode.id, title, mode.startTime, mode.endTime, selectedApps.value, wallpaperPath, prevTitle: mode.title);
+                                      }
+                                      else {
+                                        final duplicateSnackBar = SnackBar(
+                                          content: Text('Name of the mode is duplicate, change it'),
+                                          action: SnackBarAction(
+                                            label: 'Ok',
+                                            onPressed: () {},
+                                          ),
+                                        );
+                                        ScaffoldMessenger.of(context).showSnackBar(duplicateSnackBar);
+                                      }
+                                    }
+
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return Home();
+                                        },
+                                      ),
+                                    );
+                                    FirebaseAnalytics().logEvent(name: "updated");
+                                  },
+                                  child: Text(
+                                    'update',
+                                    style: TextStyle(
+                                        fontFamily: 'ProductSans',
+                                        fontSize: 28,
+                                        fontWeight: FontWeight.bold,
+                                        color: colours.white()
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ],
-                      ),
+                        )
+                      ],
                     ),
                   )
                 ],
               ),
-            )
-          ],
-        ),
+            );
+          }
+          else {
+            log("loading");
+            return loadingWidget.Loading();
+          }
+        }
       );
     }
   }
 }
+
+

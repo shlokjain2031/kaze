@@ -81,6 +81,7 @@ flutter:
     - assets/wait.png
     - assets/dnd.jpeg
     - assets/add.png
+    - assets/loading.png
 
   fonts:
     - family: ProductSans

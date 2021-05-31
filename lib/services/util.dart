@@ -20,10 +20,7 @@ import 'package:intent/flag.dart' as flag;
 
 class Util {
   Future getAllApps() async {
-    List rawApp;
-    await LauncherAssist.getAllApps().then((apps) {
-      rawApp = apps;
-    });
+    List rawApp = await LauncherAssist.getAllApps();
     return rawApp;
   }
 
@@ -187,7 +184,7 @@ class Util {
       FlutterDnd.gotoPolicySettings();
     }
 
-    if(!fromHome) {
+    if(fromHome) {
       if (isNotificationPolicyAccessGranted) {
         setDndFilter();
       }
