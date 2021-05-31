@@ -7,16 +7,15 @@ import 'package:kaze/services/util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FocusModeService {
-  Future<List<Map>> getApps() async {
+  Future<List<Map>> getFocusModeApps() async {
     List<String> rawFocusModeApps = await SettingsService().getFocusModeApps();
     List allApps = await Util().getAllApps();
     List<Map> formattedFocusModeApps = [];
 
-    // time complexity = nlog n
     rawFocusModeApps.forEach((focusModePackage) {
       allApps.forEach((allAppsElement) {
-        if(allAppsElement["package"] == focusModePackage) {
-          formattedFocusModeApps.add(allAppsElement);
+        if(allAppsElement.packageName == focusModePackage) {
+          formattedFocusModeApps.add(Util().convertApplicationWithIconToMap(allAppsElement));
         }
       });
     });

@@ -3,29 +3,24 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:device_apps/device_apps.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dnd/flutter_dnd.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intent/action.dart';
 import 'package:kaze/utils/colours.dart';
-import 'package:launcher_assist/launcher_assist.dart';
 import 'package:notification_permissions/notification_permissions.dart';
 import 'package:palette_generator/palette_generator.dart';
 import 'package:intent/intent.dart' as intentFlutter;
 import 'package:intent/action.dart' as actionFlutter;
-import 'package:intent/category.dart' as categoryFlutter;
 import 'package:intent/flag.dart' as flag;
 
 class Util {
   Future getAllApps() async {
-    List rawApp = await LauncherAssist.getAllApps();
-    return rawApp;
-  }
-
-  customSqlQuery(String sqlQuery) {
-
+    List apps = await DeviceApps
+        .getInstalledApplications(onlyAppsWithLaunchIntent: true, includeSystemApps: true, includeAppIcons: true);
+    return apps;
   }
 
   String getCurrentTime() {
@@ -37,8 +32,12 @@ class Util {
     return time;
   }
 
-  launchApp(String packageName) {
-    LauncherAssist.launchApp(packageName);
+  openApp(String packageName) {
+    DeviceApps.openApp(packageName);
+  }
+
+  openSettings(String packageName) {
+    DeviceApps.openAppSettings(packageName);
   }
 
   checkNotificationPermission() async {
@@ -78,6 +77,15 @@ class Util {
     });
 
     return Uint8List.fromList(formattedList);
+  }
+
+  Map convertApplicationWithIconToMap(ApplicationWithIcon app) {
+    Map appMap = {
+      "label" : app.appName,
+      "package" : app.packageName,
+      "icon" : app.icon,
+    };
+    return appMap;
   }
 
   Future<String> pickImage() async {

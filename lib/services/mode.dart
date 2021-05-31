@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
+import 'package:device_apps/device_apps.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -20,10 +21,19 @@ class ModeService {
     return await ModeModelProvider().getAllModes();
   }
 
-  insertMode(String title, String startTime, String endTime, List apps, String wallpaperPath) {
-    String rawApps = jsonEncode(apps);
+  insertMode(String title, String startTime, String endTime, List rawApps, String wallpaperPath) {
+    List<Map> apps = [];
+    rawApps.forEach((element) {
+      Map appMap = {
+        "label" : element.appName,
+        "package" : element.packageName,
+        "icon" : element.icon,
+      };
+      apps.add(appMap);
+    });
+    String formattedApps = jsonEncode(apps);
     int rid = 1;
-    ModeModel mode = ModeModel(id: rid, title: title, startTime: startTime, endTime: endTime, apps: rawApps, wallpaperPath: wallpaperPath);
+    ModeModel mode = ModeModel(id: rid, title: title, startTime: startTime, endTime: endTime, apps: formattedApps, wallpaperPath: wallpaperPath);
 
     ModeModelProvider()
         .insertMode(mode)
@@ -32,9 +42,9 @@ class ModeService {
     initBackup();
   }
 
-  updateMode(int id, String title, String startTime, String endTime, List apps, String wallpaperPath, {String prevTitle}) {
-    String rawApps = jsonEncode(apps);
-    ModeModel mode = ModeModel(id: id, title: title, startTime: startTime, endTime: endTime, apps: rawApps, wallpaperPath: wallpaperPath);
+  updateMode(int id, String title, String startTime, String endTime, List rawApps, String wallpaperPath, {String prevTitle}) {
+    String formattedApps = jsonEncode(rawApps);
+    ModeModel mode = ModeModel(id: id, title: title, startTime: startTime, endTime: endTime, apps: formattedApps, wallpaperPath: wallpaperPath);
 
     ModeModelProvider()
         .updateMode(mode, prevTitle: prevTitle)

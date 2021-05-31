@@ -259,13 +259,16 @@ class _HomeState extends State<Home> {
                                               onTap: () {
                                                 bool appCanBeUsed = ModeService().checkIfAppCanBeUsed(mode);
                                                 if(appCanBeUsed) {
-                                                  Util().launchApp(apps[listIndex]["package"]);
+                                                  Util().openApp(apps[listIndex]["package"]);
                                                 }
                                                 else {
                                                   CustomDialogs().openApp(context, sizes, colours, apps[listIndex]);
                                                 }
 
                                                 FirebaseAnalytics().logEvent(name: "click_on_launch app");
+                                              },
+                                              onLongPress: () {
+                                                Util().openSettings(apps[listIndex]["package"]);
                                               },
                                               child: Container(
                                                 width: sizes.width(context, 50),
@@ -299,11 +302,14 @@ class _HomeState extends State<Home> {
                                           onTap: () {
                                             bool appCanBeUsed = ModeService().checkIfAppCanBeUsed(mode);
                                             if(appCanBeUsed) {
-                                              Util().launchApp(apps[(listIndex + 5)]["package"]);
+                                              Util().openApp(apps[(listIndex + 5)]["package"]);
                                             }
                                             else {
                                               CustomDialogs().openApp(context, sizes, colours, apps[(listIndex + 5)]);
                                             }
+                                          },
+                                          onLongPress: () {
+                                            Util().openSettings(apps[listIndex + 5]["package"]);
                                           },
                                           child: Container(
                                             width: sizes.width(context, 50),
@@ -344,7 +350,7 @@ class _HomeState extends State<Home> {
                       },
                     ),
                   );
-                  FirebaseAnalytics().logEvent(name: "click_on_add mode");
+                  FirebaseAnalytics().logEvent(name: "click_on_add_mode");
                 },
                 child: Container(
                   decoration: BoxDecoration(
@@ -454,8 +460,9 @@ class AllApps extends StatelessWidget {
                       ),
                     ),
                   ),
+                  SizedBox(height: 32,),
                   SizedBox(
-                    height: Sizes().height(context, 790),
+                    height: Sizes().height(context, 758),
                     width: Sizes().width(context, 414),
                     child: GridView.count(
                       crossAxisCount: 5,
@@ -472,7 +479,7 @@ class AllApps extends StatelessWidget {
                                     iconContainer(index, installedApps),
                                     SizedBox(height: 10),
                                     Text(
-                                      installedApps[index]["label"],
+                                      installedApps[index].appName,
                                       style: TextStyle(
                                         color: Colours().white(),
                                       ),
@@ -486,7 +493,10 @@ class AllApps extends StatelessWidget {
                               onTap: () {
                                 CustomDialogs().openApp(context, Sizes(), Colours(), installedApps[index]);
                                 FirebaseAnalytics().logEvent(name: "click_on_launch_app_all_apps");
-                              }
+                              },
+                            onLongPress: () {
+                                Util().openSettings(installedApps[index].packageName);
+                            },
                           );
                         },
                       ),
@@ -506,8 +516,8 @@ class AllApps extends StatelessWidget {
   iconContainer(index, installedApps) {
     try {
       return Image.memory(
-        installedApps[index]["icon"] != null
-            ? installedApps[index]["icon"]
+        installedApps[index].icon != null
+            ? installedApps[index].icon
             : Uint8List(0),
         height: 50,
         width: 50,

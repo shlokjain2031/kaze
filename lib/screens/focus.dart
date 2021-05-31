@@ -28,9 +28,9 @@ class FocusMode extends StatelessWidget {
     return WillPopScope(
       onWillPop: () => Future(() => false),
       child: FutureBuilder(
-        future: FocusModeService().getApps(),
+        future: FocusModeService().getFocusModeApps(),
         builder: (context, snapshot) {
-          if(snapshot.data == null) {
+          if(snapshot.data.length == 0) {
             return Scaffold(
               backgroundColor: colours.black(),
               body: Column(
@@ -177,7 +177,7 @@ class FocusMode extends StatelessWidget {
                                   children: [
                                     GestureDetector(
                                       onTap: () {
-                                        Util().launchApp(focusModeApps[0]["package"]);
+                                        Util().openApp(focusModeApps[0]["package"]);
                                       },
                                       child: Container(
                                         width: sizes.width(context, 72),
@@ -203,7 +203,7 @@ class FocusMode extends StatelessWidget {
                                     SizedBox(width: 24,),
                                     GestureDetector(
                                       onTap: () {
-                                        Util().launchApp(focusModeApps[1]["package"]);
+                                        Util().openApp(focusModeApps[1]["package"]);
                                       },
                                       child: Container(
                                         width: sizes.width(context, 72),
@@ -307,7 +307,7 @@ class FocusMode extends StatelessWidget {
                           Container(
                             margin: EdgeInsets.only(top: sizes.height(context, 250), left: sizes.width(context, 125)),
                             child: FutureBuilder(
-                                future: FocusModeService().getApps(),
+                                future: FocusModeService().getFocusModeApps(),
                                 builder: (context, snapshot) {
                                   if(snapshot.hasData) {
                                     List<Map> apps = snapshot.data;

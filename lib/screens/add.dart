@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:device_apps/device_apps.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -170,7 +171,7 @@ class _AppsAddState extends State<AppsAdd> {
   Colours colours = Colours();
   Sizes sizes = Sizes();
 
-  ValueNotifier<List> selectedApps = ValueNotifier([]);
+  ValueNotifier<List<ApplicationWithIcon>> selectedApps = ValueNotifier([]);
   List allApps = [];
 
   @override
@@ -248,7 +249,7 @@ class _AppsAddState extends State<AppsAdd> {
                                           color: colours.white(), // change with colours.black(),
                                         ),
                                         child: Image(
-                                          image: MemoryImage(selectedApps.value[listIndex]["icon"]),
+                                          image: MemoryImage(selectedApps.value[listIndex].icon),
                                           fit: BoxFit.fill,
                                         ),
                                       ),
@@ -279,7 +280,7 @@ class _AppsAddState extends State<AppsAdd> {
                                             color: colours.white() // change with colours.black()
                                         ),
                                         child: Image(
-                                          image: MemoryImage(Util().getAppIcon(selectedApps.value[(listIndex + 5)]["icon"])),
+                                          image: MemoryImage(selectedApps.value[(listIndex + 5)].icon),
                                           fit: BoxFit.fill,
                                         ),
                                       ),
@@ -324,7 +325,7 @@ class _AppsAddState extends State<AppsAdd> {
                                                 onTap: () {
                                                   bool duplicate = false;
                                                   for(int i=0;i<selectedApps.value.length;i++) {
-                                                    if(selectedApps.value[i]["package"] == apps[index]["package"]) {
+                                                    if(selectedApps.value[i].packageName == apps[index].packageName) {
                                                       duplicate = true;
                                                       break;
                                                     }
@@ -369,7 +370,7 @@ class _AppsAddState extends State<AppsAdd> {
                                                     color: colours.white(),
                                                   ),
                                                   child: Image(
-                                                    image: MemoryImage(apps[index]["icon"]),
+                                                    image: MemoryImage(apps[index].icon),
                                                     fit: BoxFit.fill,
                                                   ),
                                                 ),
@@ -449,7 +450,7 @@ class _AppsAddState extends State<AppsAdd> {
 
 class TimeAdd extends StatefulWidget {
   String title;
-  ValueNotifier selectedApps;
+  ValueNotifier<List<ApplicationWithIcon>> selectedApps;
   List allApps;
   TimeAdd(this.title, this.selectedApps, this.allApps, {Key key}) : super(key: key);
 
@@ -458,7 +459,7 @@ class TimeAdd extends StatefulWidget {
 }
 class _TimeAddState extends State<TimeAdd> {
   String title;
-  ValueNotifier selectedApps;
+  ValueNotifier<List<ApplicationWithIcon>> selectedApps;
   List allApps;
 
   _TimeAddState(this.title, this.selectedApps, this.allApps);
@@ -543,7 +544,7 @@ class _TimeAddState extends State<TimeAdd> {
                                           color: colours.white(), // change with colours.black(),
                                         ),
                                         child: Image(
-                                          image: MemoryImage(selectedApps.value[listIndex]["icon"]),
+                                          image: MemoryImage(selectedApps.value[listIndex].icon),
                                           fit: BoxFit.fill,
                                         ),
                                       ),
@@ -574,7 +575,7 @@ class _TimeAddState extends State<TimeAdd> {
                                             color: colours.white() // change with colours.black()
                                         ),
                                         child: Image(
-                                          image: MemoryImage(Util().getAppIcon(selectedApps.value[(listIndex + 5)]["icon"])),
+                                          image: MemoryImage(selectedApps.value[(listIndex + 5)].icon),
                                           fit: BoxFit.fill,
                                         ),
                                       ),
@@ -720,7 +721,7 @@ class _TimeAddState extends State<TimeAdd> {
                                         onTap: () {
                                           bool duplicate = false;
                                           for(int i=0;i<selectedApps.value.length;i++) {
-                                            if(selectedApps.value[i]["package"] == allApps[index]["package"]) {
+                                            if(selectedApps.value[i].packageName == allApps[index].packageName) {
                                               duplicate = true;
                                               break;
                                             }
@@ -763,7 +764,7 @@ class _TimeAddState extends State<TimeAdd> {
                                               color: colours.white() // change with colours.black()
                                           ),
                                           child: Image(
-                                            image: MemoryImage(allApps[index]["icon"]),
+                                            image: MemoryImage(allApps[index].icon),
                                             fit: BoxFit.fill,
                                           ),
                                         ),
@@ -863,7 +864,7 @@ class _TimeAddState extends State<TimeAdd> {
 class FinalAdd extends StatefulWidget {
   ModeModel mode;
   String title;
-  ValueNotifier selectedApps;
+  ValueNotifier<List<ApplicationWithIcon>> selectedApps;
   TimeOfDay startTime;
   TimeOfDay endTime;
   List allApps;
@@ -876,7 +877,7 @@ class FinalAdd extends StatefulWidget {
 class _FinalAddState extends State<FinalAdd> {
   ModeModel mode;
   String title;
-  ValueNotifier selectedApps;
+  ValueNotifier<List> selectedApps;
   TimeOfDay startTime;
   TimeOfDay endTime;
   List allApps;
@@ -990,7 +991,7 @@ class _FinalAddState extends State<FinalAdd> {
                                               color: colours.white(), // change with colours.black(),
                                             ),
                                             child: Image(
-                                              image: MemoryImage(selectedApps.value[listIndex]["icon"]),
+                                              image: MemoryImage(selectedApps.value[listIndex].icon),
                                               fit: BoxFit.fill,
                                             ),
                                           ),
@@ -1021,7 +1022,7 @@ class _FinalAddState extends State<FinalAdd> {
                                                 color: colours.white() // change with colours.black()
                                             ),
                                             child: Image(
-                                              image: MemoryImage(Util().getAppIcon(selectedApps.value[(listIndex + 4)]["icon"])),
+                                              image: MemoryImage(Util().getAppIcon(selectedApps.value[(listIndex + 5)].icon)),
                                               fit: BoxFit.fill,
                                             ),
                                           ),
@@ -1096,7 +1097,7 @@ class _FinalAddState extends State<FinalAdd> {
                                             onTap: () {
                                               bool duplicate = false;
                                               for(int i=0;i<selectedApps.value.length;i++) {
-                                                if(selectedApps.value[i]["package"] == allApps[index]["package"]) {
+                                                if(selectedApps.value[i].packageName == allApps[index].packageName) {
                                                   duplicate = true;
                                                   break;
                                                 }
@@ -1139,7 +1140,7 @@ class _FinalAddState extends State<FinalAdd> {
                                                   color: colours.white() // change with colours.black()
                                               ),
                                               child: Image(
-                                                image: MemoryImage(allApps[index]["icon"]),
+                                                image: MemoryImage(allApps[index].icon),
                                                 fit: BoxFit.fill,
                                               ),
                                             ),
@@ -1342,7 +1343,7 @@ class _FinalAddState extends State<FinalAdd> {
                                                       color: colours.white(), // change with colours.black(),
                                                     ),
                                                     child: Image(
-                                                      image: MemoryImage(Util().getAppIcon(selectedApps.value[(listIndex)]["icon"])),
+                                                      image: MemoryImage(Util().getAppIcon(selectedApps.value[listIndex]["icon"])),
                                                       fit: BoxFit.fill,
                                                     ),
                                                   ),
@@ -1360,9 +1361,9 @@ class _FinalAddState extends State<FinalAdd> {
                                               itemBuilder: (context, listIndex) {
                                                 return GestureDetector(
                                                   onTap: () {
-                                                    selectedApps.value.removeAt(listIndex);
+                                                    selectedApps.value.removeAt(listIndex+5);
                                                     selectedApps.notifyListeners();
-                                                    FirebaseAnalytics().logEvent(name: "updated_removed app");
+                                                    FirebaseAnalytics().logEvent(name: "updated_removed_app");
                                                   },
                                                   child: Container(
                                                     width: sizes.width(context, 50),
@@ -1449,7 +1450,7 @@ class _FinalAddState extends State<FinalAdd> {
                                                     onTap: () {
                                                       bool duplicate = false;
                                                       for(int i=0;i<selectedApps.value.length;i++) {
-                                                        if(selectedApps.value[i]["package"] == allApps[index]["package"]) {
+                                                        if(selectedApps.value[i]["package"] == allApps[index].packageName) {
                                                           duplicate = true;
                                                           break;
                                                         }
@@ -1459,7 +1460,7 @@ class _FinalAddState extends State<FinalAdd> {
                                                       }
                                                       if(!duplicate) {
                                                         if(selectedApps.value.length <= 9) {
-                                                          selectedApps.value.add(allApps[index]);
+                                                          selectedApps.value.add(Util().convertApplicationWithIconToMap(allApps[index]));
                                                         }
                                                         else {
                                                           final duplicateOrExceedSnackBar = SnackBar(
@@ -1493,7 +1494,7 @@ class _FinalAddState extends State<FinalAdd> {
                                                           color: colours.white() // change with colours.black()
                                                       ),
                                                       child: Image(
-                                                        image: MemoryImage(allApps[index]["icon"]),
+                                                        image: MemoryImage(allApps[index].icon),
                                                         fit: BoxFit.fill,
                                                       ),
                                                     ),

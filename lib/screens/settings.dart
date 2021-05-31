@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:device_apps/device_apps.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,6 +13,7 @@ import 'package:kaze/services/settings.dart';
 import 'package:kaze/services/util.dart';
 import 'package:kaze/utils/colours.dart';
 import 'package:kaze/utils/dialogs.dart';
+import 'package:kaze/utils/loading.dart';
 import 'package:kaze/utils/sizes.dart';
 import 'package:launcher_assist/launcher_assist.dart';
 
@@ -761,97 +763,96 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: SettingsService().getFocusModeApps(),
+      future: Util().getAllApps(),
       builder: (context, snapshot) {
         if(snapshot.hasData) {
-          selectedApps = ValueNotifier(snapshot.data);
-          print("valueNot: " + selectedApps.value.toString());
-          return Scaffold(
-            backgroundColor: colours.black(),
-            body: Padding(
-              padding: const EdgeInsets.only(left: 24, right: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: sizes.height(context, 48)),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Icon(
-                          Icons.arrow_back_outlined,
-                          size: 36,
-                          color: colours.white(),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          SettingsService().setFocusModeApps(selectedApps.value);
-                          final focusModeAppsSetSnackBar = SnackBar(
-                            content: Text('Focus Mode Apps Set'),
-                            action: SnackBarAction(
-                              label: '',
-                              onPressed: () {},
+          List allApps = snapshot.data;
+          return FutureBuilder(
+              future: SettingsService().getFocusModeApps(),
+              builder: (context, snapshot) {
+                if(snapshot.hasData) {
+                  selectedApps = ValueNotifier(snapshot.data);
+                  return Scaffold(
+                    backgroundColor: colours.black(),
+                    body: Padding(
+                      padding: const EdgeInsets.only(left: 24, right: 16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: sizes.height(context, 48)),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Icon(
+                                  Icons.arrow_back_outlined,
+                                  size: 36,
+                                  color: colours.white(),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  SettingsService().setFocusModeApps(selectedApps.value);
+                                  final focusModeAppsSetSnackBar = SnackBar(
+                                    content: Text('Focus Mode Apps Set'),
+                                    action: SnackBarAction(
+                                      label: '',
+                                      onPressed: () {},
+                                    ),
+                                  );
+                                  ScaffoldMessenger.of(context).showSnackBar(focusModeAppsSetSnackBar);
+
+                                  Future.delayed(Duration(milliseconds: 800));
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return Home();
+                                      },
+                                    ),
+                                  );
+                                  log("done");
+                                },
+                                child: Image(
+                                  image: AssetImage('assets/done.png'),
+                                  width: 42,
+                                  color: colours.white(),
+                                ),
+                              )
+                            ],
+                          ),
+                          SizedBox(height: sizes.height(context, 36)),
+
+                          Text(
+                            'Focus Mode',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              color: colours.white(),
+                              fontFamily: 'ProductSans',
+                              fontSize: 64,
                             ),
-                          );
-                          ScaffoldMessenger.of(context).showSnackBar(focusModeAppsSetSnackBar);
-
-                          Future.delayed(Duration(milliseconds: 800));
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return Home();
-                              },
+                          ),
+                          SizedBox(height: sizes.height(context, 24)),
+                          Text(
+                            '2 apps you need in focus mode',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              color: colours.white(opacity: .7),
+                              fontFamily: 'ProductSans',
+                              fontSize: 24,
                             ),
-                          );
-                          log("done");
-                        },
-                        child: Image(
-                          image: AssetImage('assets/done.png'),
-                          width: 42,
-                          color: colours.white(),
-                        ),
-                      )
-                    ],
-                  ),
-                  SizedBox(height: sizes.height(context, 36)),
+                          ),
+                          SizedBox(height: sizes.height(context, 32)),
 
-                  Text(
-                    'Focus Mode',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      color: colours.white(),
-                      fontFamily: 'ProductSans',
-                      fontSize: 64,
-                    ),
-                  ),
-                  SizedBox(height: sizes.height(context, 24)),
-                  Text(
-                    '2 apps you need in focus mode',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      color: colours.white(opacity: .7),
-                      fontFamily: 'ProductSans',
-                      fontSize: 24,
-                    ),
-                  ),
-                  SizedBox(height: sizes.height(context, 32)),
-
-                  FutureBuilder(
-                      future: Util().getAllApps(),
-                      builder: (context, snapshot) {
-                        if(snapshot.hasData) {
-                          List allApps = snapshot.data;
-                          return SizedBox(
+                          SizedBox(
                             width: sizes.width(context, 414),
                             height: sizes.height(context, 568),
                             child: ListView.builder(
                               itemCount: allApps.length,
                               itemBuilder: (context, index) {
-                                Map app = allApps[index];
+                                Map app = Util().convertApplicationWithIconToMap(allApps[index]);
                                 return Column(
                                   children: [
                                     Row(
@@ -861,7 +862,7 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
                                           children: [
                                             Container(
                                               width: sizes.width(context, 48),
-                                              height: sizes.height(context, 50),
+                                              height: sizes.height(context, 58),
                                               decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
                                                   color: colours.white()
@@ -884,50 +885,50 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
                                           ],
                                         ),
                                         ValueListenableBuilder(
-                                          valueListenable: selectedApps,
-                                          builder: (context, value, child) {
-                                            return GestureDetector(
-                                              onTap: () {
-                                                if(selectedApps.value.length == 2 && selectedApps.value.contains(app["package"])) {
-                                                  selectedApps.value.remove(app["package"]);
-                                                  print("newSelectedApps is removed");
-                                                }
-                                                else if (selectedApps.value.length >= 2) {
-                                                  final focusModeAppsSetSnackBar = SnackBar(
-                                                    content: Text('Not more than 2 apps allowed'),
-                                                    action: SnackBarAction(
-                                                      label: '',
-                                                      onPressed: () {},
-                                                    ),
-                                                  );
-                                                  ScaffoldMessenger.of(context).showSnackBar(focusModeAppsSetSnackBar);
-                                                  print("newSelectedApps os greater than 2");
-                                                }
-                                                else {
-                                                  if (selectedApps.value.contains(app["package"])) {
+                                            valueListenable: selectedApps,
+                                            builder: (context, value, child) {
+                                              return GestureDetector(
+                                                onTap: () {
+                                                  if(selectedApps.value.length == 2 && selectedApps.value.contains(app["package"])) {
                                                     selectedApps.value.remove(app["package"]);
                                                     print("newSelectedApps is removed");
                                                   }
-                                                  else {
-                                                    selectedApps.value.add(app["package"]);
-                                                    print("newSelectedApps is added");
+                                                  else if (selectedApps.value.length >= 2) {
+                                                    final focusModeAppsSetSnackBar = SnackBar(
+                                                      content: Text('Not more than 2 apps allowed'),
+                                                      action: SnackBarAction(
+                                                        label: '',
+                                                        onPressed: () {},
+                                                      ),
+                                                    );
+                                                    ScaffoldMessenger.of(context).showSnackBar(focusModeAppsSetSnackBar);
+                                                    print("newSelectedApps os greater than 2");
                                                   }
-                                                }
-                                                selectedApps.notifyListeners();
-                                                // selectedApps = ValueNotifier(selectedApps.value);
-                                                // print("lenNew: " + newSelectedApps.length.toString());
-                                                print("lenOld: " + selectedApps.value.length.toString());
-                                              },
-                                              child: Container(
-                                                width: sizes.width(context, 48),
-                                                height: sizes.height(context, 54),
-                                                decoration: BoxDecoration(
-                                                    color: selectedApps.value.contains(app["package"]) ? colours.white() : Colors.transparent,
-                                                    border: Border.all(color: colours.white(), width: 3)
+                                                  else {
+                                                    if (selectedApps.value.contains(app["package"])) {
+                                                      selectedApps.value.remove(app["package"]);
+                                                      print("newSelectedApps is removed");
+                                                    }
+                                                    else {
+                                                      selectedApps.value.add(app["package"]);
+                                                      print("newSelectedApps is added");
+                                                    }
+                                                  }
+                                                  selectedApps.notifyListeners();
+                                                  // selectedApps = ValueNotifier(selectedApps.value);
+                                                  // print("lenNew: " + newSelectedApps.length.toString());
+                                                  print("lenOld: " + selectedApps.value.length.toString());
+                                                },
+                                                child: Container(
+                                                  width: sizes.width(context, 48),
+                                                  height: sizes.height(context, 54),
+                                                  decoration: BoxDecoration(
+                                                      color: selectedApps.value.contains(app["package"]) ? colours.white() : Colors.transparent,
+                                                      border: Border.all(color: colours.white(), width: 3)
+                                                  ),
                                                 ),
-                                              ),
-                                            );
-                                          }
+                                              );
+                                            }
                                         )
                                       ],
                                     ),
@@ -936,191 +937,180 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
                                 );
                               },
                             ),
-                          );
-                        }
-                        else {
-                          return SizedBox();
-                        }
-                      }
-                  )
-                ],
-              ),
-            ),
-          );
-        }
-        else {
-          return Scaffold(
-            backgroundColor: colours.black(),
-            body: Padding(
-              padding: const EdgeInsets.only(left: 24, right: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: sizes.height(context, 48)),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Icon(
-                          Icons.arrow_back_outlined,
-                          size: 36,
-                          color: colours.white(),
-                        ),
+                          )
+                        ],
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          SettingsService().setFocusModeApps(selectedApps.value);
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return Home();
-                              },
+                    ),
+                  );
+                }
+                else {
+                  return Scaffold(
+                    backgroundColor: colours.black(),
+                    body: Padding(
+                      padding: const EdgeInsets.only(left: 24, right: 16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: sizes.height(context, 48)),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Icon(
+                                  Icons.arrow_back_outlined,
+                                  size: 36,
+                                  color: colours.white(),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  SettingsService().setFocusModeApps(selectedApps.value);
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return Home();
+                                      },
+                                    ),
+                                  );
+                                },
+                                child: Image(
+                                  image: AssetImage('assets/done.png'),
+                                  width: 42,
+                                  color: colours.white(),
+                                ),
+                              )
+                            ],
+                          ),
+                          SizedBox(height: sizes.height(context, 36)),
+
+                          Text(
+                            'Focus Mode',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              color: colours.white(),
+                              fontFamily: 'ProductSans',
+                              fontSize: 64,
                             ),
-                          );
-                        },
-                        child: Image(
-                          image: AssetImage('assets/done.png'),
-                          width: 42,
-                          color: colours.white(),
-                        ),
-                      )
-                    ],
-                  ),
-                  SizedBox(height: sizes.height(context, 36)),
+                          ),
+                          SizedBox(height: sizes.height(context, 24)),
+                          Text(
+                            '2 apps you need in focus mode',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              color: colours.white(opacity: .7),
+                              fontFamily: 'ProductSans',
+                              fontSize: 24,
+                            ),
+                          ),
+                          SizedBox(height: sizes.height(context, 32)),
 
-                  Text(
-                    'Focus Mode',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      color: colours.white(),
-                      fontFamily: 'ProductSans',
-                      fontSize: 64,
-                    ),
-                  ),
-                  SizedBox(height: sizes.height(context, 24)),
-                  Text(
-                    '2 apps you need in focus mode',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      color: colours.white(opacity: .7),
-                      fontFamily: 'ProductSans',
-                      fontSize: 24,
-                    ),
-                  ),
-                  SizedBox(height: sizes.height(context, 32)),
-
-                  FutureBuilder(
-                      future: Util().getAllApps(),
-                      builder: (context, snapshot) {
-                        if(snapshot.hasData) {
-                          List allApps = snapshot.data;
-                          return ValueListenableBuilder(
-                            valueListenable: selectedApps,
-                            builder: (context, value, child) {
-                              List<String> newSelectedApps = value;
-                              return SizedBox(
-                                width: sizes.width(context, 414),
-                                height: sizes.height(context, 568),
-                                child: ListView.builder(
-                                  itemCount: allApps.length,
-                                  itemBuilder: (context, index) {
-                                    Map app = allApps[index];
-                                    return Column(
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Container(
-                                                  width: sizes.width(context, 48),
-                                                  height: sizes.height(context, 58),
-                                                  decoration: BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      color: colours.white()
-                                                  ),
-                                                  child: Image(
-                                                    image: MemoryImage(app["icon"]),
-                                                    fit: BoxFit.fill,
-                                                  ),
-                                                ),
-                                                SizedBox(width: 10),
-                                                Text(
-                                                  app["label"],
-                                                  style: TextStyle(
-                                                      fontSize: 24,
-                                                      fontWeight: FontWeight.bold,
-                                                      fontFamily: 'ProductSans',
-                                                      color: colours.white()
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            GestureDetector(
-                                              onTap: () {
-                                                if(selectedApps.value.length == 2 && selectedApps.value.contains(app["package"])) {
-                                                  selectedApps.value.remove(app["package"]);
-                                                  print("newSelectedApps is removed");
-                                                }
-                                                else if (selectedApps.value.length >= 2) {
-                                                  final focusModeAppsSetSnackBar = SnackBar(
-                                                    content: Text('Only 2 apps are allowed'),
-                                                    action: SnackBarAction(
-                                                      label: '',
-                                                      onPressed: () {},
+                          ValueListenableBuilder(
+                              valueListenable: selectedApps,
+                              builder: (context, value, child) {
+                                List<String> newSelectedApps = value;
+                                return SizedBox(
+                                  width: sizes.width(context, 414),
+                                  height: sizes.height(context, 568),
+                                  child: ListView.builder(
+                                    itemCount: allApps.length,
+                                    itemBuilder: (context, index) {
+                                      Map app = Util().convertApplicationWithIconToMap(allApps[index]);
+                                      return Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Container(
+                                                    width: sizes.width(context, 48),
+                                                    height: sizes.height(context, 58),
+                                                    decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        color: colours.white()
                                                     ),
-                                                  );
-                                                  ScaffoldMessenger.of(context).showSnackBar(focusModeAppsSetSnackBar);
-                                                  print("newSelectedApps os greater than 2");
-                                                }
-                                                else {
-                                                  if (selectedApps.value.contains(app["package"])) {
+                                                    child: Image(
+                                                      image: MemoryImage(app["icon"]),
+                                                      fit: BoxFit.fill,
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: 10),
+                                                  Text(
+                                                    app["label"],
+                                                    style: TextStyle(
+                                                        fontSize: 24,
+                                                        fontWeight: FontWeight.bold,
+                                                        fontFamily: 'ProductSans',
+                                                        color: colours.white()
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              GestureDetector(
+                                                onTap: () {
+                                                  if(selectedApps.value.length == 2 && selectedApps.value.contains(app["package"])) {
                                                     selectedApps.value.remove(app["package"]);
                                                     print("newSelectedApps is removed");
                                                   }
-                                                  else {
-                                                    selectedApps.value.add(app["package"]);
-                                                    print("newSelectedApps is added");
+                                                  else if (selectedApps.value.length >= 2) {
+                                                    final focusModeAppsSetSnackBar = SnackBar(
+                                                      content: Text('Only 2 apps are allowed'),
+                                                      action: SnackBarAction(
+                                                        label: '',
+                                                        onPressed: () {},
+                                                      ),
+                                                    );
+                                                    ScaffoldMessenger.of(context).showSnackBar(focusModeAppsSetSnackBar);
+                                                    print("newSelectedApps os greater than 2");
                                                   }
-                                                }
-                                                // selectedApps = ValueNotifier(selectedApps.value);
+                                                  else {
+                                                    if (selectedApps.value.contains(app["package"])) {
+                                                      selectedApps.value.remove(app["package"]);
+                                                      print("newSelectedApps is removed");
+                                                    }
+                                                    else {
+                                                      selectedApps.value.add(app["package"]);
+                                                      print("newSelectedApps is added");
+                                                    }
+                                                  }
+                                                  // selectedApps = ValueNotifier(selectedApps.value);
 
-                                                selectedApps.notifyListeners();
-                                                print("lenNew: " + newSelectedApps.length.toString());
-                                                print("lenOld: " + selectedApps.value.length.toString());
-                                              },
-                                              child: Container(
-                                                width: sizes.width(context, 48),
-                                                height: sizes.height(context, 54),
-                                                decoration: BoxDecoration(
-                                                    color: newSelectedApps.contains(app["package"]) ? colours.white() : Colors.transparent,
-                                                    border: Border.all(color: colours.white(), width: 3)
+                                                  selectedApps.notifyListeners();
+                                                  print("lenNew: " + newSelectedApps.length.toString());
+                                                  print("lenOld: " + selectedApps.value.length.toString());
+                                                },
+                                                child: Container(
+                                                  width: sizes.width(context, 48),
+                                                  height: sizes.height(context, 54),
+                                                  decoration: BoxDecoration(
+                                                      color: newSelectedApps.contains(app["package"]) ? colours.white() : Colors.transparent,
+                                                      border: Border.all(color: colours.white(), width: 3)
+                                                  ),
                                                 ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                        SizedBox(height: 32),
-                                      ],
-                                    );
-                                  },
-                                ),
-                              );
-                            }
-                          );
-                        }
-                        else {
-                          return SizedBox();
-                        }
-                      }
-                  )
-                ],
-              ),
-            ),
+                                              )
+                                            ],
+                                          ),
+                                          SizedBox(height: 32),
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                );
+                              }
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                }
+              }
           );
+        }
+        else {
+          return Loading();
         }
       }
     );

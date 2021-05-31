@@ -31,7 +31,7 @@ class CustomDialogs {
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: Column(
                 children: [
-                  SizedBox(height: sizes.height(context, 16)),
+                  SizedBox(height: sizes.height(context, 20)),
                   GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(
@@ -206,7 +206,7 @@ class CustomDialogs {
           alignment: Alignment.center,
           child: Container(
             width: sizes.width(context, 335),
-            height: sizes.height(context, 225),
+            height: sizes.height(context, 205),
             decoration: BoxDecoration(
               color: colours.white(),
               border: Border.all(color: colours.black(), width: 3)
@@ -499,7 +499,7 @@ class CustomDialogs {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            Util().launchApp(app["package"]);
+                            Util().openApp(app["package"]);
                             FirebaseAnalytics().logEvent(name: "opened_app");
                           },
                           child: Container(
