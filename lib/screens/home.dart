@@ -57,6 +57,7 @@ class _HomeState extends State<Home> {
                   controller: _pageController,
                   itemCount: (allModes.length + 1),
                   scrollDirection: Axis.vertical,
+                  physics: BouncingScrollPhysics(),
                   itemBuilder: (context, index) {
                     if (index == allModes.length) {
                       return GestureDetector(
@@ -211,7 +212,7 @@ class _HomeState extends State<Home> {
 
                             SizedBox(height: sizes.height(context, 175)),
                             Text(
-                              mode.title,
+                              mode.title != null ? mode.title : "[name]",
                               style: TextStyle(
                                 fontSize: 54,
                                 fontFamily: 'ProductSans',

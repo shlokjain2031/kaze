@@ -91,7 +91,7 @@ class _OnboardingState extends State<Onboarding> {
                   ),
 
                   Center(
-                    child: MyArc(diameter: sizes.width(context, 110), piMultiplier: (1/2),)
+                      child: MyArc(diameter: sizes.width(context, 110), piMultiplier: (1/2),)
                   ),
 
                   Center(
@@ -366,7 +366,11 @@ class _OnboardingState extends State<Onboarding> {
                           Util().displayDefaultLauncherChooser();
                           initUser();
                           Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context) => AddSplashScreen());
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return AddSplashScreen();
+                              },
+                            ),
                           );
                           analytics.FirebaseAnalytics().logEvent(name: "onboarding_4");
                         },
@@ -446,7 +450,7 @@ class AddSplashScreen extends StatelessWidget {
                     fontFamily: 'ProductSans',
                     fontSize: 18,
                     color: colours.white().withOpacity(.8),
-                  height: 1.5
+                    height: 1.5
                 )
             ),
           ),
@@ -455,33 +459,36 @@ class AddSplashScreen extends StatelessWidget {
           GestureDetector(
             onTap: () {
               Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => TitleAdd())
+                MaterialPageRoute(
+                  builder: (context) {
+                    return TitleAdd();
+                  },
+                ),
               );
-
               analytics.FirebaseAnalytics().logEvent(name: "first_add_mode");
             },
             child: Container(
               width: sizes.width(context, 325),
               height: 64,
               decoration: BoxDecoration(
-                color: colours.white(),
-                boxShadow: [
-                  BoxShadow(
-                    offset: Offset(8, 16),
-                    color: colours.white(opacity: .1),
-                    blurRadius: 32
-                  )
-                ]
+                  color: colours.white(),
+                  boxShadow: [
+                    BoxShadow(
+                        offset: Offset(8, 16),
+                        color: colours.white(opacity: .1),
+                        blurRadius: 32
+                    )
+                  ]
               ),
               child: Center(
                 child: Text(
                   'click here to add a mode',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 24,
-                    color: colours.black(),
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'ProductSans'
+                      fontSize: 24,
+                      color: colours.black(),
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'ProductSans'
                   ),
                 ),
               ),
