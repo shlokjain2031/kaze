@@ -81,6 +81,9 @@ flutter:
     - assets/dnd.jpeg
     - assets/add.png
     - assets/loading.png
+    - assets/add_icon.png
+    - assets/delete.png
+    - assets/delete_outline.png
 
   fonts:
     - family: ProductSans

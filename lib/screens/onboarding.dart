@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:kaze/models/mode.dart';
+import 'package:kaze/models/tasks.dart';
 import 'package:kaze/services/settings.dart';
 import 'package:kaze/services/user.dart';
 import 'package:kaze/services/util.dart';
@@ -406,6 +407,7 @@ class _OnboardingState extends State<Onboarding> {
   void initUser() {
     User().setUser();
     ModeModelProvider().initDatabase();
+    TasksModelProvider().initDatabase();
     SettingsService().setSettings(true, false, false); // notif, phone, backup
 
     Util().checkNotificationPermission();

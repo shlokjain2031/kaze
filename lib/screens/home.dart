@@ -144,6 +144,9 @@ class _HomeState extends State<Home> {
                       DateTime startTime = DateTime.parse(mode.startTime);
                       DateTime endTime = DateTime.parse(mode.endTime);
 
+                      String time = startTime.hour.toString() + ":" + (startTime.minute == 0 ? startTime.minute.toString() + "0" : startTime.minute.toString())
+                          + " - " + endTime.hour.toString() + ":" + (endTime.minute == 0 ? endTime.minute.toString() + "0" : endTime.minute.toString());
+
                       List apps = Util().listParser(mode.apps);
 
                       return Container(
@@ -227,8 +230,7 @@ class _HomeState extends State<Home> {
                             ),
                             SizedBox(height: 18),
                             Text(
-                              startTime.hour.toString() + ":" + (startTime.minute == 0 ? startTime.minute.toString() + "0" : startTime.minute.toString())
-                                  + " - " + endTime.hour.toString() + ":" + (endTime.minute == 0 ? endTime.minute.toString() + "0" : endTime.minute.toString()),
+                              time,
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 24,

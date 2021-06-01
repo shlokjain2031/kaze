@@ -7,7 +7,7 @@ class TasksService {
     String formattedMode = jsonEncode(mode);
     TasksModel task = TasksModel(title: title, mode: formattedMode, isTaskDone: isTaskDone.toString());
 
-    await TasksProvider()
+    await TasksModelProvider()
         .insertTask(task)
         .then((value) => print("task inserted; id of mode: " + value.toString()));
   }
@@ -16,7 +16,7 @@ class TasksService {
     String formattedMode = jsonEncode(mode);
     TasksModel task = TasksModel(title: title, mode: formattedMode, isTaskDone: isTaskDone.toString());
 
-    await TasksProvider()
+    await TasksModelProvider()
         .updateTask(task)
         .then((value) => print("task updated; id of mode: " + value.toString()));
   }
@@ -31,12 +31,12 @@ class TasksService {
       }
     }
 
-    await TasksProvider()
+    await TasksModelProvider()
         .deleteTask(newTitle)
         .then((value) => print("task deleted; id of mode: " + value.toString()));
   }
 
   Future<List<TasksModel>> getAllTasks() async {
-    return await TasksProvider().getAllTasks();
+    return await TasksModelProvider().getAllTasks();
   }
 }

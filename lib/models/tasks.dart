@@ -17,7 +17,7 @@ class TasksModel {
   }
 }
 
-class TasksProvider {
+class TasksModelProvider {
 
   initDatabase() async {
     var databasesPath = await getDatabasesPath();
