@@ -40,7 +40,7 @@ class FocusModeService {
       DateTime endTime = DateTime.parse(allModes[i].endTime);
       bool appCanBeUsed = Util().checkTimeBeforeAfter(startTime, endTime);
 
-      if(appCanBeUsed) {
+      if(appCanBeUsed && allModes[i].wallpaperPath != null) {
         wallpaperPath = allModes[i].wallpaperPath;
         break;
       }

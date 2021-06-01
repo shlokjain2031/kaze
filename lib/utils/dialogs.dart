@@ -5,6 +5,7 @@ import 'package:kaze/models/mode.dart';
 import 'package:kaze/screens/focus.dart';
 import 'package:kaze/screens/home.dart';
 import 'package:kaze/screens/settings.dart';
+import 'package:kaze/screens/tasks.dart';
 import 'package:kaze/services/mode.dart';
 import 'package:kaze/services/tasks.dart';
 import 'package:kaze/services/util.dart';
@@ -1417,7 +1418,13 @@ class CustomDialogs {
                     onTap: () {
                       bool isTaskDone = false;
                       TasksService().insertTask(title, mode.title, isTaskDone);
-                      Navigator.pop(context);
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return Tasks(time: time, mode: mode,);
+                          },
+                        ),
+                      );
                     },
                     child: Container(
                       width: sizes.width(context, 323),

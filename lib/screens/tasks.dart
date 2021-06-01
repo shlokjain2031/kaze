@@ -45,7 +45,13 @@ class _TasksState extends State<Tasks> {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              Navigator.of(context).pop();
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return Home();
+                                  },
+                                ),
+                              );
                             },
                             child: Icon(
                               Icons.arrow_back,

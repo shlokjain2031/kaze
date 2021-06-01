@@ -37,79 +37,73 @@ class _TitleAddState extends State<TitleAdd> {
             children: [
               Column(
                 children: [
-                  SizedBox(height: 24,),
-                  Center(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: sizes.width(context, 48)),
-                      child: SizedBox(
-                        width: sizes.width(context, 414),
-                        child: TextField(
-                          textAlign: TextAlign.center,
-                          onChanged: (newTitle) {
-                            title = newTitle;
-                          },
-                          onTap: () {
-                            FirebaseAnalytics().logEvent(name: "added_title");
-                          },
-                          style: TextStyle(
-                            color: colours.white(),
-                            fontSize: 64,
-                            fontFamily: 'ProductSans',
-                            fontWeight: FontWeight.bold,
-                          ),
-                          decoration: InputDecoration(
-                            hintText: "Work",
-                            hintMaxLines: 1,
-                            hintStyle: TextStyle(
-                              color: colours.white().withOpacity(.7),
-                              fontSize: 64,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'ProductSans',
+                  SizedBox(height: 12),
+                  Column(
+                    children: [
+                      Center(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: sizes.width(context, 48)),
+                          child: SizedBox(
+                            width: sizes.width(context, 414),
+                            child: TextField(
+                              textAlign: TextAlign.center,
+                              onChanged: (newTitle) {
+                                title = newTitle;
+                              },
+                              onTap: () {
+                                FirebaseAnalytics().logEvent(name: "added_title");
+                              },
+                              style: TextStyle(
+                                color: colours.white(),
+                                fontSize: 64,
+                                fontFamily: 'ProductSans',
+                                fontWeight: FontWeight.bold,
+                              ),
+                              decoration: InputDecoration(
+                                hintText: "Work",
+                                hintMaxLines: 1,
+                                hintStyle: TextStyle(
+                                  color: colours.white().withOpacity(.7),
+                                  fontSize: 64,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'ProductSans',
+                                ),
+                                border: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                enabledBorder: InputBorder.none,
+                                errorBorder: InputBorder.none,
+                                disabledBorder: InputBorder.none,
+                              ),
                             ),
-                            border: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                            enabledBorder: InputBorder.none,
-                            errorBorder: InputBorder.none,
-                            disabledBorder: InputBorder.none,
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: sizes.width(context, 48)),
-                    child: Divider(
-                      height: sizes.height(context, 6),
-                      thickness: 6,
-                      color: colours.white().withOpacity(.7),
-                    ),
-                  ),
-                  Container(
-                    margin:  EdgeInsets.only(top: sizes.height(context, 16)),
-                    child: Text(
-                      'give a name to your mode',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontFamily: 'ProductSans',
-                          fontSize: 20,
-                          color: colours.white()
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: sizes.width(context, 48)),
+                        child: Divider(
+                          height: sizes.height(context, 6),
+                          thickness: 6,
+                          color: colours.white().withOpacity(.7),
+                        ),
                       ),
-                    ),
+                      Container(
+                        margin:  EdgeInsets.only(top: sizes.height(context, 16)),
+                        child: Text(
+                          'give a name to your mode',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontFamily: 'ProductSans',
+                              fontSize: 20,
+                              color: colours.white()
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-
-                  SizedBox(
-                    height: sizes.height(context, 440),
-                  ),
-
-                  SizedBox(
-                    height: sizes.height(context, 60),
-                  ),
-
-                  SizedBox(height: sizes.height(context, 110)),
                 ],
               ),
               Padding(
-                padding: EdgeInsets.only(top: sizes.height(context, 800)),
+                padding: EdgeInsets.only(top: sizes.height(context, 810)),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   child: Row(
@@ -191,38 +185,42 @@ class _AppsAddState extends State<AppsAdd> {
               Column(
                 children: [
                   SizedBox(height: 12),
-                  Center(
-                    child: Text(
-                      title,
-                      style: TextStyle(
-                        color: colours.white(),
-                        fontSize: 64,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'ProductSans',
+                  Column(
+                    children: [
+                      Center(
+                        child: Text(
+                          title,
+                          style: TextStyle(
+                            color: colours.white(),
+                            fontSize: 64,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'ProductSans',
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: sizes.width(context, 48)),
-                    child: Divider(
-                      height: sizes.height(context, 6),
-                      thickness: 6,
-                      color: colours.white(),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: sizes.height(context, 16)),
-                    child: Text(
-                      'click the apps you will use in this mode',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontFamily: 'ProductSans',
-                          fontSize: 20,
-                          color: colours.white()
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: sizes.width(context, 48)),
+                        child: Divider(
+                          height: sizes.height(context, 6),
+                          thickness: 6,
+                          color: colours.white(),
+                        ),
                       ),
-                    ),
+                      Container(
+                        margin: EdgeInsets.only(top: sizes.height(context, 16)),
+                        child: Text(
+                          'click the apps you will use in this mode',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontFamily: 'ProductSans',
+                              fontSize: 20,
+                              color: colours.white()
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  SizedBox(height: sizes.height(context, 175),),
+                  SizedBox(height: sizes.height(context, 200),),
 
                   ValueListenableBuilder(
                       valueListenable: selectedApps,
@@ -301,7 +299,7 @@ class _AppsAddState extends State<AppsAdd> {
                   ),
 
                   SizedBox(
-                    height: sizes.height(context, 200), // 180 for shlok
+                    height: sizes.height(context, 215), // 180 for shlok
                   ),
 
                   Container(
@@ -425,7 +423,7 @@ class _AppsAddState extends State<AppsAdd> {
                 ],
               ),
               Padding(
-                padding: EdgeInsets.only(top: sizes.height(context, 800)),
+                padding: EdgeInsets.only(top: sizes.height(context, 810)),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   child: Row(
@@ -512,38 +510,43 @@ class _TimeAddState extends State<TimeAdd> {
             children: [
               Column(
                 children: [
-                  Center(
-                    child: Text(
-                      title,
-                      style: TextStyle(
-                        color: colours.white(),
-                        fontSize: 64,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'ProductSans',
+                  SizedBox(height: 12),
+                  Column(
+                    children: [
+                      Center(
+                        child: Text(
+                          title,
+                          style: TextStyle(
+                            color: colours.white(),
+                            fontSize: 64,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'ProductSans',
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: sizes.width(context, 48)),
-                    child: Divider(
-                      height: sizes.height(context, 6),
-                      thickness: 6,
-                      color: colours.white(),
-                    ),
-                  ),
-                  Container(
-                    margin:  EdgeInsets.only(top: sizes.height(context, 16)),
-                    child: Text(
-                      'add times when you will use these apps',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontFamily: 'ProductSans',
-                          fontSize: 20,
-                          color: colours.white()
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: sizes.width(context, 48)),
+                        child: Divider(
+                          height: sizes.height(context, 6),
+                          thickness: 6,
+                          color: colours.white(),
+                        ),
                       ),
-                    ),
+                      Container(
+                        margin:  EdgeInsets.only(top: sizes.height(context, 16)),
+                        child: Text(
+                          'add times when you will use these apps',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontFamily: 'ProductSans',
+                              fontSize: 20,
+                              color: colours.white()
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  SizedBox(height: sizes.height(context, 175),),
+                  SizedBox(height: sizes.height(context, 200),),
 
                   ValueListenableBuilder(
                       valueListenable: selectedApps,
@@ -812,7 +815,7 @@ class _TimeAddState extends State<TimeAdd> {
                 ],
               ),
               Padding(
-                padding: EdgeInsets.only(top: sizes.height(context, 800)),
+                padding: EdgeInsets.only(top: sizes.height(context, 810)),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   child: Row(
@@ -952,44 +955,48 @@ class _FinalAddState extends State<FinalAdd> {
                   Column(
                     children: [
                       SizedBox(height: 12),
-                      Center(
-                        child: Text(
-                          title,
-                          style: TextStyle(
-                            color: colours.white(),
-                            fontSize: 64,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'ProductSans',
+                      Column(
+                        children: [
+                          Center(
+                            child: Text(
+                              title,
+                              style: TextStyle(
+                                color: colours.white(),
+                                fontSize: 64,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'ProductSans',
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: sizes.width(context, 48)),
-                        child: Divider(
-                          height: sizes.height(context, 6),
-                          thickness: 6,
-                          color: colours.white(),
-                        ),
-                      ),
-                      Container(
-                        margin:  EdgeInsets.only(top: sizes.height(context, 16)),
-                        child: Text(
-                          startTime.hour.toString() + ":" + (startTime.minute ==
-                              0 ? startTime.minute.toString() + "0" : startTime
-                              .minute.toString())
-                              + " - " + endTime.hour.toString() + ":" +
-                              (endTime.minute == 0 ? endTime.minute.toString() +
-                                  "0" : endTime.minute.toString()),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontFamily: 'ProductSans',
-                              fontSize: 20,
-                              color: colours.white()
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: sizes.width(context, 48)),
+                            child: Divider(
+                              height: sizes.height(context, 6),
+                              thickness: 6,
+                              color: colours.white(),
+                            ),
                           ),
-                        ),
+                          Container(
+                            margin:  EdgeInsets.only(top: sizes.height(context, 16)),
+                            child: Text(
+                              startTime.hour.toString() + ":" + (startTime.minute ==
+                                  0 ? startTime.minute.toString() + "0" : startTime
+                                  .minute.toString())
+                                  + " - " + endTime.hour.toString() + ":" +
+                                  (endTime.minute == 0 ? endTime.minute.toString() +
+                                      "0" : endTime.minute.toString()),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontFamily: 'ProductSans',
+                                  fontSize: 20,
+                                  color: colours.white()
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      SizedBox(height: sizes.height(context, 175),),
+                      SizedBox(height: sizes.height(context, 200),),
 
                       // selected Apps List
                       ValueListenableBuilder(
@@ -1067,7 +1074,7 @@ class _FinalAddState extends State<FinalAdd> {
                           }
                       ),
 
-                      SizedBox(height: sizes.height(context, 120)),
+                      SizedBox(height: sizes.height(context, 100)),
 
                       GestureDetector(
                         onTap: () async {
@@ -1188,7 +1195,7 @@ class _FinalAddState extends State<FinalAdd> {
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: sizes.height(context, 800)),
+                    padding: EdgeInsets.only(top: sizes.height(context, 810)),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: Row(
@@ -1286,67 +1293,71 @@ class _FinalAddState extends State<FinalAdd> {
                         children: [
                           Column(
                             children: [
-                              SizedBox(height: 0),
-                              Center(
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: sizes.width(context, 48)),
-                                  child: SizedBox(
-                                    width: sizes.width(context, 414),
-                                    child: TextField(
-                                      textAlign: TextAlign.center,
-                                      onChanged: (newTitle) {
-                                        title = newTitle;
-                                      },
-                                      onTap: () {
-                                        FirebaseAnalytics().logEvent(name: "updated_title");
-                                      },
-                                      style: TextStyle(
-                                        color: colours.white(),
-                                        fontSize: 64,
-                                        fontFamily: 'ProductSans',
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      decoration: InputDecoration(
-                                        hintText: mode.title,
-                                        hintMaxLines: 1,
-                                        hintStyle: TextStyle(
-                                          color: colours.white().withOpacity(.9),
-                                          fontSize: 64,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: 'ProductSans',
+                              Column(
+                                children: [
+                                  Center(
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(horizontal: sizes.width(context, 48)),
+                                      child: SizedBox(
+                                        width: sizes.width(context, 414),
+                                        child: TextField(
+                                          textAlign: TextAlign.center,
+                                          onChanged: (newTitle) {
+                                            title = newTitle;
+                                          },
+                                          onTap: () {
+                                            FirebaseAnalytics().logEvent(name: "updated_title");
+                                          },
+                                          maxLines: 1,
+                                          style: TextStyle(
+                                            color: colours.white(),
+                                            fontSize: 64,
+                                            fontFamily: 'ProductSans',
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          decoration: InputDecoration(
+                                            hintText: mode.title,
+                                            hintMaxLines: 1,
+                                            hintStyle: TextStyle(
+                                              color: colours.white().withOpacity(.9),
+                                              fontSize: 64,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: 'ProductSans',
+                                            ),
+                                            border: InputBorder.none,
+                                            focusedBorder: InputBorder.none,
+                                            enabledBorder: InputBorder.none,
+                                            errorBorder: InputBorder.none,
+                                            disabledBorder: InputBorder.none,
+                                          ),
                                         ),
-                                        border: InputBorder.none,
-                                        focusedBorder: InputBorder.none,
-                                        enabledBorder: InputBorder.none,
-                                        errorBorder: InputBorder.none,
-                                        disabledBorder: InputBorder.none,
                                       ),
                                     ),
                                   ),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: sizes.width(context, 48)),
-                                child: Divider(
-                                  height: sizes.height(context, 6),
-                                  thickness: 6,
-                                  color: colours.white(),
-                                ),
-                              ),
-                              Container(
-                                margin:  EdgeInsets.only(top: sizes.height(context, 16)),
-                                child: Text(
-                                  DateTime.parse(mode.startTime).hour.toString() + ":" + (DateTime.parse(mode.startTime).minute == 0 ? DateTime.parse(mode.startTime).minute.toString() + "0" : DateTime.parse(mode.startTime).minute.toString())
-                                      + " - " + DateTime.parse(mode.endTime).hour.toString() + ":" + (DateTime.parse(mode.endTime).minute == 0 ? DateTime.parse(mode.endTime).minute.toString() + "0" : DateTime.parse(mode.endTime).minute.toString()),
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontFamily: 'ProductSans',
-                                      fontSize: 20,
-                                      color: colours.white()
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: sizes.width(context, 48)),
+                                    child: Divider(
+                                      height: sizes.height(context, 6),
+                                      thickness: 6,
+                                      color: colours.white(),
+                                    ),
                                   ),
-                                ),
+                                  Container(
+                                    margin:  EdgeInsets.only(top: sizes.height(context, 16)),
+                                    child: Text(
+                                      DateTime.parse(mode.startTime).hour.toString() + ":" + (DateTime.parse(mode.startTime).minute == 0 ? DateTime.parse(mode.startTime).minute.toString() + "0" : DateTime.parse(mode.startTime).minute.toString())
+                                          + " - " + DateTime.parse(mode.endTime).hour.toString() + ":" + (DateTime.parse(mode.endTime).minute == 0 ? DateTime.parse(mode.endTime).minute.toString() + "0" : DateTime.parse(mode.endTime).minute.toString()),
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontFamily: 'ProductSans',
+                                          fontSize: 20,
+                                          color: colours.white()
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                              SizedBox(height: sizes.height(context, 175),),
+                              SizedBox(height: sizes.height(context, 200),),
 
                               // selected Apps here
                               ValueListenableBuilder(
@@ -1426,7 +1437,7 @@ class _FinalAddState extends State<FinalAdd> {
                                   }
                               ),
 
-                              SizedBox(height: sizes.height(context, 54)),
+                              SizedBox(height: sizes.height(context, 90)),
 
                               GestureDetector(
                                 onTap: () async {
@@ -1548,7 +1559,7 @@ class _FinalAddState extends State<FinalAdd> {
                             ],
                           ),
                           Padding(
-                            padding: EdgeInsets.only(top: sizes.height(context, 800)),
+                            padding: EdgeInsets.only(top: sizes.height(context, 810)),
                             child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 12),
                               child: Row(
