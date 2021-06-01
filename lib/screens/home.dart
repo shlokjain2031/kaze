@@ -273,14 +273,9 @@ class _HomeState extends State<Home> {
                                                 Util().openSettings(apps[listIndex]["package"]);
                                               },
                                               child: Container(
-                                                width: sizes.width(context, 50),
+                                                width: sizes.width(context, 64),
                                                 height: sizes.height(context, 64),
                                                 margin: EdgeInsets.only(right: 20),
-                                                decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    color: colours.white(),
-                                                    border: Border.all(color: colours.white(), width: 3)
-                                                ),
                                                 child: Image(
                                                   image: MemoryImage(Util().getAppIcon(apps[listIndex]["icon"])),
                                                   fit: BoxFit.fill,

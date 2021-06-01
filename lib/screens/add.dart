@@ -103,7 +103,7 @@ class _TitleAddState extends State<TitleAdd> {
                 ],
               ),
               Padding(
-                padding: EdgeInsets.only(top: sizes.height(context, 810)),
+                padding: EdgeInsets.only(top: sizes.height(context, 830)),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   child: Row(
@@ -226,7 +226,7 @@ class _AppsAddState extends State<AppsAdd> {
                       valueListenable: selectedApps,
                       builder: (context, value, child) {
                         return Container(
-                          margin: EdgeInsets.only(left: sizes.width(context, 42)),
+                          margin: EdgeInsets.only(left: sizes.width(context, 32)),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
@@ -244,17 +244,11 @@ class _AppsAddState extends State<AppsAdd> {
                                         FirebaseAnalytics().logEvent(name: "removed_an_app");
                                       },
                                       child: Container(
-                                        width: sizes.width(context, 50),
-                                        height: sizes.height(context, 64),
-                                        margin: EdgeInsets.only(right: 20),
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          border: Border.all(color: colours.white(), width: 3),
-                                          color: colours.white(), // change with colours.black(),
-                                        ),
+                                        width: sizes.width(context, 58),
+                                        height: sizes.height(context, 58),
+                                        margin: EdgeInsets.only(right: 16),
                                         child: Image(
                                           image: MemoryImage(selectedApps.value[listIndex].icon),
-                                          fit: BoxFit.fill,
                                         ),
                                       ),
                                     );
@@ -275,17 +269,11 @@ class _AppsAddState extends State<AppsAdd> {
                                         selectedApps.notifyListeners();
                                       },
                                       child: Container(
-                                        width: sizes.width(context, 50),
-                                        height: sizes.height(context, 64),
-                                        margin: EdgeInsets.only(right: 20),
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            border: Border.all(color: colours.white(), width: 3),
-                                            color: colours.white() // change with colours.black()
-                                        ),
+                                        width: sizes.width(context, 58),
+                                        height: sizes.height(context, 58),
+                                        margin: EdgeInsets.only(right: 16),
                                         child: Image(
                                           image: MemoryImage(selectedApps.value[(listIndex + 5)].icon),
-                                          fit: BoxFit.fill,
                                         ),
                                       ),
                                     );
@@ -365,17 +353,12 @@ class _AppsAddState extends State<AppsAdd> {
                                                   FirebaseAnalytics().logEvent(name: "selected_an_app");
                                                 },
                                                 child: Container(
-                                                  width: sizes.width(context, 50),
-                                                  height: sizes.height(context, 64),
-                                                  margin: EdgeInsets.only(right: 8),
-                                                  decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    border: Border.all(color: colours.white(), width: 3),
-                                                    color: colours.white(),
-                                                  ),
+                                                  width: sizes.width(context, 58),
+                                                  height: sizes.height(context, 58),
+                                                  margin: EdgeInsets.only(right: 2),
+                                                  
                                                   child: Image(
                                                     image: MemoryImage(apps[index].icon),
-                                                    fit: BoxFit.fill,
                                                   ),
                                                 ),
                                               );
@@ -405,9 +388,8 @@ class _AppsAddState extends State<AppsAdd> {
                                           height: sizes.height(context, 64),
                                           margin: EdgeInsets.only(right: 8),
                                           decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            border: Border.all(color: colours.white(), width: 3),
                                             color: colours.white(),
+                                            shape: BoxShape.circle
                                           ),
                                         ),
                                       )
@@ -423,7 +405,7 @@ class _AppsAddState extends State<AppsAdd> {
                 ],
               ),
               Padding(
-                padding: EdgeInsets.only(top: sizes.height(context, 810)),
+                padding: EdgeInsets.only(top: sizes.height(context, 830)),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   child: Row(
@@ -552,7 +534,7 @@ class _TimeAddState extends State<TimeAdd> {
                       valueListenable: selectedApps,
                       builder: (context, value, child) {
                         return Container(
-                          margin: EdgeInsets.only(left: sizes.width(context, 42)),
+                          margin: EdgeInsets.only(left: sizes.width(context, 32)),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
@@ -569,17 +551,12 @@ class _TimeAddState extends State<TimeAdd> {
                                         selectedApps.notifyListeners();
                                       },
                                       child: Container(
-                                        width: sizes.width(context, 50),
-                                        height: sizes.height(context, 64),
-                                        margin: EdgeInsets.only(right: 20),
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          border: Border.all(color: colours.white(), width: 3),
-                                          color: colours.white(), // change with colours.black(),
-                                        ),
+                                        width: sizes.width(context, 58),
+                                        height: sizes.height(context, 58),
+                                        margin: EdgeInsets.only(right: 16),
+                                        
                                         child: Image(
                                           image: MemoryImage(selectedApps.value[listIndex].icon),
-                                          fit: BoxFit.fill,
                                         ),
                                       ),
                                     );
@@ -600,17 +577,12 @@ class _TimeAddState extends State<TimeAdd> {
                                         selectedApps.notifyListeners();
                                       },
                                       child: Container(
-                                        width: sizes.width(context, 50),
-                                        height: sizes.height(context, 64),
-                                        margin: EdgeInsets.only(right: 20),
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            border: Border.all(color: colours.white(), width: 3),
-                                            color: colours.white() // change with colours.black()
-                                        ),
+                                        width: sizes.width(context, 58),
+                                        height: sizes.height(context, 58),
+                                        margin: EdgeInsets.only(right: 16),
+
                                         child: Image(
                                           image: MemoryImage(selectedApps.value[(listIndex + 5)].icon),
-                                          fit: BoxFit.fill,
                                         ),
                                       ),
                                     );
@@ -623,7 +595,7 @@ class _TimeAddState extends State<TimeAdd> {
                       }
                   ),
 
-                  SizedBox(height: sizes.height(context, 80)),
+                  SizedBox(height: sizes.height(context, 90)),
 
                   SizedBox(
                     width: sizes.width(context, 390),
@@ -789,17 +761,11 @@ class _TimeAddState extends State<TimeAdd> {
                                           selectedApps.notifyListeners();
                                         },
                                         child: Container(
-                                          width: sizes.width(context, 50),
-                                          height: sizes.height(context, 64),
-                                          margin: EdgeInsets.only(right: 8),
-                                          decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              border: Border.all(color: colours.white(), width: 3),
-                                              color: colours.white() // change with colours.black()
-                                          ),
+                                          width: sizes.width(context, 58),
+                                          height: sizes.height(context, 58),
+                                          margin: EdgeInsets.only(right: 2),
                                           child: Image(
                                             image: MemoryImage(allApps[index].icon),
-                                            fit: BoxFit.fill,
                                           ),
                                         ),
                                       );
@@ -815,7 +781,7 @@ class _TimeAddState extends State<TimeAdd> {
                 ],
               ),
               Padding(
-                padding: EdgeInsets.only(top: sizes.height(context, 810)),
+                padding: EdgeInsets.only(top: sizes.height(context, 830)),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   child: Row(
@@ -1003,7 +969,7 @@ class _FinalAddState extends State<FinalAdd> {
                           valueListenable: selectedApps,
                           builder: (context, value, child) {
                             return Container(
-                              margin: EdgeInsets.only(left: sizes.width(context, 42)),
+                              margin: EdgeInsets.only(left: sizes.width(context, 32)),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
@@ -1020,17 +986,12 @@ class _FinalAddState extends State<FinalAdd> {
                                             selectedApps.notifyListeners();
                                           },
                                           child: Container(
-                                            width: sizes.width(context, 50),
-                                            height: sizes.height(context, 64),
-                                            margin: EdgeInsets.only(right: 20),
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              border: Border.all(color: colours.white(), width: 3),
-                                              color: colours.white(), // change with colours.black(),
-                                            ),
+                                            width: sizes.width(context, 58),
+                                            height: sizes.height(context, 58),
+                                            margin: EdgeInsets.only(right: 16),
+                                            
                                             child: Image(
                                               image: MemoryImage(selectedApps.value[listIndex].icon),
-                                              fit: BoxFit.fill,
                                             ),
                                           ),
                                         );
@@ -1051,17 +1012,12 @@ class _FinalAddState extends State<FinalAdd> {
                                             selectedApps.notifyListeners();
                                           },
                                           child: Container(
-                                            width: sizes.width(context, 50),
-                                            height: sizes.height(context, 64),
-                                            margin: EdgeInsets.only(right: 20),
-                                            decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                border: Border.all(color: colours.white(), width: 3),
-                                                color: colours.white() // change with colours.black()
-                                            ),
+                                            width: sizes.width(context, 58),
+                                            height: sizes.height(context, 58),
+                                            margin: EdgeInsets.only(right: 16),
+
                                             child: Image(
                                               image: MemoryImage(Util().getAppIcon(selectedApps.value[(listIndex + 5)].icon)),
-                                              fit: BoxFit.fill,
                                             ),
                                           ),
                                         );
@@ -1074,7 +1030,7 @@ class _FinalAddState extends State<FinalAdd> {
                           }
                       ),
 
-                      SizedBox(height: sizes.height(context, 100)),
+                      SizedBox(height: sizes.height(context, 110)),
 
                       GestureDetector(
                         onTap: () async {
@@ -1169,17 +1125,11 @@ class _FinalAddState extends State<FinalAdd> {
                                               selectedApps.notifyListeners();
                                             },
                                             child: Container(
-                                              width: sizes.width(context, 50),
-                                              height: sizes.height(context, 64),
-                                              margin: EdgeInsets.only(right: 8),
-                                              decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  border: Border.all(color: colours.white(), width: 3),
-                                                  color: colours.white() // change with colours.black()
-                                              ),
+                                              width: sizes.width(context, 58),
+                                              height: sizes.height(context, 58),
+                                              margin: EdgeInsets.only(right: 2),
                                               child: Image(
                                                 image: MemoryImage(allApps[index].icon),
-                                                fit: BoxFit.fill,
                                               ),
                                             ),
                                           );
@@ -1195,7 +1145,7 @@ class _FinalAddState extends State<FinalAdd> {
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: sizes.height(context, 810)),
+                    padding: EdgeInsets.only(top: sizes.height(context, 830)),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: Row(
@@ -1385,11 +1335,7 @@ class _FinalAddState extends State<FinalAdd> {
                                                     width: sizes.width(context, 50),
                                                     height: sizes.height(context, 64),
                                                     margin: EdgeInsets.only(right: 20),
-                                                    decoration: BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      border: Border.all(color: colours.white(), width: 3),
-                                                      color: colours.white(), // change with colours.black(),
-                                                    ),
+                                                    
                                                     child: Image(
                                                       image: MemoryImage(Util().getAppIcon(selectedApps.value[listIndex]["icon"])),
                                                       fit: BoxFit.fill,
@@ -1559,7 +1505,7 @@ class _FinalAddState extends State<FinalAdd> {
                             ],
                           ),
                           Padding(
-                            padding: EdgeInsets.only(top: sizes.height(context, 810)),
+                            padding: EdgeInsets.only(top: sizes.height(context, 830)),
                             child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 12),
                               child: Row(

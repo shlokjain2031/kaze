@@ -860,15 +860,10 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
                                         Row(
                                           children: [
                                             Container(
-                                              width: sizes.width(context, 48),
+                                              width: sizes.width(context, 58),
                                               height: sizes.height(context, 58),
-                                              decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: colours.white()
-                                              ),
                                               child: Image(
                                                 image: MemoryImage(app["icon"]),
-                                                fit: BoxFit.fill,
                                               ),
                                             ),
                                             SizedBox(width: 10),
@@ -1008,7 +1003,7 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
                               fontSize: 24,
                             ),
                           ),
-                          SizedBox(height: sizes.height(context, 32)),
+                          SizedBox(height: sizes.height(context, 24)),
 
                           ValueListenableBuilder(
                               valueListenable: selectedApps,
@@ -1029,15 +1024,10 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
                                               Row(
                                                 children: [
                                                   Container(
-                                                    width: sizes.width(context, 48),
+                                                    width: sizes.width(context, 58),
                                                     height: sizes.height(context, 58),
-                                                    decoration: BoxDecoration(
-                                                        shape: BoxShape.circle,
-                                                        color: colours.white()
-                                                    ),
                                                     child: Image(
                                                       image: MemoryImage(app["icon"]),
-                                                      fit: BoxFit.fill,
                                                     ),
                                                   ),
                                                   SizedBox(width: 10),

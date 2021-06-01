@@ -85,12 +85,9 @@ class FocusMode extends StatelessWidget {
                                         Util().openApp(focusModeApps[0]["package"]);
                                       },
                                       child: Container(
-                                        width: sizes.width(context, 72),
+                                        width: sizes.width(context, 80),
                                         height: sizes.height(context, 80),
                                         decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            border: Border.all(color: colours.white(), width: 3),
-                                            color: colours.white(),
                                             boxShadow: [
                                               BoxShadow(
                                                   offset: Offset(8, 16),
@@ -101,7 +98,6 @@ class FocusMode extends StatelessWidget {
                                         ),
                                         child: Image(
                                           image: MemoryImage(focusModeApps[0]["icon"]),
-                                          fit: BoxFit.fitHeight,
                                         ),
                                       ),
                                     ),
@@ -111,12 +107,10 @@ class FocusMode extends StatelessWidget {
                                         Util().openApp(focusModeApps[1]["package"]);
                                       },
                                       child: Container(
-                                        width: sizes.width(context, 72),
+                                        width: sizes.width(context, 80),
                                         height: sizes.height(context, 80),
                                         decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            border: Border.all(color: colours.white(), width: 3),
-                                            color: colours.white(),
+
                                             boxShadow: [
                                               BoxShadow(
                                                   offset: Offset(8, 16),
@@ -127,7 +121,6 @@ class FocusMode extends StatelessWidget {
                                         ),
                                         child: Image(
                                           image: MemoryImage(focusModeApps[1]["icon"]),
-                                          fit: BoxFit.fitHeight,
                                         ),
                                       ),
                                     ),
@@ -210,7 +203,7 @@ class FocusMode extends StatelessWidget {
                           ),
 
                           Container(
-                            margin: EdgeInsets.only(top: sizes.height(context, 250), left: sizes.width(context, 125)),
+                            margin: EdgeInsets.only(top: sizes.height(context, 250), left: sizes.width(context, 100)),
                             child: FutureBuilder(
                                 future: FocusModeService().getFocusModeApps(),
                                 builder: (context, snapshot) {
@@ -220,12 +213,9 @@ class FocusMode extends StatelessWidget {
                                       crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
                                         Container(
-                                          width: sizes.width(context, 72),
+                                          width: sizes.width(context, 80),
                                           height: sizes.height(context, 80),
                                           decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              border: Border.all(color: colours.white(), width: 3),
-                                              color: colours.white(),
                                               boxShadow: [
                                                 BoxShadow(
                                                     offset: Offset(8, 16),
@@ -236,17 +226,13 @@ class FocusMode extends StatelessWidget {
                                           ),
                                           child: Image(
                                             image: MemoryImage(apps[0]["icon"]),
-                                            fit: BoxFit.fitHeight,
                                           ),
                                         ),
                                         SizedBox(width: 24,),
                                         Container(
-                                          width: sizes.width(context, 72),
+                                          width: sizes.width(context, 80),
                                           height: sizes.height(context, 80),
                                           decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              border: Border.all(color: colours.white(), width: 3),
-                                              color: colours.white(),
                                               boxShadow: [
                                                 BoxShadow(
                                                     offset: Offset(8, 16),
@@ -257,7 +243,6 @@ class FocusMode extends StatelessWidget {
                                           ),
                                           child: Image(
                                             image: MemoryImage(apps[1]["icon"]),
-                                            fit: BoxFit.fitHeight,
                                           ),
                                         ),
                                       ],
