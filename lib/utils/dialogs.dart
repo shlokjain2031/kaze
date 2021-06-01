@@ -26,163 +26,165 @@ class CustomDialogs {
           alignment: Alignment.center,
           child: Container(
             width: sizes.width(context, 375),
-            height: sizes.height(context, 360),
+            height: sizes.height(context, 340),
             decoration: BoxDecoration(
               color: colours.white(),
             ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: Column(
-                children: [
-                  SizedBox(height: sizes.height(context, 20)),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return Settings();
-                          },
-                        ),
-                      );
-                      FirebaseAnalytics().logEvent(name: "clicked_on_settings");
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Settings',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 32,
-                            fontFamily: 'ProductSans',
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: Column(
+                  children: [
+                    SizedBox(height: sizes.height(context, 20)),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return Settings();
+                            },
+                          ),
+                        );
+                        FirebaseAnalytics().logEvent(name: "clicked_on_settings");
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Settings',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 32,
+                              fontFamily: 'ProductSans',
+                              color: colours.black(),
+                              decoration: TextDecoration.none
+                            ),
+                          ),
+                          Icon(
+                            Icons.arrow_forward_outlined,
+                            size: 32,
                             color: colours.black(),
-                            decoration: TextDecoration.none
-                          ),
-                        ),
-                        Icon(
-                          Icons.arrow_forward_outlined,
-                          size: 32,
-                          color: colours.black(),
-                        )
-                      ],
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                  SizedBox(height: sizes.height(context, 20)),
-                  GestureDetector(
-                    onTap: () {
-                      focusMode(context, sizes, colours);
-                      FirebaseAnalytics().logEvent(name: "clicked_start_focus_mode");
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Start Focus Mode',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 32,
-                              fontFamily: 'ProductSans',
-                              color: colours.black(),
-                              decoration: TextDecoration.none
+                    SizedBox(height: sizes.height(context, 20)),
+                    GestureDetector(
+                      onTap: () {
+                        focusMode(context, sizes, colours);
+                        FirebaseAnalytics().logEvent(name: "clicked_start_focus_mode");
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Start Focus Mode',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 32,
+                                fontFamily: 'ProductSans',
+                                color: colours.black(),
+                                decoration: TextDecoration.none
+                            ),
                           ),
-                        ),
-                        Icon(
-                          Icons.arrow_forward_outlined,
-                          size: 32,
-                          color: colours.black(),
-                        )
-                      ],
+                          Icon(
+                            Icons.arrow_forward_outlined,
+                            size: 32,
+                            color: colours.black(),
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                  SizedBox(height: sizes.height(context, 20)),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return AllApps();
-                          },
-                        ),
-                      );
-                      FirebaseAnalytics().logEvent(name: "clicked_all_apps");
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'See All Apps',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 32,
-                              fontFamily: 'ProductSans',
-                              color: colours.black(),
-                              decoration: TextDecoration.none
+                    SizedBox(height: sizes.height(context, 20)),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return AllApps();
+                            },
                           ),
-                        ),
-                        Icon(
-                          Icons.arrow_forward_outlined,
-                          size: 32,
-                          color: colours.black(),
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: sizes.height(context, 20)),
-                  GestureDetector(
-                    onTap: () {
-                      title != null ? areYouSureModeDelete(context, sizes, colours, title) : print("title is null");
-                      FirebaseAnalytics().logEvent(name: "clicked_delete_mode");
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Delete $title mode',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 32,
-                              fontFamily: 'ProductSans',
-                              color: Color(0xFF962D2D),
-                              decoration: TextDecoration.none
+                        );
+                        FirebaseAnalytics().logEvent(name: "clicked_all_apps");
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'See All Apps',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 32,
+                                fontFamily: 'ProductSans',
+                                color: colours.black(),
+                                decoration: TextDecoration.none
+                            ),
                           ),
-                        ),
-                        Icon(
-                          Icons.arrow_forward_outlined,
-                          size: 32,
-                          color: Color(0xFF962D2D),
-                        )
-                      ],
+                          Icon(
+                            Icons.arrow_forward_outlined,
+                            size: 32,
+                            color: colours.black(),
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                  SizedBox(height: sizes.height(context, 20)),
-                  GestureDetector(
-                    onTap: () {
-                      areYouSureQuitKaze(context, sizes, colours);
-                      FirebaseAnalytics().logEvent(name: "clicked_quit_kaze");
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Quit Kaze',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 32,
-                              fontFamily: 'ProductSans',
-                              color: Color(0xFF962D2D),
-                              decoration: TextDecoration.none
+                    SizedBox(height: sizes.height(context, 20)),
+                    GestureDetector(
+                      onTap: () {
+                        title != null ? areYouSureModeDelete(context, sizes, colours, title) : print("title is null");
+                        FirebaseAnalytics().logEvent(name: "clicked_delete_mode");
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Delete $title mode',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 32,
+                                fontFamily: 'ProductSans',
+                                color: Color(0xFF962D2D),
+                                decoration: TextDecoration.none
+                            ),
                           ),
-                        ),
-                        Icon(
-                          Icons.arrow_forward_outlined,
-                          size: 32,
-                          color: Color(0xFF962D2D),
-                        )
-                      ],
+                          Icon(
+                            Icons.arrow_forward_outlined,
+                            size: 32,
+                            color: Color(0xFF962D2D),
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                  SizedBox(height: sizes.height(context, 12)),
-                ],
+                    SizedBox(height: sizes.height(context, 20)),
+                    GestureDetector(
+                      onTap: () {
+                        areYouSureQuitKaze(context, sizes, colours);
+                        FirebaseAnalytics().logEvent(name: "clicked_quit_kaze");
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Quit Kaze',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 32,
+                                fontFamily: 'ProductSans',
+                                color: Color(0xFF962D2D),
+                                decoration: TextDecoration.none
+                            ),
+                          ),
+                          Icon(
+                            Icons.arrow_forward_outlined,
+                            size: 32,
+                            color: Color(0xFF962D2D),
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: sizes.height(context, 12)),
+                  ],
+                ),
               ),
             ),
           ),
@@ -216,7 +218,7 @@ class CustomDialogs {
             ),
             child: Column(
               children: [
-                SizedBox(height: sizes.height(context, 16),),
+                SizedBox(height: sizes.height(context, 20),),
                 Text(
                   'Start Focus Mode?',
                   style: TextStyle(
@@ -265,15 +267,17 @@ class CustomDialogs {
                               color: colours.black(),
                               border: Border.all(color: colours.black(), width: 2)
                             ),
-                            child: Text(
-                              'yes',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontFamily: 'ProductSans',
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.bold,
-                                  color: colours.white(),
-                                  decoration: TextDecoration.none
+                            child: Center(
+                              child: Text(
+                                'yes',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontFamily: 'ProductSans',
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold,
+                                    color: colours.white(),
+                                    decoration: TextDecoration.none
+                                ),
                               ),
                             ),
                           ),
@@ -291,15 +295,17 @@ class CustomDialogs {
                                 color: Colors.transparent,
                                 border: Border.all(color: colours.black(), width: 2)
                             ),
-                            child: Text(
-                              'no',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontFamily: 'ProductSans',
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.bold,
-                                  color: colours.black(),
-                                  decoration: TextDecoration.none
+                            child: Center(
+                              child: Text(
+                                'no',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontFamily: 'ProductSans',
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold,
+                                    color: colours.black(),
+                                    decoration: TextDecoration.none
+                                ),
                               ),
                             ),
                           ),
@@ -334,14 +340,14 @@ class CustomDialogs {
           alignment: Alignment.center,
           child: Container(
             width: sizes.width(context, 335),
-            height: sizes.height(context, 225),
+            height: sizes.height(context, 220),
             decoration: BoxDecoration(
                 color: colours.white(),
                 border: Border.all(color: colours.black(), width: 3)
             ),
             child: Column(
               children: [
-                SizedBox(height: sizes.height(context, 16),),
+                SizedBox(height: sizes.height(context, 24),),
                 SizedBox(
                   width: sizes.width(context, 310),
                   child: Center(
@@ -392,15 +398,17 @@ class CustomDialogs {
                                 color: colours.black(),
                                 border: Border.all(color: colours.black(), width: 2)
                             ),
-                            child: Text(
-                              'yes',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontFamily: 'ProductSans',
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.bold,
-                                  color: colours.white(),
-                                  decoration: TextDecoration.none
+                            child: Center(
+                              child: Text(
+                                'yes',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontFamily: 'ProductSans',
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold,
+                                    color: colours.white(),
+                                    decoration: TextDecoration.none
+                                ),
                               ),
                             ),
                           ),
@@ -418,15 +426,17 @@ class CustomDialogs {
                                 color: Colors.transparent,
                                 border: Border.all(color: colours.black(), width: 2)
                             ),
-                            child: Text(
-                              'no',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontFamily: 'ProductSans',
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.bold,
-                                  color: colours.black(),
-                                  decoration: TextDecoration.none
+                            child: Center(
+                              child: Text(
+                                'no',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontFamily: 'ProductSans',
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold,
+                                    color: colours.black(),
+                                    decoration: TextDecoration.none
+                                ),
                               ),
                             ),
                           ),
@@ -461,14 +471,14 @@ class CustomDialogs {
           alignment: Alignment.center,
           child: Container(
             width: sizes.width(context, 335),
-            height: sizes.height(context, 225),
+            height: sizes.height(context, 220),
             decoration: BoxDecoration(
                 color: colours.white(),
                 border: Border.all(color: colours.black(), width: 3)
             ),
             child: Column(
               children: [
-                SizedBox(height: sizes.height(context, 16),),
+                SizedBox(height: sizes.height(context, 20),),
                 Text(
                   'Are you sure?',
                   style: TextStyle(
@@ -512,15 +522,17 @@ class CustomDialogs {
                                 color: colours.black(),
                                 border: Border.all(color: colours.black(), width: 2)
                             ),
-                            child: Text(
-                              'yes',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontFamily: 'ProductSans',
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.bold,
-                                  color: colours.white(),
-                                  decoration: TextDecoration.none
+                            child: Center(
+                              child: Text(
+                                'yes',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontFamily: 'ProductSans',
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold,
+                                    color: colours.white(),
+                                    decoration: TextDecoration.none
+                                ),
                               ),
                             ),
                           ),
@@ -538,15 +550,17 @@ class CustomDialogs {
                                 color: Colors.transparent,
                                 border: Border.all(color: colours.black(), width: 2)
                             ),
-                            child: Text(
-                              'no',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontFamily: 'ProductSans',
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.bold,
-                                  color: colours.black(),
-                                  decoration: TextDecoration.none
+                            child: Center(
+                              child: Text(
+                                'no',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontFamily: 'ProductSans',
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold,
+                                    color: colours.black(),
+                                    decoration: TextDecoration.none
+                                ),
                               ),
                             ),
                           ),
@@ -569,7 +583,7 @@ class CustomDialogs {
     );
   }
 
-  void areYouSure(BuildContext context, Sizes sizes, Colours colours) {
+  void areYouSureSettings(BuildContext context, Sizes sizes, Colours colours) {
     showGeneralDialog(
       barrierLabel: "Barrier",
       barrierDismissible: true,
@@ -581,14 +595,14 @@ class CustomDialogs {
           alignment: Alignment.center,
           child: Container(
             width: sizes.width(context, 335),
-            height: sizes.height(context, 225),
+            height: sizes.height(context, 220),
             decoration: BoxDecoration(
                 color: colours.white(),
                 border: Border.all(color: colours.black(), width: 3)
             ),
             child: Column(
               children: [
-                SizedBox(height: sizes.height(context, 16),),
+                SizedBox(height: sizes.height(context, 20),),
                 Text(
                   'Are you sure?',
                   style: TextStyle(
@@ -638,15 +652,17 @@ class CustomDialogs {
                                 color: colours.black(),
                                 border: Border.all(color: colours.black(), width: 2)
                             ),
-                            child: Text(
-                              'yes',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontFamily: 'ProductSans',
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.bold,
-                                  color: colours.white(),
-                                  decoration: TextDecoration.none
+                            child: Center(
+                              child: Text(
+                                'yes',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontFamily: 'ProductSans',
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold,
+                                    color: colours.white(),
+                                    decoration: TextDecoration.none
+                                ),
                               ),
                             ),
                           ),
@@ -663,15 +679,17 @@ class CustomDialogs {
                                 color: Colors.transparent,
                                 border: Border.all(color: colours.black(), width: 2)
                             ),
-                            child: Text(
-                              'no',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontFamily: 'ProductSans',
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.bold,
-                                  color: colours.black(),
-                                  decoration: TextDecoration.none
+                            child: Center(
+                              child: Text(
+                                'no',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontFamily: 'ProductSans',
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold,
+                                    color: colours.black(),
+                                    decoration: TextDecoration.none
+                                ),
                               ),
                             ),
                           ),
@@ -706,7 +724,7 @@ class CustomDialogs {
           alignment: Alignment.center,
           child: Container(
             width: sizes.width(context, 335),
-            height: sizes.height(context, 225),
+            height: sizes.height(context, 220),
             decoration: BoxDecoration(
                 color: colours.white(),
                 border: Border.all(color: colours.black(), width: 3)
@@ -826,101 +844,107 @@ class CustomDialogs {
           alignment: Alignment.center,
           child: Container(
             width: sizes.width(context, 335),
-            height: sizes.height(context, 225),
+            height: sizes.height(context, 220),
             decoration: BoxDecoration(
                 color: colours.white(),
                 border: Border.all(color: colours.black(), width: 3)
             ),
-            child: Column(
-              children: [
-                SizedBox(height: sizes.height(context, 16),),
-                Text(
-                  'Leave Focus Mode?',
-                  style: TextStyle(
-                      fontFamily: 'ProductSans',
-                      fontSize: 32,
-                      color: colours.black(),
-                      fontWeight: FontWeight.bold,
-                      decoration: TextDecoration.none
-                  ),
-                ),
-                SizedBox(height: sizes.height(context, 12),),
-                Text(
-                  "this will switch off focus and you might be\ndistracted and be unable to focus, so are you sure?",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontFamily: 'ProductSans',
-                      fontSize: 12,
-                      height: 1.3,
-                      color: colours.black(opacity: .8),
-                      decoration: TextDecoration.none
-                  ),
-                ),
-                SizedBox(height: sizes.height(context, 36),),
-
-                Center(
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            areYouSureFocusThird(context, sizes, colours);
-                            FirebaseAnalytics().logEvent(name: "went_focus_mode_third");
-                          },
-                          child: Container(
-                            width: sizes.width(context, 110),
-                            height: sizes.height(context, 48),
-                            decoration: BoxDecoration(
-                                color: colours.black(),
-                                border: Border.all(color: colours.black(), width: 2)
-                            ),
-                            child: Text(
-                              'yes',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontFamily: 'ProductSans',
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.bold,
-                                  color: colours.white(),
-                                  decoration: TextDecoration.none
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 6,),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).pop();
-                            FirebaseAnalytics().logEvent(name: "went_focus_mode");
-                          },
-                          child: Container(
-                            width: sizes.width(context, 95),
-                            height: sizes.height(context, 48),
-                            decoration: BoxDecoration(
-                                color: Colors.transparent,
-                                border: Border.all(color: colours.black(), width: 2)
-                            ),
-                            child: Text(
-                              'no',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontFamily: 'ProductSans',
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.bold,
-                                  color: colours.black(),
-                                  decoration: TextDecoration.none
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+            child: Center(
+              child: Column(
+                children: [
+                  SizedBox(height: sizes.height(context, 20),),
+                  Text(
+                    'Leave Focus Mode?',
+                    style: TextStyle(
+                        fontFamily: 'ProductSans',
+                        fontSize: 32,
+                        color: colours.black(),
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.none
                     ),
                   ),
-                )
-              ],
+                  SizedBox(height: sizes.height(context, 12),),
+                  Text(
+                    "this will switch off focus and you might be\ndistracted and be unable to focus, so are you sure?",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: 'ProductSans',
+                        fontSize: 12,
+                        height: 1.3,
+                        color: colours.black(opacity: .8),
+                        decoration: TextDecoration.none
+                    ),
+                  ),
+                  SizedBox(height: sizes.height(context, 36),),
+
+                  Center(
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              areYouSureFocusThird(context, sizes, colours);
+                              FirebaseAnalytics().logEvent(name: "went_focus_mode_third");
+                            },
+                            child: Container(
+                              width: sizes.width(context, 110),
+                              height: sizes.height(context, 48),
+                              decoration: BoxDecoration(
+                                  color: colours.black(),
+                                  border: Border.all(color: colours.black(), width: 2)
+                              ),
+                              child: Center(
+                                child: Text(
+                                  'yes',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontFamily: 'ProductSans',
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                      color: colours.white(),
+                                      decoration: TextDecoration.none
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 6,),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).pop();
+                              FirebaseAnalytics().logEvent(name: "went_focus_mode");
+                            },
+                            child: Container(
+                              width: sizes.width(context, 95),
+                              height: sizes.height(context, 48),
+                              decoration: BoxDecoration(
+                                  color: Colors.transparent,
+                                  border: Border.all(color: colours.black(), width: 2)
+                              ),
+                              child: Center(
+                                child: Text(
+                                  'no',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontFamily: 'ProductSans',
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                      color: colours.black(),
+                                      decoration: TextDecoration.none
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         );
@@ -934,6 +958,7 @@ class CustomDialogs {
     );
   }
 
+  // todo: exiting bug
   void areYouSureFocusThird(BuildContext context, Sizes sizes, Colours colours) {
     showGeneralDialog(
       barrierLabel: "Barrier",
@@ -946,7 +971,7 @@ class CustomDialogs {
           alignment: Alignment.center,
           child: Container(
             width: sizes.width(context, 335),
-            height: sizes.height(context, 225),
+            height: sizes.height(context, 220),
             decoration: BoxDecoration(
                 color: colours.white(),
                 border: Border.all(color: colours.black(), width: 3)
@@ -965,15 +990,18 @@ class CustomDialogs {
                   ),
                 ),
                 SizedBox(height: sizes.height(context, 12),),
-                Text(
-                  "we are repeatedly asking you to help you resist the urge of using your phone, please don't take it in any other context",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontFamily: 'ProductSans',
-                      fontSize: 12,
-                      height: 1.3,
-                      color: colours.black(opacity: .8),
-                      decoration: TextDecoration.none
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  child: Text(
+                    "we are repeatedly asking to help you resist the urge of using your phone, please don't take it in any other context",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: 'ProductSans',
+                        fontSize: 12,
+                        height: 1.3,
+                        color: colours.black(opacity: .8),
+                        decoration: TextDecoration.none
+                    ),
                   ),
                 ),
                 SizedBox(height: sizes.height(context, 36),),
@@ -1074,7 +1102,7 @@ class CustomDialogs {
           alignment: Alignment.center,
           child: Container(
             width: sizes.width(context, 335),
-            height: sizes.height(context, 225),
+            height: sizes.height(context, 210),
             decoration: BoxDecoration(
                 color: colours.white(),
                 border: Border.all(color: colours.black(), width: 3)
@@ -1201,7 +1229,7 @@ class CustomDialogs {
           alignment: Alignment.center,
           child: Container(
             width: sizes.width(context, 335),
-            height: sizes.height(context, 225),
+            height: sizes.height(context, 215),
             decoration: BoxDecoration(
                 color: colours.white(),
                 border: Border.all(color: colours.black(), width: 3)
@@ -1220,15 +1248,18 @@ class CustomDialogs {
                   ),
                 ),
                 SizedBox(height: sizes.height(context, 12),),
-                Text(
-                  "by exiting kaze launcher, we will no longer be the primary\nlauncher app for you phone, you can make us primary again",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontFamily: 'ProductSans',
-                      fontSize: 12,
-                      height: 1.3,
-                      color: colours.black(opacity: .8),
-                      decoration: TextDecoration.none
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  child: Text(
+                    "by exiting kaze, we will no longer be the primary launcher app for your phone, you can make us primary again",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: 'ProductSans',
+                        fontSize: 12,
+                        height: 1.3,
+                        color: colours.black(opacity: .8),
+                        decoration: TextDecoration.none
+                    ),
                   ),
                 ),
                 SizedBox(height: sizes.height(context, 36),),

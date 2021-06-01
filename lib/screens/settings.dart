@@ -150,7 +150,7 @@ class _SettingsState extends State<Settings> {
                                           setState(() {
                                             notifications = val;
                                             if(notifications) {
-                                              CustomDialogs().areYouSure(context, sizes, colours);
+                                              CustomDialogs().areYouSureSettings(context, sizes, colours);
                                             }
                                             else {
                                               Util().setDndFilter();
@@ -485,7 +485,7 @@ class _SettingsState extends State<Settings> {
                                           setState(() {
                                             notifications = val;
                                             if(notifications) {
-                                              CustomDialogs().areYouSure(context, sizes, colours);
+                                              CustomDialogs().areYouSureSettings(context, sizes, colours);
                                             }
                                             else {
                                               Util().setDndFilter();
