@@ -11,7 +11,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kaze/utils/colours.dart';
 import 'package:notification_permissions/notification_permissions.dart';
-import 'package:palette_generator/palette_generator.dart';
 import 'package:intent/intent.dart' as intentFlutter;
 import 'package:intent/action.dart' as actionFlutter;
 import 'package:intent/flag.dart' as flag;
@@ -100,22 +99,6 @@ class Util {
     }
 
     return path;
-  }
-
-  Future<Color> getDominantColor(String path) async {
-    PaletteGenerator paletteGenerator = await PaletteGenerator.fromImageProvider(
-        FileImage(File(path))
-    );
-    return path != null ? paletteGenerator.lightVibrantColor.color : Colours().white();
-  }
-
-  Color darken(Color color, [double amount = .1]) {
-    assert(amount >= 0 && amount <= 1);
-
-    final hsl = HSLColor.fromColor(color);
-    final hslDark = hsl.withLightness((hsl.lightness + amount).clamp(0.0, 1.0));
-
-    return hslDark.toColor();
   }
 
   String getStringFromTimeOfDay(TimeOfDay tod) {

@@ -271,12 +271,11 @@ class _HomeState extends State<Home> {
                                                 Util().openSettings(apps[listIndex]["package"]);
                                               },
                                               child: Container(
-                                                width: sizes.width(context, 64),
-                                                height: sizes.height(context, 64),
-                                                margin: EdgeInsets.only(right: 20),
+                                                width: sizes.width(context, 58),
+                                                height: sizes.height(context, 58),
+                                                margin: EdgeInsets.only(right: 16),
                                                 child: Image(
                                                   image: MemoryImage(Util().getAppIcon(apps[listIndex]["icon"])),
-                                                  fit: BoxFit.fill,
                                                 ),
                                               ),
                                             ),
@@ -308,8 +307,8 @@ class _HomeState extends State<Home> {
                                           },
                                           child: Container(
                                             width: sizes.width(context, 50),
-                                            height: sizes.height(context, 64),
-                                            margin: EdgeInsets.only(right: 20),
+                                            height: sizes.height(context, 58),
+                                            margin: EdgeInsets.only(right: 16),
                                             decoration: BoxDecoration(
                                                 shape: BoxShape.circle,
                                                 color: colours.white(),
@@ -317,7 +316,6 @@ class _HomeState extends State<Home> {
                                             ),
                                             child: Image(
                                               image: MemoryImage(Util().getAppIcon(apps[(listIndex + 5)]["icon"])),
-                                              fit: BoxFit.fill,
                                             ),
                                           ),
                                         );
