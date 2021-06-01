@@ -91,7 +91,7 @@ class _OnboardingState extends State<Onboarding> {
                   ),
 
                   Center(
-                      child: MyArc(diameter: sizes.width(context, 110), piMultiplier: (1/2),)
+                      // child: MyArc(diameter: sizes.width(context, 110), piMultiplier: (1/2),)
                   ),
 
                   Center(
@@ -178,7 +178,7 @@ class _OnboardingState extends State<Onboarding> {
                   ),
 
                   Center(
-                      child: MyArc(diameter: sizes.width(context, 110), piMultiplier: 1,)
+                      // child: MyArc(diameter: sizes.width(context, 110), piMultiplier: 1,)
                   ),
 
                   Center(
@@ -265,7 +265,7 @@ class _OnboardingState extends State<Onboarding> {
                   ),
 
                   Center(
-                      child: MyArc(diameter: sizes.width(context, 110), piMultiplier: (3/2),)
+                      // child: MyArc(diameter: sizes.width(context, 110), piMultiplier: (3/2),)
                   ),
 
                   Center(
@@ -354,7 +354,7 @@ class _OnboardingState extends State<Onboarding> {
                   ),
 
                   Center(
-                      child: MyArc(diameter: sizes.width(context, 110), piMultiplier: 2,)
+                      // child: MyArc(diameter: sizes.width(context, 110), piMultiplier: 2,)
                   ),
 
                   Center(

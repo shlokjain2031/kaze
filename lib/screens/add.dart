@@ -79,7 +79,7 @@ class _TitleAddState extends State<TitleAdd> {
                     ),
                   ),
                   Container(
-                    margin: const EdgeInsets.only(top: 16),
+                    margin:  EdgeInsets.only(top: sizes.height(context, 16)),
                     child: Text(
                       'give a name to your mode',
                       textAlign: TextAlign.center,
@@ -257,7 +257,7 @@ class _AppsAddState extends State<AppsAdd> {
                                   },
                                 ),
                               ),
-                              SizedBox(height: sizes.height(context, 42)),
+                              SizedBox(height: sizes.height(context, 32)),
                               SizedBox(
                                 width: sizes.width(context, 414),
                                 height: sizes.height(context, 64),
@@ -385,7 +385,33 @@ class _AppsAddState extends State<AppsAdd> {
                             );
                           }
                           else {
-                            return SizedBox();
+                            return ListView.builder(
+                              itemCount: 20,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (BuildContext context, int index) {
+                                // Map dataObject = appList[index];
+                                return Center(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                                        child: Container(
+                                          width: sizes.width(context, 50),
+                                          height: sizes.height(context, 64),
+                                          margin: EdgeInsets.only(right: 8),
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            border: Border.all(color: colours.white(), width: 3),
+                                            color: colours.white(),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
                           }
                         }
                     ),
@@ -480,7 +506,6 @@ class _TimeAddState extends State<TimeAdd> {
             children: [
               Column(
                 children: [
-                  SizedBox(height: 12),
                   Center(
                     child: Text(
                       title,
@@ -501,7 +526,7 @@ class _TimeAddState extends State<TimeAdd> {
                     ),
                   ),
                   Container(
-                    margin: const EdgeInsets.only(top: 16),
+                    margin:  EdgeInsets.only(top: sizes.height(context, 16)),
                     child: Text(
                       'add times when you will use these apps',
                       textAlign: TextAlign.center,
@@ -589,7 +614,7 @@ class _TimeAddState extends State<TimeAdd> {
                       }
                   ),
 
-                  SizedBox(height: sizes.height(context, 54)),
+                  SizedBox(height: sizes.height(context, 80)),
 
                   SizedBox(
                     width: sizes.width(context, 390),
@@ -815,7 +840,7 @@ class _TimeAddState extends State<TimeAdd> {
                           FirebaseAnalytics().logEvent(name: "went_to_FinalAdd");
                         },
                         child: Text(
-                          'confirm',
+                          'continue',
                           style: TextStyle(
                               fontFamily: 'ProductSans',
                               fontSize: 28,
@@ -942,7 +967,7 @@ class _FinalAddState extends State<FinalAdd> {
                         ),
                       ),
                       Container(
-                        margin: const EdgeInsets.only(top: 16),
+                        margin:  EdgeInsets.only(top: sizes.height(context, 16)),
                         child: Text(
                           startTime.hour.toString() + ":" + (startTime.minute ==
                               0 ? startTime.minute.toString() + "0" : startTime
@@ -1036,7 +1061,7 @@ class _FinalAddState extends State<FinalAdd> {
                           }
                       ),
 
-                      SizedBox(height: sizes.height(context, 80)),
+                      SizedBox(height: sizes.height(context, 120)),
 
                       GestureDetector(
                         onTap: () async {
@@ -1297,7 +1322,7 @@ class _FinalAddState extends State<FinalAdd> {
                                 ),
                               ),
                               Container(
-                                margin: const EdgeInsets.only(top: 16),
+                                margin:  EdgeInsets.only(top: sizes.height(context, 16)),
                                 child: Text(
                                   DateTime.parse(mode.startTime).hour.toString() + ":" + (DateTime.parse(mode.startTime).minute == 0 ? DateTime.parse(mode.startTime).minute.toString() + "0" : DateTime.parse(mode.startTime).minute.toString())
                                       + " - " + DateTime.parse(mode.endTime).hour.toString() + ":" + (DateTime.parse(mode.endTime).minute == 0 ? DateTime.parse(mode.endTime).minute.toString() + "0" : DateTime.parse(mode.endTime).minute.toString()),

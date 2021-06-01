@@ -23,12 +23,7 @@ class ModeService {
   insertMode(String title, String startTime, String endTime, List rawApps, String wallpaperPath) {
     List<Map> apps = [];
     rawApps.forEach((element) {
-      Map appMap = {
-        "label" : element.appName,
-        "package" : element.packageName,
-        "icon" : element.icon,
-      };
-      apps.add(appMap);
+      apps.add(Util().convertApplicationWithIconToMap(element));
     });
     String formattedApps = jsonEncode(apps);
     int rid = 1;

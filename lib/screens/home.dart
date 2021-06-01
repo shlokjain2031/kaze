@@ -150,7 +150,7 @@ class _HomeState extends State<Home> {
                         decoration: mode.wallpaperPath != null ? BoxDecoration(
                             image: DecorationImage(
                               image: FileImage(File(mode.wallpaperPath)),
-                              fit: BoxFit.fitHeight,
+                              fit: BoxFit.cover,
                               colorFilter: ColorFilter.mode(colours.black().withOpacity(0.65),
                                   BlendMode.dstATop),
                             ),
