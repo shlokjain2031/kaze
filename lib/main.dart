@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kaze/screens/home.dart';
 import 'package:kaze/screens/onboarding.dart';
 import 'package:kaze/services/user.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,6 +22,7 @@ class Kaze extends StatelessWidget {
         accentColor: Color(0xFFF2F4F4),
       ),
       home: doesUserExist(),
+      builder: EasyLoading.init(),
     );
   }
 }

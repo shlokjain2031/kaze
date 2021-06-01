@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:kaze/models/mode.dart';
 import 'package:kaze/models/tasks.dart';
 import 'package:kaze/services/tasks.dart';
 import 'package:kaze/utils/colours.dart';
 import 'package:kaze/utils/dialogs.dart';
-import 'package:kaze/utils/loading.dart';
 import 'package:kaze/utils/sizes.dart';
 
 import 'home.dart';
@@ -31,6 +31,7 @@ class _TasksState extends State<Tasks> {
       future: TasksService().getAllTasks(widget.mode.title),
       builder: (context, snapshot) {
         if(snapshot.hasData) {
+          EasyLoading.dismiss();
           allTasks = snapshot.data;
           return Scaffold(
             backgroundColor: colours.white(),
@@ -280,6 +281,7 @@ class _TasksState extends State<Tasks> {
           );
         }
         else if(snapshot.data == null) {
+          EasyLoading.dismiss();
           return Scaffold(
             backgroundColor: colours.black(),
             body: Column(
@@ -369,7 +371,8 @@ class _TasksState extends State<Tasks> {
           );
         }
         else {
-          return Loading();
+          EasyLoading.show(status: "loading");
+          return SizedBox();
         }
       },
     );

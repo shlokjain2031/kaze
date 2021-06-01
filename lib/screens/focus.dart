@@ -6,13 +6,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dnd/flutter_dnd.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:kaze/screens/settings.dart';
 import 'package:kaze/services/focus.dart';
 import 'package:kaze/services/settings.dart';
 import 'package:kaze/services/util.dart';
 import 'package:kaze/utils/colours.dart';
 import 'package:kaze/utils/dialogs.dart';
-import 'package:kaze/utils/loading.dart';
 import 'package:kaze/utils/sizes.dart';
 
 import 'home.dart';
@@ -31,6 +31,7 @@ class FocusMode extends StatelessWidget {
         future: FocusModeService().getFocusModeApps(),
         builder: (context, snapshot) {
           if(snapshot.hasData) {
+            EasyLoading.dismiss();
             focusModeApps = snapshot.data;
             SystemChrome.setEnabledSystemUIOverlays([]);
             Util().setDndFilter(dnd: 3);
@@ -309,6 +310,7 @@ class FocusMode extends StatelessWidget {
             );
           }
           else if(snapshot.data == null) {
+            EasyLoading.dismiss();
             return Scaffold(
               backgroundColor: colours.black(),
               body: Column(
@@ -404,7 +406,8 @@ class FocusMode extends StatelessWidget {
             );
           }
           else {
-            return Loading();
+            EasyLoading.show(status: "loading");
+            return SizedBox();
           }
         },
       ),

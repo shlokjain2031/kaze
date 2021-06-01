@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:kaze/screens/home.dart';
 import 'package:kaze/services/mode.dart';
@@ -13,7 +14,6 @@ import 'package:kaze/services/settings.dart';
 import 'package:kaze/services/util.dart';
 import 'package:kaze/utils/colours.dart';
 import 'package:kaze/utils/dialogs.dart';
-import 'package:kaze/utils/loading.dart';
 import 'package:kaze/utils/sizes.dart';
 
 class Settings extends StatefulWidget {
@@ -766,6 +766,7 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
       builder: (context, snapshot) {
         if(snapshot.hasData) {
           List allApps = snapshot.data;
+          EasyLoading.dismiss();
           return FutureBuilder(
               future: SettingsService().getFocusModeApps(),
               builder: (context, snapshot) {
@@ -1107,7 +1108,8 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
           );
         }
         else {
-          return Loading();
+          EasyLoading.show(status: "loading");
+          return SizedBox();
         }
       }
     );

@@ -4,15 +4,13 @@ import 'dart:typed_data';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:kaze/models/mode.dart';
-import 'package:kaze/models/tasks.dart';
 import 'package:kaze/screens/tasks.dart';
 import 'package:kaze/services/mode.dart';
 import 'package:kaze/services/util.dart';
 import 'package:kaze/utils/colours.dart';
 import 'package:kaze/utils/dialogs.dart';
-import 'package:kaze/utils/loading.dart';
 import 'package:kaze/utils/sizes.dart';
 
 import 'add.dart';
@@ -333,7 +331,6 @@ class _HomeState extends State<Home> {
 
                             GestureDetector(
                               onTap: () {
-                                // TasksModelProvider().initDatabase();
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (context) {
@@ -468,6 +465,7 @@ class AllApps extends StatelessWidget {
         future: Util().getAllApps(),
         builder: (context, snapshot) {
           if(snapshot.hasData) {
+            EasyLoading.dismiss();
             List installedApps = snapshot.data;
             return Scaffold(
               backgroundColor: Colours().black(),
@@ -537,7 +535,8 @@ class AllApps extends StatelessWidget {
             );
           }
           else {
-            return Loading();
+            EasyLoading.show(status: 'loading...');
+            return SizedBox();
           }
         }
     );

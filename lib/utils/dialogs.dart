@@ -26,7 +26,7 @@ class CustomDialogs {
           alignment: Alignment.center,
           child: Container(
             width: sizes.width(context, 375),
-            height: sizes.height(context, 340),
+            height: sizes.height(context, 360),
             decoration: BoxDecoration(
               color: colours.white(),
             ),

@@ -6,11 +6,11 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:kaze/models/mode.dart';
 import 'package:kaze/services/mode.dart';
 import 'package:kaze/services/util.dart';
 import 'package:kaze/utils/colours.dart';
-import 'package:kaze/utils/loading.dart' as loadingWidget;
 import 'package:kaze/utils/sizes.dart';
 
 import 'home.dart';
@@ -1225,6 +1225,7 @@ class _FinalAddState extends State<FinalAdd> {
           builder: (context, snapshot) {
             if(snapshot.hasData) {
               allApps = snapshot.data;
+              EasyLoading.dismiss();
               return Scaffold(
                 backgroundColor: colours.black(),
                 body: ListView(
@@ -1579,8 +1580,8 @@ class _FinalAddState extends State<FinalAdd> {
               );
             }
             else {
-              log("loading");
-              return loadingWidget.Loading();
+              EasyLoading.show(status: "loading");
+              return SizedBox();
             }
           }
       );
