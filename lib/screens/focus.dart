@@ -30,102 +30,7 @@ class FocusMode extends StatelessWidget {
       child: FutureBuilder(
         future: FocusModeService().getFocusModeApps(),
         builder: (context, snapshot) {
-          if(snapshot.data == null || snapshot.data.length == 0) {
-            return Scaffold(
-              backgroundColor: colours.black(),
-              body: Column(
-                children: [
-                  SizedBox(height: sizes.height(context, 200),),
-                  Text(
-                    'No apps in\nFocus Mode',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 54,
-                        fontWeight: FontWeight.bold,
-                        color: colours.white(),
-                        fontFamily: 'ProductSans'
-                    ),
-                  ),
-                  SizedBox(height: sizes.height(context, 100),),
-                  Center(
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return FocusModeSettings();
-                                  },
-                                ),
-                              );
-                            },
-                            child: Container(
-                              width: sizes.width(context, 150),
-                              height: sizes.height(context, 80),
-                              padding: EdgeInsets.only(top: sizes.height(context, 24)),
-                              decoration: BoxDecoration(
-                                  color: colours.white(),
-                                  border: Border.all(color: colours.black(), width: 2)
-                              ),
-                              child: Text(
-                                'add apps',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontFamily: 'ProductSans',
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.bold,
-                                    color: colours.black(),
-                                    decoration: TextDecoration.none
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 6,),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return Home();
-                                  },
-                                ),
-                              );
-                            },
-                            child: Container(
-                              width: sizes.width(context, 120),
-                              height: sizes.height(context, 80),
-                              padding: EdgeInsets.only(top: sizes.height(context, 24)),
-                              decoration: BoxDecoration(
-                                  color: Colors.transparent,
-                                  border: Border.all(color: colours.white(), width: 2)
-                              ),
-                              child: Text(
-                                'go back',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontFamily: 'ProductSans',
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.bold,
-                                    color: colours.white(),
-                                    decoration: TextDecoration.none
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            );
-          }
-          else if(snapshot.hasData) {
+          if(snapshot.hasData) {
             focusModeApps = snapshot.data;
             SystemChrome.setEnabledSystemUIOverlays([]);
             Util().setDndFilter(dnd: 3);
@@ -416,6 +321,101 @@ class FocusMode extends StatelessWidget {
                   ),
                 );
               },
+            );
+          }
+          else if(snapshot.data == null) {
+            return Scaffold(
+              backgroundColor: colours.black(),
+              body: Column(
+                children: [
+                  SizedBox(height: sizes.height(context, 200),),
+                  Text(
+                    'No apps in\nFocus Mode',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 54,
+                        fontWeight: FontWeight.bold,
+                        color: colours.white(),
+                        fontFamily: 'ProductSans'
+                    ),
+                  ),
+                  SizedBox(height: sizes.height(context, 100),),
+                  Center(
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return FocusModeSettings();
+                                  },
+                                ),
+                              );
+                            },
+                            child: Container(
+                              width: sizes.width(context, 150),
+                              height: sizes.height(context, 80),
+                              padding: EdgeInsets.only(top: sizes.height(context, 24)),
+                              decoration: BoxDecoration(
+                                  color: colours.white(),
+                                  border: Border.all(color: colours.black(), width: 2)
+                              ),
+                              child: Text(
+                                'add apps',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontFamily: 'ProductSans',
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                    color: colours.black(),
+                                    decoration: TextDecoration.none
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 6,),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return Home();
+                                  },
+                                ),
+                              );
+                            },
+                            child: Container(
+                              width: sizes.width(context, 120),
+                              height: sizes.height(context, 80),
+                              padding: EdgeInsets.only(top: sizes.height(context, 24)),
+                              decoration: BoxDecoration(
+                                  color: Colors.transparent,
+                                  border: Border.all(color: colours.white(), width: 2)
+                              ),
+                              child: Text(
+                                'go back',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontFamily: 'ProductSans',
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                    color: colours.white(),
+                                    decoration: TextDecoration.none
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
             );
           }
           else {

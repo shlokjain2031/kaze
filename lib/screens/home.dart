@@ -6,6 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kaze/models/mode.dart';
+import 'package:kaze/models/tasks.dart';
+import 'package:kaze/screens/tasks.dart';
 import 'package:kaze/services/mode.dart';
 import 'package:kaze/services/util.dart';
 import 'package:kaze/utils/colours.dart';
@@ -211,7 +213,7 @@ class _HomeState extends State<Home> {
                               ),
                             ),
 
-                            SizedBox(height: sizes.height(context, 175)),
+                            SizedBox(height: sizes.height(context, 165)),
                             Text(
                               mode.title != null ? mode.title : "[name]",
                               style: TextStyle(
@@ -330,6 +332,39 @@ class _HomeState extends State<Home> {
                                     ),
                                   ),
                                 ],
+                              ),
+                            ),
+                            SizedBox(height: sizes.height(context, 42)),
+
+                            GestureDetector(
+                              onTap: () {
+                                // TasksModelProvider().initDatabase();
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return Tasks(time: time, mode: mode,);
+                                    },
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                width: sizes.width(context, 150),
+                                height: sizes.height(context, 50),
+                                decoration: BoxDecoration(
+                                  color: colours.white(),
+                                  border: Border.all(color: colours.black(), width: 2)
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    'task list',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                      fontFamily: 'ProductSans',
+                                      color: colours.black()
+                                    ),
+                                  ),
+                                ),
                               ),
                             )
                           ],

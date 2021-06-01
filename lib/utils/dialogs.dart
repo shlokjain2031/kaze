@@ -1,10 +1,12 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:kaze/models/mode.dart';
 import 'package:kaze/screens/focus.dart';
 import 'package:kaze/screens/home.dart';
 import 'package:kaze/screens/settings.dart';
 import 'package:kaze/services/mode.dart';
+import 'package:kaze/services/tasks.dart';
 import 'package:kaze/services/util.dart';
 
 import 'colours.dart';
@@ -1294,6 +1296,147 @@ class CustomDialogs {
                   ),
                 )
               ],
+            ),
+          ),
+        );
+      },
+      transitionBuilder: (_, anim, __, child) {
+        return SlideTransition(
+          position: Tween(begin: Offset(0, 1), end: Offset(0, 0)).animate(anim),
+          child: child,
+        );
+      },
+    );
+  }
+
+  void addTask(context, Colours colours, Sizes sizes, String title, ModeModel mode, String time) {
+    showGeneralDialog(
+      barrierLabel: "Barrier",
+      barrierDismissible: true,
+      barrierColor: Colors.black.withOpacity(0.3),
+      transitionDuration: Duration(milliseconds: 500),
+      context: context,
+      pageBuilder: (_, __, ___) {
+        return Align(
+          alignment: Alignment.center,
+          child: Container(
+            width: sizes.width(context, 368),
+            height: sizes.height(context, 368),
+            decoration: BoxDecoration(
+                color: colours.white(),
+                border: Border.all(color: colours.black(), width: 3)
+            ),
+            child: Scaffold(
+              body: Column(
+                children: [
+                  SizedBox(height: sizes.height(context, 16),),
+                  Stack(
+                    children: [
+                      Align(
+                        alignment: Alignment.center,
+                        child: Center(
+                          child: Text(
+                            time,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 24,
+                                fontFamily: 'ProductSans',
+                                color: colours.black()
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Container(
+                          width: sizes.width(context, 140),
+                          height: sizes.height(context, 20),
+                          color: colours.black(opacity: .65),
+                          margin: EdgeInsets.only(top: 16),
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(height: sizes.height(context, 20),),
+
+                  Center(
+                    child: Text(
+                      mode.title + " mode's daily tasks",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: colours.black(),
+                          fontFamily: 'ProductSans',
+                          decoration: TextDecoration.underline,
+                          letterSpacing: 3.5
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: sizes.height(context, 48),),
+
+                  Center(
+                    child: SizedBox(
+                      width: sizes.width(context, 323),
+                      height: sizes.height(context, 72),
+                      child: TextField(
+                        textAlign: TextAlign.center,
+                        onChanged: (newTitle) {
+                          title = newTitle;
+                        },
+                        onTap: () {
+                          FirebaseAnalytics().logEvent(name: "added_task_title");
+                        },
+                        maxLines: 1,
+                        style: TextStyle(
+                          color: colours.black(),
+                          fontSize: 28,
+                          fontFamily: 'ProductSans',
+                          decoration: TextDecoration.underline
+                        ),
+                        decoration: InputDecoration(
+                          hintText: "Type the task here",
+                          hintMaxLines: 1,
+                          hintStyle: TextStyle(
+                            color: colours.black().withOpacity(.7),
+                            fontSize: 28,
+                            fontFamily: 'ProductSans',
+                          ),
+                          border: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          errorBorder: InputBorder.none,
+                          disabledBorder: InputBorder.none,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: sizes.height(context, 64),),
+
+                  GestureDetector(
+                    onTap: () {
+                      bool isTaskDone = false;
+                      TasksService().insertTask(title, mode.title, isTaskDone);
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      width: sizes.width(context, 323),
+                      height: sizes.height(context, 54),
+                      color: colours.black(),
+                      child: Center(
+                        child: Text(
+                          'add the task',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontFamily: 'ProductSans',
+                            color: colours.white(),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         );

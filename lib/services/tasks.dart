@@ -3,27 +3,25 @@ import 'dart:convert';
 import 'package:kaze/models/tasks.dart';
 
 class TasksService {
-  insertTask(String title, Map mode, bool isTaskDone) async {
-    String formattedMode = jsonEncode(mode);
-    TasksModel task = TasksModel(title: title, mode: formattedMode, isTaskDone: isTaskDone.toString());
+  insertTask(String title, String mode, bool isTaskDone) async {
+    TasksModel task = TasksModel(title: title, mode: mode, isTaskDone: isTaskDone.toString());
 
     await TasksModelProvider()
         .insertTask(task)
         .then((value) => print("task inserted; id of mode: " + value.toString()));
   }
 
-  updateTasks(String title, Map mode, bool isTaskDone) async {
-    String formattedMode = jsonEncode(mode);
-    TasksModel task = TasksModel(title: title, mode: formattedMode, isTaskDone: isTaskDone.toString());
+  updateTask(String title, String mode, bool isTaskDone) async {
+    TasksModel task = TasksModel(title: title, mode: mode, isTaskDone: isTaskDone.toString());
 
     await TasksModelProvider()
         .updateTask(task)
         .then((value) => print("task updated; id of mode: " + value.toString()));
   }
 
-  deleteTask(String title) async {
+  deleteTask(String title, String modeTitle) async {
     String newTitle = "";
-    List<TasksModel> allTasks = await getAllTasks();
+    List<TasksModel> allTasks = await getAllTasks(modeTitle);
     for(int i=0;9<allTasks.length;i++) {
       if(title == allTasks[i].title) {
         newTitle = title;
@@ -36,7 +34,7 @@ class TasksService {
         .then((value) => print("task deleted; id of mode: " + value.toString()));
   }
 
-  Future<List<TasksModel>> getAllTasks() async {
-    return await TasksModelProvider().getAllTasks();
+  Future<List<TasksModel>> getAllTasks(String modeTitle) async {
+    return await TasksModelProvider().getAllTasks(modeTitle);
   }
 }

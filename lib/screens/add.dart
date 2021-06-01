@@ -39,34 +39,40 @@ class _TitleAddState extends State<TitleAdd> {
                 children: [
                   SizedBox(height: 24,),
                   Center(
-                    child: TextField(
-                      textAlign: TextAlign.center,
-                      onChanged: (newTitle) {
-                        title = newTitle;
-                      },
-                      onTap: () {
-                        FirebaseAnalytics().logEvent(name: "added_title");
-                      },
-                      style: TextStyle(
-                        color: colours.white(),
-                        fontSize: 64,
-                        fontFamily: 'ProductSans',
-                        fontWeight: FontWeight.bold,
-                      ),
-                      decoration: InputDecoration(
-                        hintText: "Work",
-                        hintMaxLines: 1,
-                        hintStyle: TextStyle(
-                          color: colours.white().withOpacity(.7),
-                          fontSize: 64,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'ProductSans',
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: sizes.width(context, 48)),
+                      child: SizedBox(
+                        width: sizes.width(context, 414),
+                        child: TextField(
+                          textAlign: TextAlign.center,
+                          onChanged: (newTitle) {
+                            title = newTitle;
+                          },
+                          onTap: () {
+                            FirebaseAnalytics().logEvent(name: "added_title");
+                          },
+                          style: TextStyle(
+                            color: colours.white(),
+                            fontSize: 64,
+                            fontFamily: 'ProductSans',
+                            fontWeight: FontWeight.bold,
+                          ),
+                          decoration: InputDecoration(
+                            hintText: "Work",
+                            hintMaxLines: 1,
+                            hintStyle: TextStyle(
+                              color: colours.white().withOpacity(.7),
+                              fontSize: 64,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'ProductSans',
+                            ),
+                            border: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none,
+                          ),
                         ),
-                        border: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                        errorBorder: InputBorder.none,
-                        disabledBorder: InputBorder.none,
                       ),
                     ),
                   ),
@@ -1282,34 +1288,40 @@ class _FinalAddState extends State<FinalAdd> {
                             children: [
                               SizedBox(height: 0),
                               Center(
-                                child: TextField(
-                                  textAlign: TextAlign.center,
-                                  onChanged: (newTitle) {
-                                    title = newTitle;
-                                  },
-                                  onTap: () {
-                                    FirebaseAnalytics().logEvent(name: "updated_title");
-                                  },
-                                  style: TextStyle(
-                                    color: colours.white(),
-                                    fontSize: 64,
-                                    fontFamily: 'ProductSans',
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  decoration: InputDecoration(
-                                    hintText: mode.title,
-                                    hintMaxLines: 1,
-                                    hintStyle: TextStyle(
-                                      color: colours.white().withOpacity(.9),
-                                      fontSize: 64,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: 'ProductSans',
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: sizes.width(context, 48)),
+                                  child: SizedBox(
+                                    width: sizes.width(context, 414),
+                                    child: TextField(
+                                      textAlign: TextAlign.center,
+                                      onChanged: (newTitle) {
+                                        title = newTitle;
+                                      },
+                                      onTap: () {
+                                        FirebaseAnalytics().logEvent(name: "updated_title");
+                                      },
+                                      style: TextStyle(
+                                        color: colours.white(),
+                                        fontSize: 64,
+                                        fontFamily: 'ProductSans',
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      decoration: InputDecoration(
+                                        hintText: mode.title,
+                                        hintMaxLines: 1,
+                                        hintStyle: TextStyle(
+                                          color: colours.white().withOpacity(.9),
+                                          fontSize: 64,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'ProductSans',
+                                        ),
+                                        border: InputBorder.none,
+                                        focusedBorder: InputBorder.none,
+                                        enabledBorder: InputBorder.none,
+                                        errorBorder: InputBorder.none,
+                                        disabledBorder: InputBorder.none,
+                                      ),
                                     ),
-                                    border: InputBorder.none,
-                                    focusedBorder: InputBorder.none,
-                                    enabledBorder: InputBorder.none,
-                                    errorBorder: InputBorder.none,
-                                    disabledBorder: InputBorder.none,
                                   ),
                                 ),
                               ),
