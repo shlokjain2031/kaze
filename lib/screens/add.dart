@@ -604,8 +604,9 @@ class _TimeAddState extends State<TimeAdd> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           GestureDetector(
-                            onTap: () {
-                              _startTimePicker();
+                            onTap: () async {
+                              startTime = await Util().timePicker(context, startTime);
+                              setState(() {});
                               FirebaseAnalytics().logEvent(name: "clicked_startTime");
                             },
                             child: Stack(
@@ -651,8 +652,9 @@ class _TimeAddState extends State<TimeAdd> {
                             ),
                           ),
                           GestureDetector(
-                            onTap: () {
-                              _endTimePicker();
+                            onTap: () async {
+                              endTime = await Util().timePicker(context, endTime);
+                              setState(() {});
                               FirebaseAnalytics().logEvent(name: "clicked_endTime");
                             },
                             child: Stack(
@@ -833,31 +835,6 @@ class _TimeAddState extends State<TimeAdd> {
       ),
     );
   }
-
-  void _startTimePicker() async {
-    final TimeOfDay newTime = await showTimePicker(
-      context: context,
-      initialTime: startTime,
-    );
-    if (newTime != null) {
-      setState(() {
-        startTime = newTime;
-      });
-    }
-  }
-
-  void _endTimePicker() async {
-    final TimeOfDay newTime = await showTimePicker(
-      context: context,
-      initialTime: endTime,
-    );
-    if (newTime != null) {
-      setState(() {
-        endTime = newTime;
-      });
-    }
-  }
-
 }
 
 class FinalAdd extends StatefulWidget {

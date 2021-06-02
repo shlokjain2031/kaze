@@ -211,11 +211,11 @@ class _HomeState extends State<Home> {
                               ),
                             ),
 
-                            SizedBox(height: sizes.height(context, 125)),
+                            SizedBox(height: sizes.height(context, 115)),
                             Text(
                               mode.title != null ? mode.title : "[name]",
                               style: TextStyle(
-                                fontSize: 54,
+                                fontSize: 64,
                                 fontFamily: 'ProductSans',
                                 fontWeight: FontWeight.bold,
                                 color: colours.white(opacity: .9),
@@ -229,13 +229,75 @@ class _HomeState extends State<Home> {
                               ),
                             ),
                             SizedBox(height: 18),
-                            Text(
-                              time,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 24,
-                                fontFamily: 'ProductSans',
-                                color: colours.white(opacity: .8),
+                            Padding(
+                              padding: EdgeInsets.only(left: sizes.width(context, 140)),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () async {
+                                      TimeOfDay _startTime = TimeOfDay(hour: startTime.hour, minute: startTime.minute);
+                                      TimeOfDay _endTime = TimeOfDay(hour: endTime.hour, minute: endTime.minute);
+                                      _startTime = await Util().timePicker(context, _startTime);
+
+                                      String formattedStartTime = Util().getStringFromTimeOfDay(_startTime);
+                                      String formattedEndTime = Util().getStringFromTimeOfDay(_endTime);
+                                      if(endTime.hour < startTime.hour) {
+                                        String temp = formattedStartTime;
+                                        formattedStartTime = formattedEndTime;
+                                        formattedEndTime = temp;
+                                      }
+                                      ModeService().updateMode(mode.id, mode.title, formattedStartTime, formattedEndTime, apps, mode.wallpaperPath);
+                                      setState(() {});
+                                    },
+                                    child: Text(
+                                      startTime.hour.toString() + ":" + (startTime.minute == 0 ? startTime.minute.toString() + "0" : startTime.minute.toString()),
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 26,
+                                        fontFamily: 'ProductSans',
+                                        color: colours.white(opacity: .8),
+                                        decoration: TextDecoration.underline
+                                      ),
+                                    ),
+                                  ),
+                                  Text(
+                                    ' - ',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 26,
+                                        fontFamily: 'ProductSans',
+                                        color: colours.white(opacity: .8),
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () async {
+                                      TimeOfDay _startTime = TimeOfDay(hour: startTime.hour, minute: startTime.minute);
+                                      TimeOfDay _endTime = TimeOfDay(hour: endTime.hour, minute: endTime.minute);
+                                      _endTime = await Util().timePicker(context, _endTime);
+
+                                      String formattedStartTime = Util().getStringFromTimeOfDay(_startTime);
+                                      String formattedEndTime = Util().getStringFromTimeOfDay(_endTime);
+                                      if(endTime.hour < startTime.hour) {
+                                        String temp = formattedStartTime;
+                                        formattedStartTime = formattedEndTime;
+                                        formattedEndTime = temp;
+                                      }
+                                      ModeService().updateMode(mode.id, mode.title, formattedStartTime, formattedEndTime, apps, mode.wallpaperPath);
+                                      setState(() {});
+                                    },
+                                    child: Text(
+                                      endTime.hour.toString() + ":" + (endTime.minute == 0 ? endTime.minute.toString() + "0" : endTime.minute.toString()),
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: 26,
+                                          fontFamily: 'ProductSans',
+                                          color: colours.white(opacity: .8),
+                                          decoration: TextDecoration.underline
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                             SizedBox(height: sizes.height(context, 72)),

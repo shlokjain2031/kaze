@@ -194,5 +194,14 @@ class Util {
     }
   }
 
-
+  Future<TimeOfDay> timePicker(context, time) async {
+    final TimeOfDay newTime = await showTimePicker(
+      context: context,
+      initialTime: time,
+    );
+    if (newTime != null) {
+      time = newTime;
+    }
+    return time;
+  }
 }
