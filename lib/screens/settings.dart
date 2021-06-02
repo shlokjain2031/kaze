@@ -154,6 +154,7 @@ class _SettingsState extends State<Settings> {
                                             }
                                             else {
                                               Util().setDndFilter();
+                                              Util().turnOffSilentMode();
                                             }
                                             saveSettings();
                                             FirebaseAnalytics().logEvent(name: "changed_notif_settings");

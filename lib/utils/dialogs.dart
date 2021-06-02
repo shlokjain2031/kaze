@@ -1,6 +1,7 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dnd/flutter_dnd.dart';
 import 'package:kaze/models/mode.dart';
 import 'package:kaze/screens/focus.dart';
 import 'package:kaze/screens/home.dart';
@@ -958,7 +959,6 @@ class CustomDialogs {
     );
   }
 
-  // todo: exiting bug
   void areYouSureFocusThird(BuildContext context, Sizes sizes, Colours colours) {
     showGeneralDialog(
       barrierLabel: "Barrier",
@@ -1015,7 +1015,8 @@ class CustomDialogs {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            Util().setDndFilter();
+                            Util().setDndFilter(dnd: 1);
+                            Util().turnOffSilentMode();
                             SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
                             Navigator.of(context).push(
                               MaterialPageRoute(
@@ -1273,8 +1274,8 @@ class CustomDialogs {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            Util().removeLauncherDefault();
-                            SystemNavigator.pop();
+                            Util().displayDefaultLauncherChooser();
+                            // SystemNavigator.pop();
                             FirebaseAnalytics().logEvent(name: "exited_kaze");
                           },
                           child: Container(

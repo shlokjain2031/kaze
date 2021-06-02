@@ -7,6 +7,8 @@ import 'package:kaze/services/util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FocusModeService {
+
+  // shit performance
   Future<List<Map>> getFocusModeApps() async {
     List<String> rawFocusModeApps = await SettingsService().getFocusModeApps();
     List allApps = await Util().getAllApps();

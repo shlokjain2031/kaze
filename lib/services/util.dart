@@ -169,28 +169,27 @@ class Util {
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
-  void notificationPolicyAccess({bool fromHome=false}) async {
+  void notificationPolicyAccess() async {
     bool isNotificationPolicyAccessGranted = await FlutterDnd.isNotificationPolicyAccessGranted;
     if (!(isNotificationPolicyAccessGranted)) {
       FlutterDnd.gotoPolicySettings();
-    }
-
-    if(fromHome) {
-      if (isNotificationPolicyAccessGranted) {
-        setDndFilter();
-      }
     }
   }
   
   setDndFilter({int dnd=1}) {
     if(dnd == 1) {
-      FlutterDnd.setInterruptionFilter(FlutterDnd.INTERRUPTION_FILTER_ALARMS);
+      print("dnd: " + dnd.toString());
+      FlutterDnd.setInterruptionFilter(FlutterDnd.INTERRUPTION_FILTER_PRIORITY);
     }
     else if(dnd == 2) {
       FlutterDnd.setInterruptionFilter(FlutterDnd.INTERRUPTION_FILTER_ALL);
     }
-    else {
+    else if (dnd == 3){
+      print("dnd: " + dnd.toString());
       FlutterDnd.setInterruptionFilter(FlutterDnd.INTERRUPTION_FILTER_NONE);
+    }
+    else {
+      FlutterDnd.setInterruptionFilter(FlutterDnd.INTERRUPTION_FILTER_ALARMS);
     }
   }
 
@@ -204,4 +203,6 @@ class Util {
     }
     return time;
   }
+
+  void turnOffSilentMode() {}
 }

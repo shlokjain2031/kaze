@@ -27,14 +27,6 @@ class _HomeState extends State<Home> {
   Sizes sizes = Sizes();
   Colours colours = Colours();
   PageController _pageController = PageController(initialPage: 1, viewportFraction: 0.85);
-  int pageNum = 1;
-
-  @override
-  void initState() {
-    super.initState();
-    Util().notificationPolicyAccess(fromHome: true);
-    _pageController = PageController(initialPage: 1, viewportFraction: 0.85);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -303,7 +295,7 @@ class _HomeState extends State<Home> {
                             SizedBox(height: sizes.height(context, 72)),
 
                             Container(
-                              margin: EdgeInsets.only(left: sizes.width(context, 32)),
+                              margin: EdgeInsets.only(left: sizes.width(context, 24)),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
