@@ -103,7 +103,7 @@ class _TitleAddState extends State<TitleAdd> {
                 ],
               ),
               Padding(
-                padding: EdgeInsets.only(top: sizes.height(context, 830)),
+                padding: EdgeInsets.only(top: sizes.height(context, 820)),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   child: Row(
@@ -287,7 +287,7 @@ class _AppsAddState extends State<AppsAdd> {
                   ),
 
                   SizedBox(
-                    height: sizes.height(context, 215), // 180 for shlok
+                    height: sizes.height(context, 200),
                   ),
 
                   Container(
@@ -303,7 +303,6 @@ class _AppsAddState extends State<AppsAdd> {
                               itemCount: apps.length,
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (BuildContext context, int index) {
-                                // Map dataObject = appList[index];
                                 return Center(
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -405,7 +404,7 @@ class _AppsAddState extends State<AppsAdd> {
                 ],
               ),
               Padding(
-                padding: EdgeInsets.only(top: sizes.height(context, 830)),
+                padding: EdgeInsets.only(top: sizes.height(context, 820)),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   child: Row(
@@ -595,7 +594,7 @@ class _TimeAddState extends State<TimeAdd> {
                       }
                   ),
 
-                  SizedBox(height: sizes.height(context, 90)),
+                  SizedBox(height: sizes.height(context, 60)),
 
                   SizedBox(
                     width: sizes.width(context, 390),
@@ -781,7 +780,7 @@ class _TimeAddState extends State<TimeAdd> {
                 ],
               ),
               Padding(
-                padding: EdgeInsets.only(top: sizes.height(context, 830)),
+                padding: EdgeInsets.only(top: sizes.height(context, 820)),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   child: Row(
@@ -1030,7 +1029,7 @@ class _FinalAddState extends State<FinalAdd> {
                           }
                       ),
 
-                      SizedBox(height: sizes.height(context, 110)),
+                      SizedBox(height: sizes.height(context, 90)),
 
                       GestureDetector(
                         onTap: () async {
@@ -1145,7 +1144,7 @@ class _FinalAddState extends State<FinalAdd> {
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: sizes.height(context, 830)),
+                    padding: EdgeInsets.only(top: sizes.height(context, 820)),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: Row(
@@ -1315,7 +1314,7 @@ class _FinalAddState extends State<FinalAdd> {
                                   valueListenable: selectedApps,
                                   builder: (context, value, child) {
                                     return Container(
-                                      margin: EdgeInsets.only(left: sizes.width(context, 42)),
+                                      margin: EdgeInsets.only(left: sizes.width(context, 32)),
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
@@ -1333,13 +1332,12 @@ class _FinalAddState extends State<FinalAdd> {
                                                     FirebaseAnalytics().logEvent(name: "updated_removed app");
                                                   },
                                                   child: Container(
-                                                    width: sizes.width(context, 50),
-                                                    height: sizes.height(context, 64),
-                                                    margin: EdgeInsets.only(right: 20),
+                                                    width: sizes.width(context, 58),
+                                                    height: sizes.height(context, 58),
+                                                    margin: EdgeInsets.only(right: 16),
                                                     
                                                     child: Image(
                                                       image: MemoryImage(Util().getAppIcon(selectedApps.value[listIndex]["icon"])),
-                                                      fit: BoxFit.fill,
                                                     ),
                                                   ),
                                                 );
@@ -1361,9 +1359,9 @@ class _FinalAddState extends State<FinalAdd> {
                                                     FirebaseAnalytics().logEvent(name: "updated_removed_app");
                                                   },
                                                   child: Container(
-                                                    width: sizes.width(context, 50),
-                                                    height: sizes.height(context, 64),
-                                                    margin: EdgeInsets.only(right: 20),
+                                                    width: sizes.width(context, 58),
+                                                    height: sizes.height(context, 58),
+                                                    margin: EdgeInsets.only(right: 16),
                                                     decoration: BoxDecoration(
                                                         shape: BoxShape.circle,
                                                         border: Border.all(color: colours.white(), width: 3),
@@ -1371,7 +1369,6 @@ class _FinalAddState extends State<FinalAdd> {
                                                     ),
                                                     child: Image(
                                                       image: MemoryImage(Util().getAppIcon(selectedApps.value[(listIndex + 5)]["icon"])),
-                                                      fit: BoxFit.fill,
                                                     ),
                                                   ),
                                                 );
@@ -1384,7 +1381,7 @@ class _FinalAddState extends State<FinalAdd> {
                                   }
                               ),
 
-                              SizedBox(height: sizes.height(context, 90)),
+                              SizedBox(height: sizes.height(context, 70)),
 
                               GestureDetector(
                                 onTap: () async {
@@ -1480,17 +1477,11 @@ class _FinalAddState extends State<FinalAdd> {
                                                       FirebaseAnalytics().logEvent(name: "updated_added_app");
                                                     },
                                                     child: Container(
-                                                      width: sizes.width(context, 50),
-                                                      height: sizes.height(context, 64),
-                                                      margin: EdgeInsets.only(right: 8),
-                                                      decoration: BoxDecoration(
-                                                          shape: BoxShape.circle,
-                                                          border: Border.all(color: colours.white(), width: 3),
-                                                          color: colours.white() // change with colours.black()
-                                                      ),
+                                                      width: sizes.width(context, 58),
+                                                      height: sizes.height(context, 58),
+                                                      margin: EdgeInsets.only(right: 2),
                                                       child: Image(
                                                         image: MemoryImage(allApps[index].icon),
-                                                        fit: BoxFit.fill,
                                                       ),
                                                     ),
                                                   );
@@ -1506,7 +1497,7 @@ class _FinalAddState extends State<FinalAdd> {
                             ],
                           ),
                           Padding(
-                            padding: EdgeInsets.only(top: sizes.height(context, 830)),
+                            padding: EdgeInsets.only(top: sizes.height(context, 820)),
                             child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 12),
                               child: Row(

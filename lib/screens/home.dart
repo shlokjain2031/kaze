@@ -211,7 +211,7 @@ class _HomeState extends State<Home> {
                               ),
                             ),
 
-                            SizedBox(height: sizes.height(context, 165)),
+                            SizedBox(height: sizes.height(context, 125)),
                             Text(
                               mode.title != null ? mode.title : "[name]",
                               style: TextStyle(
@@ -241,7 +241,7 @@ class _HomeState extends State<Home> {
                             SizedBox(height: sizes.height(context, 72)),
 
                             Container(
-                              margin: EdgeInsets.only(left: sizes.width(context, 42)),
+                              margin: EdgeInsets.only(left: sizes.width(context, 32)),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
@@ -306,14 +306,10 @@ class _HomeState extends State<Home> {
                                             Util().openSettings(apps[listIndex + 5]["package"]);
                                           },
                                           child: Container(
-                                            width: sizes.width(context, 50),
+                                            width: sizes.width(context, 58),
                                             height: sizes.height(context, 58),
                                             margin: EdgeInsets.only(right: 16),
-                                            decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: colours.white(),
-                                              border: Border.all(color: colours.white(), width: 3)
-                                            ),
+
                                             child: Image(
                                               image: MemoryImage(Util().getAppIcon(apps[(listIndex + 5)]["icon"])),
                                             ),
@@ -325,7 +321,7 @@ class _HomeState extends State<Home> {
                                 ],
                               ),
                             ),
-                            SizedBox(height: sizes.height(context, 42)),
+                            SizedBox(height: sizes.height(context, 88)),
 
                             GestureDetector(
                               onTap: () {
