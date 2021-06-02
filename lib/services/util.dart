@@ -6,6 +6,7 @@ import 'dart:typed_data';
 import 'package:device_apps/device_apps.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dnd/flutter_dnd.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
@@ -14,6 +15,8 @@ import 'package:notification_permissions/notification_permissions.dart';
 import 'package:intent/intent.dart' as intentFlutter;
 import 'package:intent/action.dart' as actionFlutter;
 import 'package:intent/flag.dart' as flag;
+import 'package:sound_mode/sound_mode.dart';
+import 'package:sound_mode/utils/sound_profiles.dart';
 
 class Util {
   Future getAllApps() async {
@@ -147,7 +150,7 @@ class Util {
     intentFlutter
         .Intent()
       ..setAction(actionFlutter.Action.ACTION_MAIN)
-      ..addCategory("android.intent.category.HOME")
+      ..addCategory("android.intent.category.DEFAULT")
       ..addFlag(flag.Flag.FLAG_ACTIVITY_NEW_DOCUMENT)
       ..startActivity().catchError((e) => print("intent error: " + e.toString()));
   }
@@ -204,5 +207,13 @@ class Util {
     return time;
   }
 
-  void turnOffSilentMode() {}
+  void turnOffSilentMode() async {
+    try {
+      await SoundMode.setSoundMode(Profiles.NORMAL);
+      String mode = await SoundMode.ringerModeStatus;
+      print("sound mode: " + mode);
+    } on PlatformException {
+      print('Please enable permissions required');
+    }
+  }
 }

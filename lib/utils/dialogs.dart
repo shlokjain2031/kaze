@@ -1274,9 +1274,9 @@ class CustomDialogs {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            Util().displayDefaultLauncherChooser();
-                            // SystemNavigator.pop();
                             FirebaseAnalytics().logEvent(name: "exited_kaze");
+                            Util().removeLauncherDefault();
+                            SystemNavigator.pop();
                           },
                           child: Container(
                             width: sizes.width(context, 110),

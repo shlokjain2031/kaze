@@ -1172,7 +1172,7 @@ class _FinalAddState extends State<FinalAdd> {
                                 );
                                 ScaffoldMessenger.of(context).showSnackBar(duplicateSnackBar);
                               }
-                              FirebaseAnalytics().logEvent(name: "added_new mode");
+                              FirebaseAnalytics().logEvent(name: "added_new_mode");
                             },
                             child: Text(
                               'confirm',
