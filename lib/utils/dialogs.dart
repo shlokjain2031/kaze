@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dnd/flutter_dnd.dart';
 import 'package:kaze/models/mode.dart';
+import 'package:kaze/screens/exit.dart';
 import 'package:kaze/screens/focus.dart';
 import 'package:kaze/screens/home.dart';
 import 'package:kaze/screens/settings.dart';
@@ -1275,8 +1276,14 @@ class CustomDialogs {
                         GestureDetector(
                           onTap: () {
                             FirebaseAnalytics().logEvent(name: "exited_kaze");
-                            Util().removeLauncherDefault();
-                            SystemNavigator.pop();
+                            // Util().removeLauncherDefault();
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return ExitApp();
+                                },
+                              ),
+                            );
                           },
                           child: Container(
                             width: sizes.width(context, 110),

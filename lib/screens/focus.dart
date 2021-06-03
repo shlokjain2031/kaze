@@ -329,10 +329,10 @@ class _FocusModeState extends State<FocusMode> {
                 children: [
                   SizedBox(height: sizes.height(context, 200),),
                   Text(
-                    'No apps in\nFocus Mode',
+                    'Have you added apps\nin Focus Mode?',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontSize: 54,
+                        fontSize: 48,
                         fontWeight: FontWeight.bold,
                         color: colours.white(),
                         fontFamily: 'ProductSans'

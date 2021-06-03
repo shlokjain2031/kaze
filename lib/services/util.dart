@@ -17,6 +17,7 @@ import 'package:intent/action.dart' as actionFlutter;
 import 'package:intent/flag.dart' as flag;
 import 'package:sound_mode/sound_mode.dart';
 import 'package:sound_mode/utils/sound_profiles.dart';
+import 'package:permission_handler/permission_handler.dart' as permissionHandler;
 
 class Util {
   Future getAllApps() async {
@@ -146,7 +147,7 @@ class Util {
           ..startActivity().catchError((e) => print("intent error: " + e.toString()));
   }
 
-  void removeLauncherDefault() {
+  void removeLauncherDefault() async {
     intentFlutter
         .Intent()
       ..setAction(actionFlutter.Action.ACTION_MAIN)
