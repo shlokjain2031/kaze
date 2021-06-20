@@ -314,12 +314,12 @@ class _HomeState extends State<Home> {
                                                 bool appCanBeUsed = ModeService().checkIfAppCanBeUsed(mode);
                                                 if(appCanBeUsed) {
                                                   Util().openApp(apps[listIndex]["package"]);
+                                                  FirebaseAnalytics().logEvent(name: "click_on_launch_app");
                                                 }
                                                 else {
                                                   CustomDialogs().openApp(context, sizes, colours, apps[listIndex]);
                                                 }
 
-                                                FirebaseAnalytics().logEvent(name: "click_on_launch app");
                                               },
                                               onLongPress: () {
                                                 Util().openSettings(apps[listIndex]["package"]);
