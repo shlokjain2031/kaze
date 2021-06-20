@@ -16,6 +16,24 @@ class ModeService {
     return await ModeModelProvider().getSingleMode(id);
   }
 
+
+  Future<ModeModel> getCurrentMode() async {
+    List<ModeModel> allModes = await getAllModes();
+    ModeModel currentMode;
+    DateTime startTime;
+    DateTime endTime;
+
+    allModes.forEach((element) {
+      startTime = DateTime.parse(element.startTime);
+      endTime = DateTime.parse(element.endTime);
+
+      bool modeCanBeUsed = Util().checkIfTimeIsInRange(startTime, endTime);
+      currentMode = modeCanBeUsed ? element : allModes[0];
+    });
+
+    return currentMode;
+  }
+
   Future<List<ModeModel>> getAllModes() async {
     return await ModeModelProvider().getAllModes();
   }
@@ -58,7 +76,7 @@ class ModeService {
 
     DateTime startTime = DateTime.parse(mode.startTime);
     DateTime endTime = DateTime.parse(mode.endTime);
-    bool appCanBeUsed = Util().checkTimeBeforeAfter(startTime, endTime);
+    bool appCanBeUsed = Util().checkIfTimeIsInRange(startTime, endTime);
 
     return appCanBeUsed;
   }

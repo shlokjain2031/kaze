@@ -86,6 +86,8 @@ flutter:
     - assets/delete.png
     - assets/delete_outline.png
     - assets/exit_app.gif
+    - assets/arrow.png
+    - assets/more.png
 
   fonts:
     - family: ProductSans

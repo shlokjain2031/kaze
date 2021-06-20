@@ -6,6 +6,6 @@ class Colours {
   }
 
   Color white({opacity=1.0}) {
-    return Color(0xFFF2F4F4).withOpacity(opacity);
+    return Color(0xFFEEF0F0).withOpacity(opacity);
   }
 }

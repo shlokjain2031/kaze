@@ -20,6 +20,10 @@ import 'package:sound_mode/utils/sound_profiles.dart';
 import 'package:permission_handler/permission_handler.dart' as permissionHandler;
 
 class Util {
+
+  List<String> days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+  List<String> months = ["Jan", "Feb", "March", "April", "May", "June", "July", "August", "Sept", "Oct", "Nov", "Dec"];
+
   Future getAllApps() async {
     List apps = await DeviceApps
         .getInstalledApplications(onlyAppsWithLaunchIntent: true, includeSystemApps: true, includeAppIcons: true);
@@ -111,7 +115,7 @@ class Util {
     return newDt.toString();
   }
 
-  bool checkTimeBeforeAfter(DateTime startTime, DateTime endTime) {
+  bool checkIfTimeIsInRange(DateTime startTime, DateTime endTime) {
     bool startTimeAppCanBeUsed = false;
     bool endTimeAppCanBeUsed = false;
     DateTime now = DateTime.now();
@@ -216,5 +220,17 @@ class Util {
     } on PlatformException {
       print('Please enable permissions required');
     }
+  }
+
+  String getCurrentFormattedDate() {
+    String currentFormattedDate;
+    DateTime now = DateTime.now();
+    currentFormattedDate = days[(now.weekday - 1)] + ", " + now.day.toString() + "th " + months[(now.month - 1)];
+
+    return currentFormattedDate;
+  }
+
+  bool checkIfAppIsInMode(List modeApps, List installedApps) {
+
   }
 }

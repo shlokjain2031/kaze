@@ -4,7 +4,6 @@ import 'package:kaze/models/mode.dart';
 import 'package:kaze/services/settings.dart';
 import 'package:kaze/services/user.dart';
 import 'package:kaze/services/util.dart';
-import 'package:kaze/utils/circle.dart';
 import 'package:kaze/utils/colours.dart';
 import 'package:kaze/utils/sizes.dart';
 import 'package:firebase_analytics/firebase_analytics.dart' as analytics;

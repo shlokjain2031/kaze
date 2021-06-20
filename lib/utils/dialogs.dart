@@ -98,13 +98,13 @@ class CustomDialogs {
                     SizedBox(height: sizes.height(context, 20)),
                     GestureDetector(
                       onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return AllApps();
-                            },
-                          ),
-                        );
+                        // Navigator.of(context).push(
+                        //   MaterialPageRoute(
+                        //     builder: (context) {
+                        //       return AllApps();
+                        //     },
+                        //   ),
+                        // );
                         FirebaseAnalytics().logEvent(name: "clicked_all_apps");
                       },
                       child: Row(
@@ -1346,5 +1346,4 @@ class CustomDialogs {
       },
     );
   }
-
 }
