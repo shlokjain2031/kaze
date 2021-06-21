@@ -30,10 +30,15 @@ class BottomSheets {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Icon(
-                          Icons.arrow_back,
-                          size: sizes.width(context, 32),
-                          color: colours.white(),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Icon(
+                            Icons.arrow_back,
+                            size: sizes.width(context, 32),
+                            color: colours.white(),
+                          ),
                         ),
                         Text(
                           'ALL APPS',
@@ -44,10 +49,15 @@ class BottomSheets {
                             letterSpacing: 5
                           ),
                         ),
-                        Image(
-                          image: AssetImage('assets/more.png'),
-                          width: sizes.width(context, 36),
-                          color: colours.white(),
+                        GestureDetector(
+                          onTap: () {
+                            CustomDialogs().category(context, sizes, colours);
+                          },
+                          child: Image(
+                            image: AssetImage('assets/more.png'),
+                            width: sizes.width(context, 36),
+                            color: colours.white(),
+                          ),
                         )
                       ],
                     ),
@@ -59,7 +69,7 @@ class BottomSheets {
                       builder: (context, snapshot) {
                         if(snapshot.hasData) {
                           EasyLoading.dismiss();
-                          List installedApps = snapshot.data;
+                          List installedApps = Util().convertListApplicationWithIconToListMap(snapshot.data);
                           List modeApps = Util().listParser(currentMode.apps);
 
                           return SizedBox(
@@ -71,13 +81,22 @@ class BottomSheets {
                               physics: BouncingScrollPhysics(),
                               children: List.generate(
                                 installedApps != null ? installedApps.length : 0, (index) {
+                                  bool isAppInMode = Util().checkIfAppIsInMode(modeApps, installedApps, index);
+
                                   return GestureDetector(
                                     onTap: () {
-                                      CustomDialogs().openApp(context, Sizes(), Colours(), Util().convertApplicationWithIconToMap(installedApps[index]));
+                                      if(isAppInMode) {
+                                        Util().openApp(installedApps[index]["package"]);
+                                      }
+                                      else {
+                                        CustomDialogs().openApp(context, Sizes(), Colours(), installedApps[index]);
+                                      }
                                       FirebaseAnalytics().logEvent(name: "click_on_launch_app_all_apps");
                                     },
                                     onLongPress: () {
-                                      Util().openSettings(installedApps[index].packageName);
+                                      if(isAppInMode) {
+                                        Util().openSettings(installedApps[index]["package"]);
+                                      }
                                     },
                                     child: Container(
                                       width: sizes.width(context, 54),
@@ -86,21 +105,22 @@ class BottomSheets {
                                       child: Column(
                                         children: [
                                           ColorFiltered(
-                                            colorFilter: Util().checkIfAppIsInMode(modeApps, installedApps) ?  ColorFilter.matrix(<double>[
-                                                0.2126,0.7152,0.0722,0,0,
-                                                0.2126,0.7152,0.0722,0,0,
-                                                0.2126,0.7152,0.0722,0,0,
-                                                0,0,0,1,0,
-                                              ]),
+                                            colorFilter: !isAppInMode ? ColorFilter.matrix(<double>[
+                                              0.2126,0.7152,0.0722,0,0,
+                                              0.2126,0.7152,0.0722,0,0,
+                                              0.2126,0.7152,0.0722,0,0,
+                                              0,0,0,1,0,
+                                            ]) : ColorFilter.mode(colours.black(opacity: 1.0),
+                                                BlendMode.dstATop),
                                             child: Image(
-                                              image: MemoryImage(installedApps[index].icon),
+                                              image: MemoryImage(installedApps[index]["icon"]),
                                               width: sizes.width(context, 54),
                                               height: sizes.height(context, 54),
                                             ),
                                           ),
                                           SizedBox(height: 12),
                                           Text(
-                                            installedApps[index].appName,
+                                            installedApps[index]["label"],
                                             style: TextStyle(
                                               color: Colours().white(),
                                               fontWeight: FontWeight.bold,

@@ -95,6 +95,21 @@ class Util {
     return appMap;
   }
 
+  List<Map> convertListApplicationWithIconToListMap(List apps) {
+    List<Map> newList = [];
+    apps.forEach((app) {
+      Map appMap = {
+        "label" : app.appName,
+        "package" : app.packageName,
+        "icon" : app.icon,
+      };
+
+      newList.add(appMap);
+    });
+
+    return newList;
+  }
+
   Future<String> pickImage() async {
     final pickedFile = await ImagePicker().getImage(source: ImageSource.gallery);
     String path;
@@ -230,7 +245,14 @@ class Util {
     return currentFormattedDate;
   }
 
-  bool checkIfAppIsInMode(List modeApps, List installedApps) {
-
+  bool checkIfAppIsInMode(List modeApps, List installedApps, int index) {
+    bool appIsInMode = false;
+    for(int i=0;i<modeApps.length;i++) {
+      if(installedApps[index]["label"] == modeApps[i]["label"]) {
+        appIsInMode = true;
+        break;
+      }
+    }
+    return appIsInMode;
   }
 }

@@ -88,7 +88,7 @@ class _HomeState extends State<Home> {
                     ),
                     GestureDetector(
                       onVerticalDragUpdate: (details) {
-                        int sensitivity = 8;
+                        int sensitivity = 15;
                         if (details.delta.dy < -sensitivity) {
                           BottomSheets().allAppsBottomSheet(context, sizes, colours, currentMode);
                         }
