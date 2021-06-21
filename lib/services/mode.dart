@@ -39,8 +39,7 @@ class ModeService {
   }
 
   insertMode(String title, String startTime, String endTime, List rawApps, String wallpaperPath) {
-    List<Map> apps = Util().convertListApplicationWithIconToListMap(rawApps);
-    String formattedApps = jsonEncode(apps);
+    String formattedApps = jsonEncode(rawApps);
     int rid = 1;
     ModeModel mode = ModeModel(id: rid, title: title, startTime: startTime, endTime: endTime, apps: formattedApps, wallpaperPath: wallpaperPath);
 

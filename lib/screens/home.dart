@@ -47,7 +47,7 @@ class _HomeState extends State<Home> {
                   image: currentMode.wallpaperPath != null ? DecorationImage(
                     image: FileImage(File(currentMode.wallpaperPath)),
                     fit: BoxFit.cover,
-                    colorFilter: ColorFilter.mode(colours.black().withOpacity(0.6),
+                    colorFilter: ColorFilter.mode(colours.black().withOpacity(0.7),
                         BlendMode.dstATop),
                   ) : null
                 ),
@@ -76,7 +76,7 @@ class _HomeState extends State<Home> {
                         shadows: [
                           Shadow(
                             offset: Offset(8, 8),
-                            color: colours.black(opacity: .75),
+                            color: colours.black(opacity: .35),
                             blurRadius: 32.0,
                           )
                         ]

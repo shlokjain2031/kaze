@@ -51,7 +51,7 @@ class BottomSheets {
                         ),
                         GestureDetector(
                           onTap: () {
-                            CustomDialogs().category(context, sizes, colours);
+                            CustomDialogs().category(context, sizes, colours, title: currentMode.title);
                           },
                           child: Image(
                             image: AssetImage('assets/more.png'),

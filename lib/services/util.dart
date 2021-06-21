@@ -86,7 +86,7 @@ class Util {
     return Uint8List.fromList(formattedList);
   }
 
-  Map convertApplicationWithIconToMap(ApplicationWithIcon app) {
+  Map convertApplicationWithIconToMap(app) {
     Map appMap = {
       "label" : app.appName,
       "package" : app.packageName,

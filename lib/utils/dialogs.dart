@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dnd/flutter_dnd.dart';
 import 'package:kaze/models/mode.dart';
+import 'package:kaze/screens/add.dart';
 import 'package:kaze/screens/exit.dart';
 import 'package:kaze/screens/focus.dart';
 import 'package:kaze/screens/home.dart';
@@ -26,7 +27,7 @@ class CustomDialogs {
           alignment: Alignment.center,
           child: Container(
             width: sizes.width(context, 375),
-            height: sizes.height(context, 360),
+            height: sizes.height(context, 417),
             decoration: BoxDecoration(
               color: colours.white(),
             ),
@@ -36,22 +37,22 @@ class CustomDialogs {
                 child: Column(
                   children: [
                     SizedBox(height: sizes.height(context, 20)),
+
                     GestureDetector(
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) {
-                              return Settings();
+                              return TitleAdd();
                             },
                           ),
                         );
-                        FirebaseAnalytics().logEvent(name: "clicked_on_settings");
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Settings',
+                            'Add a new Mode',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 32,
@@ -68,6 +69,40 @@ class CustomDialogs {
                         ],
                       ),
                     ),
+
+                    SizedBox(height: sizes.height(context, 20)),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return Settings();
+                            },
+                          ),
+                        );
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Settings',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 32,
+                                fontFamily: 'ProductSans',
+                                color: colours.black(),
+                                decoration: TextDecoration.none
+                            ),
+                          ),
+                          Icon(
+                            Icons.arrow_forward_outlined,
+                            size: 32,
+                            color: colours.black(),
+                          )
+                        ],
+                      ),
+                    ),
+
                     SizedBox(height: sizes.height(context, 20)),
                     GestureDetector(
                       onTap: () {
@@ -78,7 +113,7 @@ class CustomDialogs {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Start Focus Mode',
+                            'Focus Mode',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 32,
@@ -95,23 +130,17 @@ class CustomDialogs {
                         ],
                       ),
                     ),
+
                     SizedBox(height: sizes.height(context, 20)),
                     GestureDetector(
                       onTap: () {
-                        // Navigator.of(context).push(
-                        //   MaterialPageRoute(
-                        //     builder: (context) {
-                        //       return AllApps();
-                        //     },
-                        //   ),
-                        // );
-                        FirebaseAnalytics().logEvent(name: "clicked_all_apps");
+
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'See All Apps',
+                            'All Modes',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 32,
@@ -128,6 +157,7 @@ class CustomDialogs {
                         ],
                       ),
                     ),
+
                     SizedBox(height: sizes.height(context, 20)),
                     GestureDetector(
                       onTap: () {
@@ -138,7 +168,7 @@ class CustomDialogs {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Delete $title mode',
+                            'Delete $title?',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 32,
@@ -155,6 +185,7 @@ class CustomDialogs {
                         ],
                       ),
                     ),
+
                     SizedBox(height: sizes.height(context, 20)),
                     GestureDetector(
                       onTap: () {
@@ -182,7 +213,8 @@ class CustomDialogs {
                         ],
                       ),
                     ),
-                    SizedBox(height: sizes.height(context, 12)),
+
+                    SizedBox(height: sizes.height(context, 20)),
                   ],
                 ),
               ),
