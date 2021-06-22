@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:kaze/models/mode.dart';
+import 'package:kaze/screens/add.dart';
 import 'package:kaze/services/mode.dart';
 import 'package:kaze/utils/colours.dart';
 import 'package:kaze/utils/dialogs.dart';
@@ -80,7 +81,13 @@ class AllModes extends StatelessWidget {
                         heightFactor: .75,
                         child: GestureDetector(
                           onTap: () {
-
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return TitleAdd(mode: mode,);
+                                },
+                              ),
+                            );
                           },
                           child: Container(
                             width: sizes.width(context, 380),
@@ -125,7 +132,6 @@ class AllModes extends StatelessWidget {
                 );
               }
               else {
-                EasyLoading.show(status: 'loading...');
                 return SizedBox();
               }
             }

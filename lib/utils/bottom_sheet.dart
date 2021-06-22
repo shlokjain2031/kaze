@@ -26,7 +26,7 @@ class BottomSheets {
                 children: [
                   SizedBox(height: sizes.height(context, 28)),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -64,13 +64,14 @@ class BottomSheets {
                   ),
                   SizedBox(height: sizes.height(context, 32)),
 
+                  // todo: getAllApps in home
                   FutureBuilder(
                       future: Util().getAllApps(),
                       builder: (context, snapshot) {
                         if(snapshot.hasData) {
                           EasyLoading.dismiss();
                           List installedApps = Util().convertListApplicationWithIconToListMap(snapshot.data);
-                          List modeApps = Util().listParser(currentMode.apps);
+                          List modeApps = Util().listDecoder(currentMode.apps);
 
                           return SizedBox(
                             height: Sizes().height(context, 790),

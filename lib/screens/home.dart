@@ -38,7 +38,7 @@ class _HomeState extends State<Home> {
           builder: (context, snapshot) {
             if(snapshot.hasData) {
               ModeModel currentMode = snapshot.data;
-              List apps = Util().listParser(currentMode.apps);
+              List apps = Util().listDecoder(currentMode.apps);
               String currentFormattedDate = Util().getCurrentFormattedDate();
 
               return Container(

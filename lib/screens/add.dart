@@ -17,7 +17,8 @@ import 'package:kaze/utils/sizes.dart';
 import 'home.dart';
 
 class TitleAdd extends StatefulWidget {
-  const TitleAdd({Key key}) : super(key: key);
+  ModeModel mode;
+  TitleAdd({Key key, this.mode}) : super(key: key);
 
   @override
   _TitleAddState createState() => _TitleAddState();
@@ -26,7 +27,15 @@ class _TitleAddState extends State<TitleAdd> {
   Colours colours = Colours();
   Sizes sizes = Sizes();
 
-  String title;
+  String title = "Give a title";
+
+  @override
+  void initState() {
+    if(widget.mode != null) {
+      title = widget.mode.title;
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +98,7 @@ class _TitleAddState extends State<TitleAdd> {
               letterSpacing: 1.25
             ),
             decoration: InputDecoration(
-              hintText: "Give a title",
+              hintText: title,
               hintMaxLines: 1,
               hintStyle: TextStyle(
                 color: colours.white().withOpacity(.7),
@@ -118,13 +127,13 @@ class _TitleAddState extends State<TitleAdd> {
           Center(
             child: GestureDetector(
               onTap: () {
-                title != null ? Navigator.of(context).push(
+                Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) {
-                      return AppsAdd(title);
+                      return AppsAdd(title, mode: widget.mode);
                     },
                   ),
-                ) : print("no title");
+                );
               },
               child: Container(
                 width: sizes.width(context, 375),
@@ -152,19 +161,28 @@ class _TitleAddState extends State<TitleAdd> {
 
 class AppsAdd extends StatefulWidget {
   String title;
-  AppsAdd(this.title, {Key key}) : super(key: key);
+  ModeModel mode;
+  AppsAdd(this.title, {Key key, this.mode}) : super(key: key);
 
   @override
-  _AppsAddState createState() => _AppsAddState(title);
+  _AppsAddState createState() => _AppsAddState();
 }
 class _AppsAddState extends State<AppsAdd> {
-  String title;
-  _AppsAddState(this.title);
+  _AppsAddState();
 
   Colours colours = Colours();
   Sizes sizes = Sizes();
 
   ValueNotifier<List> modeApps = ValueNotifier([]);
+
+  @override
+  void initState() {
+    if(widget.mode != null) {
+      List parsedModeApps = Util().listDecoder(widget.mode.apps);
+      modeApps.value.addAll(parsedModeApps);
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -230,55 +248,57 @@ class _AppsAddState extends State<AppsAdd> {
                           physics: BouncingScrollPhysics(),
                           children: List.generate(
                             installedApps != null ? installedApps.length : 0, (index) {
-
-                            bool isAppInMode = Util().checkIfAppIsInMode(newModeApps, installedApps, index);
-                            return GestureDetector(
-                              onTap: () {
-                                if(isAppInMode) {
-                                  newModeApps.remove(installedApps[index]);
-                                }
-                                else {
-                                  newModeApps.add(installedApps[index]);
-                                }
-                                modeApps.notifyListeners();
-                              },
-                              child: Container(
-                                width: sizes.width(context, 54),
-                                height: sizes.height(context, 74),
-                                margin: EdgeInsets.only(left: 16, right: 16),
-                                child: Column(
-                                  children: [
-                                    ColorFiltered(
-                                      colorFilter: !isAppInMode ? ColorFilter.matrix(<double>[
-                                        0.2126,0.7152,0.0722,0,0,
-                                        0.2126,0.7152,0.0722,0,0,
-                                        0.2126,0.7152,0.0722,0,0,
-                                        0,0,0,1,0,
-                                      ]) : ColorFilter.mode(colours.black(opacity: 1.0),
-                                          BlendMode.dstATop),
-                                      child: Image(
-                                        image: MemoryImage(installedApps[index]["icon"]),
-                                        width: sizes.width(context, 54),
-                                        height: sizes.height(context, 54),
+                              bool isAppInMode = Util().checkIfAppIsInMode(newModeApps, installedApps, index);
+                              return GestureDetector(
+                                onTap: () {
+                                  if(isAppInMode) {
+                                    print("in if");
+                                    newModeApps.remove(installedApps[index]);
+                                    print("length: " + newModeApps.length.toString());
+                                  }
+                                  else {
+                                    print("in else");
+                                    newModeApps.add(installedApps[index]);
+                                  }
+                                  modeApps.notifyListeners();
+                                },
+                                child: Container(
+                                  width: sizes.width(context, 54),
+                                  height: sizes.height(context, 74),
+                                  margin: EdgeInsets.only(left: 16, right: 16),
+                                  child: Column(
+                                    children: [
+                                      ColorFiltered(
+                                        colorFilter: !isAppInMode ? ColorFilter.matrix(<double>[
+                                          0.2126,0.7152,0.0722,0,0,
+                                          0.2126,0.7152,0.0722,0,0,
+                                          0.2126,0.7152,0.0722,0,0,
+                                          0,0,0,1,0,
+                                        ]) : ColorFilter.mode(colours.black(opacity: 1.0),
+                                            BlendMode.dstATop),
+                                        child: Image(
+                                          image: MemoryImage(installedApps[index]["icon"]),
+                                          width: sizes.width(context, 54),
+                                          height: sizes.height(context, 54),
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(height: 12),
-                                    Text(
-                                      installedApps[index]["label"],
-                                      style: TextStyle(
-                                          color: Colours().white(),
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 12,
-                                          fontFamily: 'ProductSans'
+                                      SizedBox(height: 12),
+                                      Text(
+                                        installedApps[index]["label"],
+                                        style: TextStyle(
+                                            color: Colours().white(),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 12,
+                                            fontFamily: 'ProductSans'
+                                        ),
+                                        textAlign: TextAlign.center,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
                                       ),
-                                      textAlign: TextAlign.center,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            );
+                              );
                           },
                           ),
                         ),
@@ -300,7 +320,7 @@ class _AppsAddState extends State<AppsAdd> {
                 modeApps.value != null ? Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) {
-                      return TimeAdd(title, modeApps);
+                      return TimeAdd(widget.title, modeApps, mode: widget.mode);
                     },
                   ),
                 ) : print("no title");
@@ -332,22 +352,30 @@ class _AppsAddState extends State<AppsAdd> {
 class TimeAdd extends StatefulWidget {
   String title;
   ValueNotifier<List> modeApps;
-  TimeAdd(this.title, this.modeApps, {Key key}) : super(key: key);
+  ModeModel mode;
+  TimeAdd(this.title, this.modeApps, {Key key, this.mode}) : super(key: key);
 
   @override
-  _TimeAddState createState() => _TimeAddState(title, modeApps);
+  _TimeAddState createState() => _TimeAddState();
 }
 class _TimeAddState extends State<TimeAdd> {
-  String title;
-  ValueNotifier<List> modeApps;
-
-  _TimeAddState(this.title, this.modeApps);
-
   Colours colours = Colours();
   Sizes sizes = Sizes();
 
   TimeOfDay startTime = TimeOfDay(hour: 6, minute: 30);
   TimeOfDay endTime = TimeOfDay(hour: 22, minute: 0);
+
+  @override
+  void initState() {
+    if(widget.mode != null) {
+      DateTime startDateTime = DateTime.parse(widget.mode.startTime);
+      DateTime endDateTime = DateTime.parse(widget.mode.endTime);
+
+      startTime = TimeOfDay(hour: startDateTime.hour, minute: startDateTime.minute);
+      endTime = TimeOfDay(hour: endDateTime.hour, minute: endDateTime.minute);
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -489,7 +517,7 @@ class _TimeAddState extends State<TimeAdd> {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) {
-                      return FinalAdd(title, modeApps, startTime, endTime);
+                      return FinalAdd(widget.title, widget.modeApps, startTime, endTime, mode: widget.mode);
                     },
                   ),
                 );
@@ -523,8 +551,9 @@ class FinalAdd extends StatefulWidget {
   ValueNotifier<List> modeApps;
   TimeOfDay startTime;
   TimeOfDay endTime;
+  ModeModel mode;
 
-  FinalAdd(this.title, this.modeApps, this.startTime, this.endTime, {Key key}) : super(key: key);
+  FinalAdd(this.title, this.modeApps, this.startTime, this.endTime, {Key key, this.mode}) : super(key: key);
 
   @override
   _FinalAddState createState() => _FinalAddState();
@@ -536,6 +565,14 @@ class _FinalAddState extends State<FinalAdd> {
   Colours colours = Colours();
 
   String wallpaperPath;
+
+  @override
+  void initState() {
+    if(widget.mode != null) {
+      wallpaperPath = widget.mode.wallpaperPath;
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -724,53 +761,94 @@ class _FinalAddState extends State<FinalAdd> {
                   ),
                   SizedBox(height: sizes.height(context, 550)),
 
-                  Center(
-                    child: GestureDetector(
-                      onTap: () async {
-                        if(!(await ModeService().checkForDuplicate(widget.title))) {
-                          String formattedStartTime = Util().getStringFromTimeOfDay(widget.startTime);
-                          String formattedEndTime = Util().getStringFromTimeOfDay(widget.endTime);
-                          if(DateTime.parse(formattedEndTime).hour < DateTime.parse(formattedStartTime).hour) {
-                            String temp = formattedStartTime;
-                            formattedStartTime = formattedEndTime;
-                            formattedEndTime = temp;
-                          }
-                          ModeService().insertMode(widget.title, formattedStartTime, formattedEndTime, widget.modeApps.value, wallpaperPath);
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return Home();
-                              },
-                            ),
-                          );
-                        }
-                        else {
-                          final duplicateSnackBar = SnackBar(
-                            content: Text('Name of the mode is duplicate, change it'),
-                            action: SnackBarAction(
-                              label: 'Ok',
-                              onPressed: () {},
-                            ),
-                          );
-                          ScaffoldMessenger.of(context).showSnackBar(duplicateSnackBar);
-                        }
-                      },
-                      child: Container(
-                        width: sizes.width(context, 375),
-                        height: sizes.height(context, 75),
-                        color: colours.white(),
-                        child: Center(
-                          child: Text(
-                            'confirm',
-                            style: TextStyle(
-                                fontSize: 26,
-                                fontWeight: FontWeight.bold,
-                                color: colours.black(),
-                                fontFamily: 'ProductSans'
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Center(
+                          child: GestureDetector(
+                            onTap: () async {
+                              if(!(await ModeService().checkForDuplicate(widget.title))) {
+                                String formattedStartTime = Util().getStringFromTimeOfDay(widget.startTime);
+                                String formattedEndTime = Util().getStringFromTimeOfDay(widget.endTime);
+                                if(DateTime.parse(formattedEndTime).hour < DateTime.parse(formattedStartTime).hour) {
+                                  String temp = formattedStartTime;
+                                  formattedStartTime = formattedEndTime;
+                                  formattedEndTime = temp;
+                                }
+
+                                if(widget.mode != null) {
+                                  ModeService().updateMode(1, widget.title, formattedStartTime, formattedEndTime, widget.modeApps.value, wallpaperPath, prevTitle: widget.mode.title);
+                                }
+                                else {
+                                  ModeService().insertMode(widget.title, formattedStartTime, formattedEndTime, widget.modeApps.value, wallpaperPath);
+                                }
+
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return Home();
+                                    },
+                                  ),
+                                );
+                              }
+                              else {
+                                final duplicateSnackBar = SnackBar(
+                                  content: Text('Name of the mode is duplicate, change it'),
+                                  action: SnackBarAction(
+                                    label: 'Ok',
+                                    onPressed: () {},
+                                  ),
+                                );
+                                ScaffoldMessenger.of(context).showSnackBar(duplicateSnackBar);
+                              }
+                            },
+                            child: Container(
+                              width: sizes.width(context, 300),
+                              height: sizes.height(context, 75),
+                              decoration: BoxDecoration(
+                                color: colours.white(),
+                                border: Border.all(color: colours.black(), width: 3)
+                              ),
+                              child: Center(
+                                child: Text(
+                                  'confirm',
+                                  style: TextStyle(
+                                      fontSize: 26,
+                                      fontWeight: FontWeight.bold,
+                                      color: colours.black(),
+                                      fontFamily: 'ProductSans'
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                         ),
-                      ),
+                        Center(
+                          child: GestureDetector(
+                            onTap: () async {
+                              wallpaperPath = await Util().pickImage();
+                              setState(() {});
+                            },
+                            child: Container(
+                              width: sizes.width(context, 75),
+                              height: sizes.height(context, 75),
+                              decoration: BoxDecoration(
+                                  color: colours.white(),
+                                  border: Border.all(color: colours.black(), width: 3)
+                              ),
+                              child: Center(
+                                child: Icon(
+                                  Icons.image_outlined,
+                                  size: sizes.width(context, 36),
+                                  color: colours.black(),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   )
                 ],

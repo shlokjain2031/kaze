@@ -73,7 +73,7 @@ class Util {
     });
   }
 
-  List listParser(String list) {
+  List listDecoder(String list) {
     return jsonDecode(list);
   }
 
