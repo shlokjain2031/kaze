@@ -101,7 +101,7 @@ class BottomSheets {
                                     child: Container(
                                       width: sizes.width(context, 54),
                                       height: sizes.height(context, 74),
-                                      margin: EdgeInsets.only(left: 16, right: 16),
+                                      margin: EdgeInsets.only(left: 20, right: 20),
                                       child: Column(
                                         children: [
                                           ColorFiltered(

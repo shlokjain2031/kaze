@@ -46,8 +46,7 @@ class _HomeState extends State<Home> {
                   image: currentMode.wallpaperPath != null ? DecorationImage(
                     image: FileImage(File(currentMode.wallpaperPath)),
                     fit: BoxFit.cover,
-                    colorFilter: ColorFilter.mode(colours.black().withOpacity(0.7),
-                        BlendMode.dstATop),
+                    colorFilter: ColorFilter.mode(Colours().black(opacity: .35), BlendMode.srcOver)
                   ) : null
                 ),
                 child: Column(

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dnd/flutter_dnd.dart';
 import 'package:kaze/models/mode.dart';
 import 'package:kaze/screens/add.dart';
+import 'package:kaze/screens/all_modes.dart';
 import 'package:kaze/screens/exit.dart';
 import 'package:kaze/screens/focus.dart';
 import 'package:kaze/screens/home.dart';
@@ -134,7 +135,13 @@ class CustomDialogs {
                     SizedBox(height: sizes.height(context, 20)),
                     GestureDetector(
                       onTap: () {
-
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return AllModes();
+                            },
+                          ),
+                        );
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
