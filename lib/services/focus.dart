@@ -50,4 +50,9 @@ class FocusModeService {
 
     return wallpaperPath;
   }
+
+  Future<bool> checkForFocusModeApps() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getStringList("focusModeApps") != null ? true : false;
+  }
 }

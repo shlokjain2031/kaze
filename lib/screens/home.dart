@@ -26,7 +26,6 @@ class _HomeState extends State<Home> {
 
   Sizes sizes = Sizes();
   Colours colours = Colours();
-  PageController _pageController = PageController(initialPage: 1, viewportFraction: 0.85);
 
   @override
   Widget build(BuildContext context) {
@@ -84,11 +83,11 @@ class _HomeState extends State<Home> {
                     ),
 
                     SizedBox(
-                      height: sizes.height(context, 600),
+                      height: sizes.height(context, 590),
                     ),
                     GestureDetector(
                       onVerticalDragUpdate: (details) {
-                        int sensitivity = 15;
+                        int sensitivity = 5;
                         if (details.delta.dy < -sensitivity) {
                           BottomSheets().allAppsBottomSheet(context, sizes, colours, currentMode);
                         }
@@ -117,7 +116,7 @@ class _HomeState extends State<Home> {
                                   child: Container(
                                     width: sizes.width(context, 60),
                                     height: sizes.height(context, 60),
-                                    margin: EdgeInsets.only(left: sizes.width(context, 20)),
+                                    margin: EdgeInsets.symmetric(horizontal: 10.25),
                                     decoration: BoxDecoration(
                                         boxShadow: [
                                           BoxShadow(

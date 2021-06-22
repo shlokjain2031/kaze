@@ -62,7 +62,7 @@ class BottomSheets {
                       ],
                     ),
                   ),
-                  SizedBox(height: sizes.height(context, 27)),
+                  SizedBox(height: sizes.height(context, 32)),
 
                   FutureBuilder(
                       future: Util().getAllApps(),
@@ -73,7 +73,7 @@ class BottomSheets {
                           List modeApps = Util().listParser(currentMode.apps);
 
                           return SizedBox(
-                            height: Sizes().height(context, 800),
+                            height: Sizes().height(context, 790),
                             width: Sizes().width(context, 414),
                             child: GridView.count(
                               crossAxisCount: 5,

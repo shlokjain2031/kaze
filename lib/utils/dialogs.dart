@@ -27,7 +27,7 @@ class CustomDialogs {
           alignment: Alignment.center,
           child: Container(
             width: sizes.width(context, 375),
-            height: sizes.height(context, 417),
+            height: sizes.height(context, 405),
             decoration: BoxDecoration(
               color: colours.white(),
             ),
@@ -55,7 +55,7 @@ class CustomDialogs {
                             'Add a new Mode',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 32,
+                              fontSize: sizes.height(context, 36),
                               fontFamily: 'ProductSans',
                               color: colours.black(),
                               decoration: TextDecoration.none
@@ -88,7 +88,7 @@ class CustomDialogs {
                             'Settings',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 32,
+                                fontSize: sizes.height(context, 36),
                                 fontFamily: 'ProductSans',
                                 color: colours.black(),
                                 decoration: TextDecoration.none
@@ -116,7 +116,7 @@ class CustomDialogs {
                             'Focus Mode',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 32,
+                                fontSize: sizes.height(context, 36),
                                 fontFamily: 'ProductSans',
                                 color: colours.black(),
                                 decoration: TextDecoration.none
@@ -143,7 +143,7 @@ class CustomDialogs {
                             'All Modes',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 32,
+                                fontSize: sizes.height(context, 36),
                                 fontFamily: 'ProductSans',
                                 color: colours.black(),
                                 decoration: TextDecoration.none
@@ -171,7 +171,7 @@ class CustomDialogs {
                             'Delete $title?',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 32,
+                                fontSize: sizes.height(context, 36),
                                 fontFamily: 'ProductSans',
                                 color: Color(0xFF962D2D),
                                 decoration: TextDecoration.none
@@ -199,7 +199,7 @@ class CustomDialogs {
                             'Quit Kaze',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 32,
+                                fontSize: sizes.height(context, 36),
                                 fontFamily: 'ProductSans',
                                 color: Color(0xFF962D2D),
                                 decoration: TextDecoration.none
