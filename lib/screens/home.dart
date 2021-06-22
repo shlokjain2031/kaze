@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:kaze/models/mode.dart';
+import 'package:kaze/screens/onboarding.dart';
 import 'package:kaze/services/mode.dart';
 import 'package:kaze/services/util.dart';
 import 'package:kaze/utils/bottom_sheet.dart';

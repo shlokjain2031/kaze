@@ -49,93 +49,6 @@ class _OnboardingState extends State<Onboarding> {
               height: sizes.height(context, 500),
               margin: EdgeInsets.only(top: 32),
               child: Image(
-                image: AssetImage('assets/focus.png'),
-              ),
-            ),
-            Text(
-                "focus mode",
-                style: TextStyle(
-                    fontFamily: 'ProductSans',
-                    fontSize: 36,
-                    fontWeight: FontWeight.bold,
-                    color: colours.white()
-                )
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 12),
-              child: Text(
-                  "to help you maintain your daily\nscreentime on certain apps",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontFamily: 'ProductSans',
-                      fontSize: 18,
-                      color: colours.white().withOpacity(.8)
-                  )
-              ),
-            ),
-
-            Container(
-              margin: EdgeInsets.only(top: 54),
-              child: Stack(
-                children: [
-                  Center(
-                    child: Container(
-                      width: sizes.width(context, 140),
-                      height: sizes.height(context, 140),
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.transparent,
-                          border: Border.all(color: colours.white().withOpacity(.5), width: 3.5)
-                      ),
-                    ),
-                  ),
-
-                  Center(
-                      // child: MyArc(diameter: sizes.width(context, 110), piMultiplier: (1/2),)
-                  ),
-
-                  Center(
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 16),
-                      child: GestureDetector(
-                        onTap: () {
-                          analytics.FirebaseAnalytics().logEvent(name: "onboarding_1");
-                          setState(() {
-                            onboardingTracker = 1;
-                          });
-                        },
-                        child: Container(
-                          width: sizes.width(context, 100),
-                          height: sizes.height(context, 100),
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: colours.white()
-                          ),
-                          child: Center(
-                              child: Icon(
-                                Icons.arrow_forward_rounded,
-                                color: colours.black(),
-                                size: sizes.height(context, 48),
-                              )
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            )
-          ],
-        );
-        break;
-      case 1:
-        onboarding = Column(
-          children: [
-            Container(
-              width: sizes.width(context, 414),
-              height: sizes.height(context, 500),
-              margin: EdgeInsets.only(top: 32),
-              child: Image(
                 image: AssetImage('assets/time.png'),
               ),
             ),
@@ -178,7 +91,7 @@ class _OnboardingState extends State<Onboarding> {
                   ),
 
                   Center(
-                      // child: MyArc(diameter: sizes.width(context, 110), piMultiplier: 1,)
+                    // child: MyArc(diameter: sizes.width(context, 110), piMultiplier: 1,)
                   ),
 
                   Center(
@@ -187,6 +100,93 @@ class _OnboardingState extends State<Onboarding> {
                       child: GestureDetector(
                         onTap: () {
                           analytics.FirebaseAnalytics().logEvent(name: "onboarding_2");
+                          setState(() {
+                            onboardingTracker = 1;
+                          });
+                        },
+                        child: Container(
+                          width: sizes.width(context, 100),
+                          height: sizes.height(context, 100),
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: colours.white()
+                          ),
+                          child: Center(
+                              child: Icon(
+                                Icons.arrow_forward_rounded,
+                                color: colours.black(),
+                                size: sizes.height(context, 48),
+                              )
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            )
+          ],
+        );
+        break;
+      case 1:
+        onboarding = Column(
+          children: [
+            Container(
+              width: sizes.width(context, 414),
+              height: sizes.height(context, 500),
+              margin: EdgeInsets.only(top: 32),
+              child: Image(
+                image: AssetImage('assets/focus.png'),
+              ),
+            ),
+            Text(
+                "focus mode",
+                style: TextStyle(
+                    fontFamily: 'ProductSans',
+                    fontSize: 36,
+                    fontWeight: FontWeight.bold,
+                    color: colours.white()
+                )
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 12),
+              child: Text(
+                  "a mode where you can forget your\nphone even exists in this world",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontFamily: 'ProductSans',
+                      fontSize: 18,
+                      color: colours.white().withOpacity(.8)
+                  )
+              ),
+            ),
+
+            Container(
+              margin: EdgeInsets.only(top: 54),
+              child: Stack(
+                children: [
+                  Center(
+                    child: Container(
+                      width: sizes.width(context, 140),
+                      height: sizes.height(context, 140),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.transparent,
+                          border: Border.all(color: colours.white().withOpacity(.5), width: 3.5)
+                      ),
+                    ),
+                  ),
+
+                  Center(
+                    // child: MyArc(diameter: sizes.width(context, 110), piMultiplier: (1/2),)
+                  ),
+
+                  Center(
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 16),
+                      child: GestureDetector(
+                        onTap: () {
+                          analytics.FirebaseAnalytics().logEvent(name: "onboarding_1");
                           setState(() {
                             onboardingTracker = 2;
                           });
@@ -216,95 +216,6 @@ class _OnboardingState extends State<Onboarding> {
         );
         break;
       case 2:
-        onboarding = Column(
-          children: [
-            Container(
-              width: sizes.width(context, 414),
-              height: sizes.height(context, 500),
-              margin: EdgeInsets.only(top: 32),
-              child: Image(
-                image: AssetImage('assets/shutdown.png'),
-              ),
-            ),
-            Text(
-                "total shutdown",
-                style: TextStyle(
-                    fontFamily: 'ProductSans',
-                    fontSize: 36,
-                    fontWeight: FontWeight.bold,
-                    color: colours.white()
-                )
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 12),
-              child: Text(
-                  "a mode where you can forget your\nphone even exists, used to concentrate",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontFamily: 'ProductSans',
-                      fontSize: 18,
-                      color: colours.white().withOpacity(.8)
-                  )
-              ),
-            ),
-
-            Container(
-              margin: EdgeInsets.only(top: 54),
-              child: Stack(
-                children: [
-                  Center(
-                    child: Container(
-                      width: sizes.width(context, 140),
-                      height: sizes.height(context, 140),
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.transparent,
-                          border: Border.all(color: colours.white().withOpacity(.5), width: 3.5)
-                      ),
-                    ),
-                  ),
-
-                  Center(
-                      // child: MyArc(diameter: sizes.width(context, 110), piMultiplier: (3/2),)
-                  ),
-
-                  Center(
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 16),
-                      child: GestureDetector(
-                        onTap: () {
-                          // Util().notificationPolicyAccessCheck();
-                          Util().displayDefaultLauncherChooser();
-                          setState(() {
-                            onboardingTracker = 3;
-                          });
-                          analytics.FirebaseAnalytics().logEvent(name: "onboarding_3");
-                        },
-                        child: Container(
-                          width: sizes.width(context, 100),
-                          height: sizes.height(context, 100),
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: colours.white()
-                          ),
-                          child: Center(
-                              child: Icon(
-                                Icons.arrow_forward_rounded,
-                                color: colours.black(),
-                                size: sizes.height(context, 48),
-                              )
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            )
-          ],
-        );
-        break;
-      case 3:
         onboarding = Column(
           children: [
             Container(

@@ -64,7 +64,7 @@ class BottomSheets {
                   ),
                   SizedBox(height: sizes.height(context, 32)),
 
-                  // todo: getAllApps in home
+                  // todo: perf
                   FutureBuilder(
                       future: Util().getAllApps(),
                       builder: (context, snapshot) {

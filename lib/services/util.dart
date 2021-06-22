@@ -25,9 +25,9 @@ class Util {
   List<String> months = ["Jan", "Feb", "March", "April", "May", "June", "July", "August", "Sept", "Oct", "Nov", "Dec"];
 
   Future getAllApps() async {
-    List apps = await DeviceApps
+    print("jello");
+    return await DeviceApps
         .getInstalledApplications(onlyAppsWithLaunchIntent: true, includeSystemApps: true, includeAppIcons: true);
-    return apps;
   }
 
   String getCurrentTime() {
@@ -49,7 +49,6 @@ class Util {
 
   checkNotificationPermission() async {
     String permissionStatus = await getCheckNotificationPermStatus();
-    log("perm: " + permissionStatus);
     if(permissionStatus == "unknown" || permissionStatus == "denied") {
       NotificationPermissions.requestNotificationPermissions();
     }
