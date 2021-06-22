@@ -25,7 +25,6 @@ class Util {
   List<String> months = ["Jan", "Feb", "March", "April", "May", "June", "July", "August", "Sept", "Oct", "Nov", "Dec"];
 
   Future getAllApps() async {
-    print("jello");
     return await DeviceApps
         .getInstalledApplications(onlyAppsWithLaunchIntent: true, includeSystemApps: true, includeAppIcons: true);
   }

@@ -38,7 +38,7 @@ class AllModes extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'ALL MODES',
+                  'CLICK TO EDIT',
                   style: TextStyle(
                       fontSize: 18,
                       color: colours.white(),

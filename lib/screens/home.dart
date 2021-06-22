@@ -83,7 +83,7 @@ class _HomeState extends State<Home> {
                     ),
 
                     SizedBox(
-                      height: sizes.height(context, 590),
+                      height: sizes.height(context, 570),
                     ),
                     GestureDetector(
                       onVerticalDragUpdate: (details) {
@@ -101,7 +101,7 @@ class _HomeState extends State<Home> {
                               width: sizes.width(context, 32),
                             ),
                           ),
-                          SizedBox(height: sizes.height(context, 8),),
+                          SizedBox(height: sizes.height(context, 24),),
                           SizedBox(
                             width: sizes.width(context, 400),
                             height: sizes.height(context, 60),

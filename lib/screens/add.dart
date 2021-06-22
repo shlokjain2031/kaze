@@ -769,19 +769,25 @@ class _FinalAddState extends State<FinalAdd> {
                         Center(
                           child: GestureDetector(
                             onTap: () async {
+                              String formattedStartTime = Util().getStringFromTimeOfDay(widget.startTime);
+                              String formattedEndTime = Util().getStringFromTimeOfDay(widget.endTime);
+                              if(DateTime.parse(formattedEndTime).hour < DateTime.parse(formattedStartTime).hour) {
+                                String temp = formattedStartTime;
+                                formattedStartTime = formattedEndTime;
+                                formattedEndTime = temp;
+                              }
                               if(widget.mode != null) {
                                 ModeService().updateMode(1, widget.title, formattedStartTime, formattedEndTime, widget.modeApps.value, wallpaperPath, prevTitle: widget.mode.title);
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return Home();
+                                    },
+                                  ),
+                                );
                               }
                               else if(!(await ModeService().checkForDuplicate(widget.title))) {
-                                String formattedStartTime = Util().getStringFromTimeOfDay(widget.startTime);
-                                String formattedEndTime = Util().getStringFromTimeOfDay(widget.endTime);
-                                if(DateTime.parse(formattedEndTime).hour < DateTime.parse(formattedStartTime).hour) {
-                                  String temp = formattedStartTime;
-                                  formattedStartTime = formattedEndTime;
-                                  formattedEndTime = temp;
-                                }
                                 ModeService().insertMode(widget.title, formattedStartTime, formattedEndTime, widget.modeApps.value, wallpaperPath);
-
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (context) {

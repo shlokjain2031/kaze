@@ -37,7 +37,6 @@ class _OnboardingState extends State<Onboarding> {
     );
   }
 
-  // todo: reformat
   getOnboarding() {
     Widget onboarding;
     switch(onboardingTracker) {
