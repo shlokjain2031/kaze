@@ -769,7 +769,10 @@ class _FinalAddState extends State<FinalAdd> {
                         Center(
                           child: GestureDetector(
                             onTap: () async {
-                              if(!(await ModeService().checkForDuplicate(widget.title))) {
+                              if(widget.mode != null) {
+                                ModeService().updateMode(1, widget.title, formattedStartTime, formattedEndTime, widget.modeApps.value, wallpaperPath, prevTitle: widget.mode.title);
+                              }
+                              else if(!(await ModeService().checkForDuplicate(widget.title))) {
                                 String formattedStartTime = Util().getStringFromTimeOfDay(widget.startTime);
                                 String formattedEndTime = Util().getStringFromTimeOfDay(widget.endTime);
                                 if(DateTime.parse(formattedEndTime).hour < DateTime.parse(formattedStartTime).hour) {
@@ -777,13 +780,7 @@ class _FinalAddState extends State<FinalAdd> {
                                   formattedStartTime = formattedEndTime;
                                   formattedEndTime = temp;
                                 }
-
-                                if(widget.mode != null) {
-                                  ModeService().updateMode(1, widget.title, formattedStartTime, formattedEndTime, widget.modeApps.value, wallpaperPath, prevTitle: widget.mode.title);
-                                }
-                                else {
-                                  ModeService().insertMode(widget.title, formattedStartTime, formattedEndTime, widget.modeApps.value, wallpaperPath);
-                                }
+                                ModeService().insertMode(widget.title, formattedStartTime, formattedEndTime, widget.modeApps.value, wallpaperPath);
 
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
