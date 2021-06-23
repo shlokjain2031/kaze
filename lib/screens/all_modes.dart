@@ -38,7 +38,7 @@ class AllModes extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'CLICK TO EDIT',
+                  'TOUCH TO EDIT',
                   style: TextStyle(
                       fontSize: 18,
                       color: colours.white(),
@@ -59,7 +59,7 @@ class AllModes extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: sizes.height(context, 54)),
+          SizedBox(height: sizes.height(context, 36)),
 
           FutureBuilder(
             future: ModeService().getAllModes(),
@@ -69,7 +69,7 @@ class AllModes extends StatelessWidget {
                 List<ModeModel> allModes = snapshot.data;
                 return SizedBox(
                   width: sizes.width(context, 380),
-                  height: sizes.height(context, 770),
+                  height: sizes.height(context, 785),
                   child: ListView.builder(
                     itemCount: allModes.length,
                     itemBuilder: (context, index) {
@@ -78,7 +78,7 @@ class AllModes extends StatelessWidget {
                       DateTime endTime = DateTime.parse(mode.endTime);
 
                       return Align(
-                        heightFactor: .75,
+                        heightFactor: .8,
                         child: GestureDetector(
                           onTap: () {
                             Navigator.of(context).push(
@@ -93,12 +93,19 @@ class AllModes extends StatelessWidget {
                             width: sizes.width(context, 380),
                             height: sizes.height(context, 350),
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(35),
-                                image: DecorationImage(
+                              borderRadius: BorderRadius.circular(35),
+                              image: DecorationImage(
                                   image: FileImage(File(mode.wallpaperPath)),
                                   fit: BoxFit.cover,
                                   colorFilter: ColorFilter.mode(Colours().black(opacity: .35), BlendMode.srcOver)
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  offset: Offset(0, -24),
+                                  blurRadius: 48,
+                                  color: colours.black(opacity: .85)
                                 )
+                              ],
                             ),
                             child: Column(
                               children: [

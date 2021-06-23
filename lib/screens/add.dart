@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:kaze/models/mode.dart';
+import 'package:kaze/services/apps.dart';
 import 'package:kaze/services/mode.dart';
 import 'package:kaze/services/util.dart';
 import 'package:kaze/utils/boxes.dart';
@@ -231,12 +232,12 @@ class _AppsAddState extends State<AppsAdd> {
           SizedBox(height: sizes.height(context, 32)),
 
           FutureBuilder(
-            future: Util().getAllApps(),
+            future: AppsService().getAllApps(),
             builder: (context, snapshot) {
               if(snapshot.hasData) {
                 EasyLoading.dismiss();
                 List allApps = snapshot.data;
-                List installedApps = Util().convertListApplicationWithIconToListMap(allApps);
+                List installedApps = AppsService().convertListApplicationWithIconToListMap(allApps);
                 return SizedBox(
                   width: sizes.width(context, 380),
                   height: sizes.height(context, 690),
@@ -279,7 +280,7 @@ class _AppsAddState extends State<AppsAdd> {
                                 ValueListenableBuilder(
                                     valueListenable: modeApps,
                                     builder: (context, newModeApps, child) {
-                                      bool isAppInMode = Util().checkIfAppIsInMode(newModeApps, installedApps, index);
+                                      bool isAppInMode = ModeService().checkIfAppIsInMode(newModeApps, installedApps, index);
                                       return GestureDetector(
                                           onTap: () {
                                             if(isAppInMode) {

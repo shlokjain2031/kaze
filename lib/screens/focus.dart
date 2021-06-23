@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dnd/flutter_dnd.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:kaze/screens/settings.dart';
+import 'package:kaze/services/apps.dart';
 import 'package:kaze/services/focus.dart';
 import 'package:kaze/services/util.dart';
 import 'package:kaze/utils/colours.dart';
@@ -142,8 +143,7 @@ class _FocusModeState extends State<FocusMode> {
                                         itemBuilder: (context, index) {
                                           return GestureDetector(
                                             onTap: () {
-                                              Util().openApp(
-                                                  focusModeApps[index]["package"]);
+                                              AppsService().openApp(focusModeApps[index]["package"]);
                                             },
                                             child: Container(
                                               width: sizes.width(context, 60),
@@ -162,8 +162,7 @@ class _FocusModeState extends State<FocusMode> {
                                               ),
                                               child: Image(
                                                 image: MemoryImage(
-                                                    Util().getAppIcon(
-                                                        focusModeApps[index]["icon"])),
+                                                    AppsService().getAppIcon(focusModeApps[index]["icon"])),
                                               ),
                                             ),
                                           );

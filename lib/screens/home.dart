@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:kaze/models/mode.dart';
 import 'package:kaze/screens/onboarding.dart';
+import 'package:kaze/services/apps.dart';
 import 'package:kaze/services/mode.dart';
 import 'package:kaze/services/util.dart';
 import 'package:kaze/utils/bottom_sheet.dart';
@@ -125,7 +126,7 @@ class _HomeState extends State<Home> {
                               itemBuilder: (context, index) {
                                 return GestureDetector(
                                   onTap: () {
-                                    Util().openApp(apps[index]["package"]);
+                                    AppsService().openApp(apps[index]["package"]);
                                   },
                                   child: Container(
                                     width: sizes.width(context, 60),
@@ -141,7 +142,7 @@ class _HomeState extends State<Home> {
                                         ]
                                     ),
                                     child: Image(
-                                      image: MemoryImage(Util().getAppIcon(apps[index]["icon"])),
+                                      image: MemoryImage(AppsService().getAppIcon(apps[index]["icon"])),
                                     ),
                                   ),
                                 );

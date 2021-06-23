@@ -9,6 +9,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:kaze/screens/home.dart';
+import 'package:kaze/services/apps.dart';
 import 'package:kaze/services/mode.dart';
 import 'package:kaze/services/settings.dart';
 import 'package:kaze/services/util.dart';
@@ -764,7 +765,7 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: Util().getAllApps(),
+      future: AppsService().getAllApps(),
       builder: (context, snapshot) {
         if(snapshot.hasData) {
           List allApps = snapshot.data;
@@ -855,7 +856,7 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
                               itemCount: allApps.length,
                               physics: BouncingScrollPhysics(),
                               itemBuilder: (context, index) {
-                                Map app = Util().convertApplicationWithIconToMap(allApps[index]);
+                                Map app = AppsService().convertApplicationWithIconToMap(allApps[index]);
                                 return Column(
                                   children: [
                                     Row(
@@ -1011,7 +1012,7 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
                                     itemCount: allApps.length,
                                     physics: BouncingScrollPhysics(),
                                     itemBuilder: (context, index) {
-                                      Map app = Util().convertApplicationWithIconToMap(allApps[index]);
+                                      Map app = AppsService().convertApplicationWithIconToMap(allApps[index]);
                                       return Column(
                                         children: [
                                           Row(

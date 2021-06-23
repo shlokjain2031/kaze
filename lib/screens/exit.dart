@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kaze/services/apps.dart';
 import 'package:kaze/services/util.dart';
 import 'package:kaze/utils/colours.dart';
 import 'package:kaze/utils/sizes.dart';
@@ -50,7 +51,7 @@ class ExitApp extends StatelessWidget {
           SizedBox(height: 32),
           GestureDetector(
             onTap: () {
-              Util().openSettings("com.kaze.kaze");
+              AppsService().openSettings("com.kaze.kaze");
             },
             child: Container(
               width: sizes.width(context, 325),

@@ -120,6 +120,17 @@ class ModeService {
     User user = FirebaseAuth.instance.currentUser;
     user != null ? backup(user) : print("user does not exists so did not backup");
   }
+
+  bool checkIfAppIsInMode(List modeApps, List installedApps, int index) {
+    bool appIsInMode = false;
+    for(int i=0;i<modeApps.length;i++) {
+      if(installedApps[index]["label"] == modeApps[i]["label"]) {
+        appIsInMode = true;
+        break;
+      }
+    }
+    return appIsInMode;
+  }
 }
 
 

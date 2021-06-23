@@ -24,11 +24,6 @@ class Util {
   List<String> days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
   List<String> months = ["Jan", "Feb", "March", "April", "May", "June", "July", "August", "Sept", "Oct", "Nov", "Dec"];
 
-  Future getAllApps() async {
-    return await DeviceApps
-        .getInstalledApplications(onlyAppsWithLaunchIntent: true, includeSystemApps: true, includeAppIcons: true);
-  }
-
   String getCurrentTime() {
     DateTime now = DateTime.now();
     String hour = now.hour < 10 ? "0" + now.hour.toString() : now.hour.toString();
@@ -36,14 +31,6 @@ class Util {
 
     String time = hour + ":" + minute;
     return time;
-  }
-
-  openApp(String packageName) {
-    DeviceApps.openApp(packageName);
-  }
-
-  openSettings(String packageName) {
-    DeviceApps.openAppSettings(packageName);
   }
 
   checkNotificationPermission() async {
@@ -73,39 +60,6 @@ class Util {
 
   List listDecoder(String list) {
     return jsonDecode(list);
-  }
-
-  Uint8List getAppIcon(List list) {
-    List<int> formattedList = [];
-    list.forEach((element) {
-      formattedList.add(element);
-    });
-
-    return Uint8List.fromList(formattedList);
-  }
-
-  Map convertApplicationWithIconToMap(app) {
-    Map appMap = {
-      "label" : app.appName,
-      "package" : app.packageName,
-      "icon" : app.icon,
-    };
-    return appMap;
-  }
-
-  List<Map> convertListApplicationWithIconToListMap(List apps) {
-    List<Map> newList = [];
-    apps.forEach((app) {
-      Map appMap = {
-        "label" : app.appName,
-        "package" : app.packageName,
-        "icon" : app.icon,
-      };
-
-      newList.add(appMap);
-    });
-
-    return newList;
   }
 
   Future<String> pickImage() async {
@@ -241,16 +195,5 @@ class Util {
     currentFormattedDate = days[(now.weekday - 1)] + ", " + now.day.toString() + "th " + months[(now.month - 1)];
 
     return currentFormattedDate;
-  }
-
-  bool checkIfAppIsInMode(List modeApps, List installedApps, int index) {
-    bool appIsInMode = false;
-    for(int i=0;i<modeApps.length;i++) {
-      if(installedApps[index]["label"] == modeApps[i]["label"]) {
-        appIsInMode = true;
-        break;
-      }
-    }
-    return appIsInMode;
   }
 }

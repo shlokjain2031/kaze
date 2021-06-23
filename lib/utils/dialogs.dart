@@ -9,6 +9,7 @@ import 'package:kaze/screens/exit.dart';
 import 'package:kaze/screens/focus.dart';
 import 'package:kaze/screens/home.dart';
 import 'package:kaze/screens/settings.dart';
+import 'package:kaze/services/apps.dart';
 import 'package:kaze/services/mode.dart';
 import 'package:kaze/services/util.dart';
 
@@ -551,7 +552,7 @@ class CustomDialogs {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            Util().openApp(app["package"]);
+                            AppsService().openApp(app["package"]);
                             FirebaseAnalytics().logEvent(name: "opened_app");
                           },
                           child: Container(

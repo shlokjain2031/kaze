@@ -4,6 +4,8 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:kaze/models/mode.dart';
+import 'package:kaze/services/apps.dart';
+import 'package:kaze/services/mode.dart';
 import 'package:kaze/services/util.dart';
 import 'package:kaze/utils/colours.dart';
 import 'package:kaze/utils/sizes.dart';
@@ -65,11 +67,11 @@ class BottomSheets {
                   SizedBox(height: sizes.height(context, 32)),
 
                   FutureBuilder(
-                      future: Util().getAllApps(),
+                      future: AppsService().getAllApps(),
                       builder: (context, snapshot) {
                         if(snapshot.hasData) {
                           EasyLoading.dismiss();
-                          List installedApps = Util().convertListApplicationWithIconToListMap(snapshot.data);
+                          List installedApps = AppsService().convertListApplicationWithIconToListMap(snapshot.data);
                           List modeApps = Util().listDecoder(currentMode.apps);
 
                           return SizedBox(
@@ -81,12 +83,12 @@ class BottomSheets {
                               physics: BouncingScrollPhysics(),
                               children: List.generate(
                                 installedApps != null ? installedApps.length : 0, (index) {
-                                  bool isAppInMode = Util().checkIfAppIsInMode(modeApps, installedApps, index);
+                                  bool isAppInMode = ModeService().checkIfAppIsInMode(modeApps, installedApps, index);
 
                                   return GestureDetector(
                                     onTap: () {
                                       if(isAppInMode) {
-                                        Util().openApp(installedApps[index]["package"]);
+                                        AppsService().openApp(installedApps[index]["package"]);
                                       }
                                       else {
                                         CustomDialogs().openApp(context, Sizes(), Colours(), installedApps[index]);
@@ -95,7 +97,7 @@ class BottomSheets {
                                     },
                                     onLongPress: () {
                                       if(isAppInMode) {
-                                        Util().openSettings(installedApps[index]["package"]);
+                                        AppsService().openSettings(installedApps[index]["package"]);
                                       }
                                     },
                                     child: Container(
