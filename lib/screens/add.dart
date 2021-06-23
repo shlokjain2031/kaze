@@ -10,6 +10,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:kaze/models/mode.dart';
 import 'package:kaze/services/mode.dart';
 import 'package:kaze/services/util.dart';
+import 'package:kaze/utils/boxes.dart';
 import 'package:kaze/utils/colours.dart';
 import 'package:kaze/utils/dialogs.dart';
 import 'package:kaze/utils/sizes.dart';
@@ -230,87 +231,88 @@ class _AppsAddState extends State<AppsAdd> {
           SizedBox(height: sizes.height(context, 32)),
 
           FutureBuilder(
-              future: Util().getAllApps(),
-              builder: (context, snapshot) {
-                if(snapshot.hasData) {
-                  EasyLoading.dismiss();
-                  List installedApps = Util().convertListApplicationWithIconToListMap(snapshot.data);
-
-                  return ValueListenableBuilder(
-                    valueListenable: modeApps,
-                    builder: (context, List newModeApps, child) {
-                      return SizedBox(
-                        height: Sizes().height(context, 690),
-                        width: Sizes().width(context, 414),
-                        child: GridView.count(
-                          crossAxisCount: 5,
-                          mainAxisSpacing: 24,
-                          physics: BouncingScrollPhysics(),
-                          children: List.generate(
-                            installedApps != null ? installedApps.length : 0, (index) {
-                              bool isAppInMode = Util().checkIfAppIsInMode(newModeApps, installedApps, index);
-                              return GestureDetector(
-                                onTap: () {
-                                  if(isAppInMode) {
-                                    print("in if");
-                                    newModeApps.remove(installedApps[index]);
-                                    print("length: " + newModeApps.length.toString());
-                                  }
-                                  else {
-                                    print("in else");
-                                    newModeApps.add(installedApps[index]);
-                                  }
-                                  modeApps.notifyListeners();
-                                },
-                                child: Container(
-                                  width: sizes.width(context, 54),
-                                  height: sizes.height(context, 74),
-                                  margin: EdgeInsets.only(left: 16, right: 16),
-                                  child: Column(
-                                    children: [
-                                      ColorFiltered(
-                                        colorFilter: !isAppInMode ? ColorFilter.matrix(<double>[
-                                          0.2126,0.7152,0.0722,0,0,
-                                          0.2126,0.7152,0.0722,0,0,
-                                          0.2126,0.7152,0.0722,0,0,
-                                          0,0,0,1,0,
-                                        ]) : ColorFilter.mode(colours.black(opacity: 1.0),
-                                            BlendMode.dstATop),
-                                        child: Image(
-                                          image: MemoryImage(installedApps[index]["icon"]),
-                                          width: sizes.width(context, 54),
-                                          height: sizes.height(context, 54),
-                                        ),
+            future: Util().getAllApps(),
+            builder: (context, snapshot) {
+              if(snapshot.hasData) {
+                EasyLoading.dismiss();
+                List allApps = snapshot.data;
+                List installedApps = Util().convertListApplicationWithIconToListMap(allApps);
+                return SizedBox(
+                  width: sizes.width(context, 380),
+                  height: sizes.height(context, 690),
+                  child: ListView.builder(
+                    itemCount: installedApps.length,
+                    physics: BouncingScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      Map app = installedApps[index];
+                      return Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Container(
+                                      width: sizes.width(context, 48),
+                                      height: sizes.height(context, 48),
+                                      child: Image(
+                                        image: MemoryImage(app["icon"]),
                                       ),
-                                      SizedBox(height: 12),
-                                      Text(
-                                        installedApps[index]["label"],
-                                        style: TextStyle(
-                                            color: Colours().white(),
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 12,
-                                            fontFamily: 'ProductSans'
-                                        ),
-                                        textAlign: TextAlign.center,
+                                    ),
+                                    SizedBox(width: 18),
+                                    SizedBox(
+                                      width: sizes.width(context, 250),
+                                      child: Text(
+                                        app["label"],
                                         maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontFamily: 'ProductSans',
+                                            color: colours.white()
+                                        ),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                              );
-                          },
+                                ValueListenableBuilder(
+                                    valueListenable: modeApps,
+                                    builder: (context, newModeApps, child) {
+                                      bool isAppInMode = Util().checkIfAppIsInMode(newModeApps, installedApps, index);
+                                      return GestureDetector(
+                                          onTap: () {
+                                            if(isAppInMode) {
+                                              print("in if");
+                                              newModeApps.remove(installedApps[index]);
+                                              print("length: " + newModeApps.length.toString());
+                                            }
+                                            else {
+                                              print("in else");
+                                              newModeApps.add(installedApps[index]);
+                                              print("length: " + newModeApps.length.toString());
+                                            }
+                                            modeApps.notifyListeners();
+                                          },
+                                          child: newModeApps.contains(installedApps[index]) ? tickBox() : blankBox()
+                                      );
+                                    }
+                                )
+                              ],
+                            ),
                           ),
-                        ),
+                          SizedBox(height: 32),
+                        ],
                       );
-                    }
-                  );
-                }
-                else {
-                  EasyLoading.show(status: 'loading...');
-                  return SizedBox();
-                }
+                    },
+                  ),
+                );
               }
+              else {
+                EasyLoading.show(status: "loading");
+                return SizedBox();
+              }
+            }
           ),
           SizedBox(height: sizes.height(context, 12)),
 

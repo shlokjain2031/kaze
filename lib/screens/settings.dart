@@ -12,6 +12,7 @@ import 'package:kaze/screens/home.dart';
 import 'package:kaze/services/mode.dart';
 import 'package:kaze/services/settings.dart';
 import 'package:kaze/services/util.dart';
+import 'package:kaze/utils/boxes.dart';
 import 'package:kaze/utils/colours.dart';
 import 'package:kaze/utils/dialogs.dart';
 import 'package:kaze/utils/sizes.dart';
@@ -837,12 +838,12 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
                           ),
                           SizedBox(height: sizes.height(context, 24)),
                           Text(
-                            '5 apps you need in focus mode',
+                            '5 apps you need in focus mode : ' + modeApps.value.length.toString() + '*',
                             textAlign: TextAlign.left,
                             style: TextStyle(
                               color: colours.white(opacity: .7),
                               fontFamily: 'ProductSans',
-                              fontSize: 24,
+                              fontSize: 20,
                             ),
                           ),
                           SizedBox(height: sizes.height(context, 32)),
@@ -886,14 +887,14 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
                                         ),
                                         ValueListenableBuilder(
                                             valueListenable: modeApps,
-                                            builder: (context, value, child) {
+                                            builder: (context, newModeApps, child) {
                                               return GestureDetector(
                                                 onTap: () {
-                                                  if(modeApps.value.length == 5 && modeApps.value.contains(app["package"])) {
-                                                    modeApps.value.remove(app["package"]);
+                                                  if(newModeApps.length == 5 && newModeApps.contains(app["package"])) {
+                                                    newModeApps.remove(app["package"]);
                                                     print("newSelectedApps is removed");
                                                   }
-                                                  else if (modeApps.value.length >= 5) {
+                                                  else if (newModeApps.length >= 5) {
                                                     final focusModeAppsSetSnackBar = SnackBar(
                                                       content: Text('Not more than 5 apps allowed'),
                                                       action: SnackBarAction(
@@ -905,21 +906,21 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
                                                     print("newSelectedApps os greater than 2");
                                                   }
                                                   else {
-                                                    if (modeApps.value.contains(app["package"])) {
-                                                      modeApps.value.remove(app["package"]);
+                                                    if (newModeApps.contains(app["package"])) {
+                                                      newModeApps.remove(app["package"]);
                                                       print("newSelectedApps is removed");
                                                     }
                                                     else {
-                                                      modeApps.value.add(app["package"]);
+                                                      newModeApps.add(app["package"]);
                                                       print("newSelectedApps is added");
                                                     }
                                                   }
                                                   modeApps.notifyListeners();
                                                   // selectedApps = ValueNotifier(selectedApps.value);
                                                   // print("lenNew: " + newSelectedApps.length.toString());
-                                                  print("lenOld: " + modeApps.value.length.toString());
+                                                  print("lenOld: " + newModeApps.length.toString());
                                                 },
-                                                child: modeApps.value.contains(app["package"]) ? tickBox() : blankBox()
+                                                child: newModeApps.contains(app["package"]) ? tickBox() : blankBox()
                                               );
                                             }
                                         )
@@ -1002,8 +1003,7 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
 
                           ValueListenableBuilder(
                               valueListenable: modeApps,
-                              builder: (context, value, child) {
-                                List<String> newSelectedApps = value;
+                              builder: (context, newModeApps, child) {
                                 return SizedBox(
                                   width: sizes.width(context, 414),
                                   height: sizes.height(context, 568),
@@ -1044,11 +1044,11 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
                                               ),
                                               GestureDetector(
                                                 onTap: () {
-                                                  if(modeApps.value.length == 5 && modeApps.value.contains(app["package"])) {
-                                                    modeApps.value.remove(app["package"]);
+                                                  if(newModeApps.length == 5 && newModeApps.contains(app["package"])) {
+                                                    newModeApps.remove(app["package"]);
                                                     print("newSelectedApps is removed");
                                                   }
-                                                  else if (modeApps.value.length >= 5) {
+                                                  else if (newModeApps.length >= 5) {
                                                     final focusModeAppsSetSnackBar = SnackBar(
                                                       content: Text('Only 5 apps are allowed'),
                                                       action: SnackBarAction(
@@ -1060,22 +1060,22 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
                                                     print("newSelectedApps os greater than 2");
                                                   }
                                                   else {
-                                                    if (modeApps.value.contains(app["package"])) {
-                                                      modeApps.value.remove(app["package"]);
+                                                    if (newModeApps.contains(app["package"])) {
+                                                      newModeApps.remove(app["package"]);
                                                       print("newSelectedApps is removed");
                                                     }
                                                     else {
-                                                      modeApps.value.add(app["package"]);
+                                                      newModeApps.add(app["package"]);
                                                       print("newSelectedApps is added");
                                                     }
                                                   }
                                                   // selectedApps = ValueNotifier(selectedApps.value);
 
                                                   modeApps.notifyListeners();
-                                                  print("lenNew: " + newSelectedApps.length.toString());
-                                                  print("lenOld: " + modeApps.value.length.toString());
+                                                  print("lenNew: " + newModeApps.length.toString());
+                                                  print("lenOld: " + newModeApps.length.toString());
                                                 },
-                                                child: newSelectedApps.contains(app["package"]) ? tickBox() : blankBox()
+                                                child: newModeApps.contains(app["package"]) ? tickBox() : blankBox()
                                               )
                                             ],
                                           ),
@@ -1100,42 +1100,6 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
           return SizedBox();
         }
       }
-    );
-  }
-}
-
-class tickBox extends StatelessWidget {
-  const tickBox({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: Sizes().width(context, 28),
-      height: Sizes().height(context, 32),
-      color: Colours().white(),
-      child: Center(
-        child: Icon(
-          Icons.done,
-          size: Sizes().width(context, 18),
-          color: Colours().black(),
-        ),
-      ),
-    );
-  }
-}
-
-class blankBox extends StatelessWidget {
-  const blankBox({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: Sizes().width(context, 28),
-      height: Sizes().height(context, 32),
-      decoration: BoxDecoration(
-        color: Colors.transparent,
-        border: Border.all(color: Colours().white(opacity: .7), width: 2)
-      ),
     );
   }
 }
