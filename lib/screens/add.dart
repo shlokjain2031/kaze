@@ -45,6 +45,7 @@ class _TitleAddState extends State<TitleAdd> {
       backgroundColor: colours.black(),
       body: ListView(
         children: [
+          SizedBox(height: sizes.height(context, 28)),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Row(
@@ -192,6 +193,7 @@ class _AppsAddState extends State<AppsAdd> {
       backgroundColor: colours.black(),
       body: ListView(
         children: [
+          SizedBox(height: sizes.height(context, 28)),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Row(
@@ -386,6 +388,7 @@ class _TimeAddState extends State<TimeAdd> {
       backgroundColor: colours.black(),
       body: ListView(
         children: [
+          SizedBox(height: sizes.height(context, 28)),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Row(
@@ -585,6 +588,7 @@ class _FinalAddState extends State<FinalAdd> {
         children: [
           wallpaperPath == null ? Column(
             children: [
+              SizedBox(height: sizes.height(context, 28)),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: Row(
@@ -700,6 +704,7 @@ class _FinalAddState extends State<FinalAdd> {
 
               Column(
                 children: [
+                  SizedBox(height: sizes.height(context, 28)),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Row(

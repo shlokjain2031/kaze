@@ -79,6 +79,7 @@ flutter:
     - assets/watch.png
     - assets/wait.png
     - assets/dnd.jpeg
+    - assets/done.png
     - assets/add.png
     - assets/delete.png
     - assets/exit_app.gif

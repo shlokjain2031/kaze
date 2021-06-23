@@ -59,7 +59,7 @@ class AllModes extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: sizes.height(context, 36)),
+          SizedBox(height: sizes.height(context, 48)),
 
           FutureBuilder(
             future: ModeService().getAllModes(),
@@ -69,7 +69,7 @@ class AllModes extends StatelessWidget {
                 List<ModeModel> allModes = snapshot.data;
                 return SizedBox(
                   width: sizes.width(context, 380),
-                  height: sizes.height(context, 785),
+                  height: sizes.height(context, 770),
                   child: ListView.builder(
                     itemCount: allModes.length,
                     itemBuilder: (context, index) {
