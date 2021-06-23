@@ -110,6 +110,7 @@ class AllModes extends StatelessWidget {
                             child: Column(
                               children: [
                                 SizedBox(height: sizes.height(context, 110),),
+
                                 Text(
                                   mode.title,
                                   style: TextStyle(

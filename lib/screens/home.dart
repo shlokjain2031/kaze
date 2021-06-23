@@ -194,7 +194,7 @@ class _HomeState extends State<Home> {
                                 CustomDialogs().category(context, sizes, colours);
                               },
                               child: Image(
-                                image: AssetImage('assets/category.png'),
+                                image: AssetImage('assets/more.png'),
                                 width: 36,
                                 color: colours.white(),
                                 fit: BoxFit.fill,
