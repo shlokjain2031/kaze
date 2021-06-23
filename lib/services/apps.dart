@@ -4,8 +4,11 @@ import 'package:device_apps/device_apps.dart';
 
 class AppsService {
   Future getAllApps() async {
-    return await DeviceApps
-        .getInstalledApplications(onlyAppsWithLaunchIntent: true, includeSystemApps: true, includeAppIcons: true);
+    List allApps = await DeviceApps
+        .getInstalledApplications(onlyAppsWithLaunchIntent: true, includeAppIcons: true);
+    allApps.sort((a, b) => a.appName.compareTo(b.appName));
+
+    return allApps;
   }
 
   openApp(String packageName) {

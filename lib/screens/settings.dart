@@ -838,14 +838,19 @@ class _FocusModeSettingsState extends State<FocusModeSettings> {
                             ),
                           ),
                           SizedBox(height: sizes.height(context, 24)),
-                          Text(
-                            '5 apps you need in focus mode : ' + modeApps.value.length.toString() + '*',
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              color: colours.white(opacity: .7),
-                              fontFamily: 'ProductSans',
-                              fontSize: 20,
-                            ),
+                          ValueListenableBuilder(
+                            valueListenable: modeApps,
+                            builder: (context, newModeApps, child) {
+                              return Text(
+                                '5 apps you need in focus mode : ' + newModeApps.length.toString() + '*',
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  color: colours.white(opacity: .7),
+                                  fontFamily: 'ProductSans',
+                                  fontSize: 20,
+                                ),
+                              );
+                            }
                           ),
                           SizedBox(height: sizes.height(context, 32)),
 
