@@ -41,6 +41,8 @@ class _HomeState extends State<Home> {
               ModeModel currentMode = snapshot.data;
               List apps = Util().listDecoder(currentMode.apps);
               String currentFormattedDate = Util().getCurrentFormattedDate();
+              DateTime startTime = DateTime.parse(currentMode.startTime);
+              DateTime endTime = DateTime.parse(currentMode.endTime);
 
               return Container(
                 decoration: BoxDecoration(
@@ -81,9 +83,21 @@ class _HomeState extends State<Home> {
                         ]
                       ),
                     ),
+                    SizedBox(height: sizes.height(context, 16)),
+                    Center(
+                      child: Text(
+                        startTime.hour.toString() + ":" + (startTime.minute == 0 ? startTime.minute.toString() + "0" : startTime.minute.toString())
+                            + " - " + endTime.hour.toString() + ":" + (endTime.minute == 0 ? endTime.minute.toString() + "0" : endTime.minute.toString()),
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: colours.white(opacity: .8),
+                            fontFamily: 'ProductSans'
+                        ),
+                      ),
+                    ),
 
                     SizedBox(
-                      height: sizes.height(context, 570),
+                      height: sizes.height(context, 530),
                     ),
                     GestureDetector(
                       onVerticalDragUpdate: (details) {
