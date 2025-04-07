@@ -15,6 +15,9 @@ SQLite was used as a relational database to store user data on the devices itsel
 
 Implemented the entire codebase using a template-driven architecture, leveraging advanced abstractions and design patterns for structure and maintainability. Incorporated performance optimizations, including efficient memory management and algorithmic enhancements.
 
+# Design Details
+[Refers to the figma link which I used to design the application](https://www.figma.com/design/iJnqCULNNOYt53GYdQj40k/kaze?node-id=229-2&t=jw5fx0nPASjmN6Y0-1)
+
 # Certifications 
 Participated in a student's Indian Business Competition, [IFT (India's Future Tycoons)](https://www.indiafuturetycoons.com/) and placed overall 2nd among 25k+ students. The competition really helped shape an idea to fruitation and made me understand the critical user needs. It was incredible to be a part of this journey.
 [Insert certification]
