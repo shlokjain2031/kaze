@@ -22,3 +22,7 @@ Implemented the entire codebase using a template-driven architecture, leveraging
 Participated in a student's Indian Business Competition, [IFT (India's Future Tycoons)](https://www.indiafuturetycoons.com/) and placed overall 2nd among 25k+ students. The competition really helped shape an idea to fruitation and made me understand the critical user needs. It was incredible to be a part of this journey.
 [Insert certification]
 
+# Statistics
+[Compilation of testing feedback]
+[Share links and key results of user acq]
+
