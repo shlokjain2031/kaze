@@ -3,8 +3,6 @@ An android launcher which helps you organise the way you use your apps, based on
 
 The 'focus mode' feature allows you top only use the five most important apps you need. Once selected, Kaze won't let you operate any other app on your phone except those five, unless you exit focus mode, which is 5 touches away :)
 
-Achieved over 1.5K+ downloads on a beta release and garnered a 4.2 average rating of the app from all the reviews. Nearly 1.1k downloads were through organic search, which is ~65% of the total downloads and ~32% returning users. 
-
 # Technical Details
 Kaze was built using Flutter, a Dart framework which specialises in building cross-platform applications. Several dependencies were used to build the app, namely:
 - firebase
@@ -20,9 +18,14 @@ Implemented the entire codebase using a template-driven architecture, leveraging
 
 # Certifications 
 Participated in a student's Indian Business Competition, [IFT (India's Future Tycoons)](https://www.indiafuturetycoons.com/) and placed overall 2nd among 25k+ students. The competition really helped shape an idea to fruitation and made me understand the critical user needs. It was incredible to be a part of this journey.
-[Insert certification]
+
+[Certificate named after co-founder](https://drive.google.com/file/d/1qVgUOzugOgwwNBzQz_wf_dEukca_-bIU/view?usp=sharing)
 
 # Statistics
-[Compilation of testing feedback]
-[Share links and key results of user acq]
+Achieved over 1.5K+ downloads on a beta release and garnered a 4.2 average rating of the app from all the reviews. Nearly 1.1k downloads were through organic search, which is ~65% of the total downloads and ~32% returning users. 
+
+[Compilation of testing feedback](https://drive.google.com/file/d/14EA21hGi_9q7I0tvnmpp21WB3RdjP193/view?usp=drive_link)
+
+[User Acquisition Sheet](https://docs.google.com/spreadsheets/d/e/2PACX-1vTu3mWaUSYB3P4pZIgvo-ILOfKS9hbUrqF-0ptj70snlJ7xMI_kjF1gPp_xC501DahqZelZEdOcQbOD/pubhtml)
+
 
